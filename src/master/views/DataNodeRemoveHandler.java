@@ -1,9 +1,8 @@
-package api.views;
+package master.views;
 
 import annotations.ContentType;
 import annotations.URLAnnotation;
-import annotations.URLMethod;
-import com.sun.net.httpserver.Headers;
+import collog.Collog;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import helper.Helper;
@@ -11,14 +10,15 @@ import helper.Helper;
 import org.json.simple.JSONObject;
 import java.io.*;
 
-@URLAnnotation("_test/")
-public class TestView implements HttpHandler {
-    @URLMethod("GET")
+@URLAnnotation("master/node/remove/")
+public class DataNodeRemoveHandler implements HttpHandler {
+
     @ContentType("application/json")
     public byte[] getResponse(){
         String a = "{'abc':'abc'}";
         return a.getBytes();
     }
+
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String method = httpExchange.getRequestMethod();
@@ -26,18 +26,36 @@ public class TestView implements HttpHandler {
         if(method.equalsIgnoreCase("GET")){
             byte[] response = this.getResponse();
             Helper.responseToClient(httpExchange, response);
+
         }else if(method.equalsIgnoreCase("POST")){
             /**
              * Read request body from client
              */
+            String request_body = Helper.getRequestBody(httpExchange.getRequestBody());
+            JSONObject json = Helper.encodeToJson(request_body);
 
-            String json = Helper.getRequestBody(httpExchange.getRequestBody());
+            /**
+             * data node register body structure
+             *{
+             *      "node_id" : "node_indentification",
+             *}
+             *
+             */
+
+            /**
+             * ToDo: Json format check
+             */
+
+            int node_id = Integer.parseInt(json.get("node_id").toString());
+            Collog.getInstance().removeSlave(node_id);
 
             /**
              * Send response to client.
              */
-            byte[] response = json.getBytes();
+            byte[] response = json.toString().getBytes();
             Helper.responseToClient(httpExchange, response);
+        }else if(method.equalsIgnoreCase("OPTIONS")){
+            Helper.optionsResponse(httpExchange);
         }
     }
 

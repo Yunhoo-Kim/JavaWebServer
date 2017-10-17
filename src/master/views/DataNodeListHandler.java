@@ -11,8 +11,8 @@ import helper.Helper;
 import org.json.simple.JSONObject;
 import java.io.*;
 
-@URLAnnotation("master/node/register/")
-public class DataNodeRegisterHandler implements HttpHandler {
+@URLAnnotation("master/node/")
+public class DataNodeListHandler implements HttpHandler {
 
     @ContentType("application/json")
     public byte[] getResponse(){
@@ -22,15 +22,13 @@ public class DataNodeRegisterHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-//        System.out.println("Post input");
         String method = httpExchange.getRequestMethod();
-//        System.out.println("Method : " + method);
+
         if(method.equalsIgnoreCase("GET")){
-            byte[] response = this.getResponse();
+            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
             Helper.responseToClient(httpExchange, response);
 
         }else if(method.equalsIgnoreCase("POST")){
-//            System.out.println("Post input");
             /**
              * Read request body from client
              */
@@ -54,15 +52,11 @@ public class DataNodeRegisterHandler implements HttpHandler {
              */
 
             Collog.getInstance().addSlave(json);
-            /**
-             * ToDo: reallocation shards to slave
-             */
 
             /**
-             * Send response contain slave tables to client.
+             * Send response to client.
              */
-
-            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
+            byte[] response = Helper.decodeToStr(json).getBytes();
             Helper.responseToClient(httpExchange, response);
 
         }else if(method.equalsIgnoreCase("OPTIONS")){

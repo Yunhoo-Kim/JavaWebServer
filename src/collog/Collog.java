@@ -2,6 +2,8 @@ package collog;
 
 
 import WebServer.WebServer;
+import com.sun.net.httpserver.HttpServer;
+import master.MasterServer;
 import org.json.simple.JSONObject;
 
 import java.io.FileInputStream;
@@ -20,6 +22,7 @@ public class Collog {
 
     private static Collog instance;
     private boolean is_master = false;
+    private int port = 0;
     private String input_module = null;
     private String tcp_ip = null;
     private int tcp_port = 0;
@@ -30,12 +33,15 @@ public class Collog {
     private String file_name = null;
     private String master_ip = null;
     private String master_port = null;
+    private int shards = 4;
+    private int replication = 0;
     private int webservice_port = 0;
     private boolean webservice = false;
     private Thread master_thread = null;
     private Thread data_thread = null;
     private Thread webservice_thread = null;
 
+    public HttpServer server = null;
     /*
     Data node List
      */
@@ -48,6 +54,10 @@ public class Collog {
             if(this.webservice) {
                 this.webservice_thread = new Thread(new WebServer(this.webservice_port));
                 this.webservice_thread.start();
+            }
+            if(this.is_master){
+                this.master_thread = new Thread(new MasterServer(this.port));
+                this.master_thread.start();
             }
 
 
@@ -73,6 +83,7 @@ public class Collog {
 
     private void setProperties(Properties properties) {
         this.is_master = Boolean.parseBoolean(properties.getProperty("master", "true"));
+        this.port = Integer.parseInt(properties.getProperty("port"));
 
         if (this.is_master) {
             this.input_module = properties.getProperty("input_module");
@@ -116,17 +127,23 @@ public class Collog {
 
         while(iter.hasNext()){
             JSONObject temp = iter.next();
-            if((int)temp.get("node_id") == id){
+            if(Integer.parseInt(temp.get("node_id").toString()) == id){
                 this.slave_table.remove(temp);
                 break;
             }
         }
     }
 
-
+    public ArrayList<JSONObject> getSlaveTable() {
+        return slave_table;
+    }
 
     public static void main(String[] args){
         Collog.getInstance();
+    }
+
+    public int getShards(){
+        return this.shards;
     }
 
 

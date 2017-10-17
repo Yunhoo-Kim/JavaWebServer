@@ -8,63 +8,64 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import helper.Helper;
 import org.json.simple.JSONObject;
+import webclient.WebClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.SocketTimeoutException;
 
 @URLAnnotation("_search/")
-public class SearchView implements HttpHandler{
-	@URLMethod("GET")
-	@ContentType("application/json")
-	public byte[] getResponse(){
-		String a = "{'search':'search'}";
-		return a.getBytes();
-	}
-	@Override
-	public void handle(HttpExchange httpExchange) throws IOException {
-		String method = httpExchange.getRequestMethod();
-		if(method.equalsIgnoreCase("GET")){
-			byte[] response = this.getResponse();
-			Headers responseHeaders = httpExchange.getResponseHeaders();
-			httpExchange.sendResponseHeaders(200,response.length);
-			responseHeaders.set("Content-Type","application/json;charset=utf-8");
-			OutputStream responseBody = httpExchange.getResponseBody();
-			responseBody.write(response);
-			responseBody.close();
+public class SearchView implements HttpHandler {
+    @URLMethod("GET")
+    @ContentType("application/json")
+    public byte[] getResponse() {
+        String a = "{'search':'search'}";
+        return a.getBytes();
+    }
 
+    @Override
+    public void handle(HttpExchange httpExchange) throws IOException {
+        String method = httpExchange.getRequestMethod();
+        if (method.equalsIgnoreCase("GET")) {WebClient cli = new WebClient();
 
-		}else if(method.equalsIgnoreCase("POST")){
-			/**
-			 * Read request body from client
-			 */
-			InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(),"utf-8");
-			BufferedReader br = new BufferedReader(isr);
-			StringBuilder buf = new StringBuilder();
-			int b;
-			while((b=br.read()) != -1){
-				buf.append((char)b);
-			}
-			br.close();
-			isr.close();
-			JSONObject json = Helper.encodeToJson(buf.toString());
-			System.out.println(json.toJSONString());
+            byte[] response = this.getResponse();
+            Helper.responseToClient(httpExchange, response);
+        } else if (method.equalsIgnoreCase("POST")) {
+            /**
+             * Read request body from client
+             */
+            String json = Helper.getRequestBody(httpExchange.getRequestBody());
 
-			/**
-			 * Send response to client.
-			 */
-			byte[] response = Helper.decodeToStr(json).getBytes();
-			Headers responseHeaders = httpExchange.getResponseHeaders();
-			httpExchange.sendResponseHeaders(200,response.length);
-			responseHeaders.set("Content-Type","application/json;charset=utf-8");
-			OutputStream responseBody = httpExchange.getResponseBody();
-			responseBody.write(response);
+            /**
+             * Send response to client.
+             */
+            WebClient cli = new WebClient();
 
-			responseBody.close();
+            try {
+                json = cli.sendPostRequestWithJson("localhost:8888/_meta/", json);
+                byte[] response = json.getBytes();
+                Helper.responseToClient(httpExchange, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
+        }
+    }
 
-		}
-	}
-	
 }
+
+// Time out error
+//    JSONObject j = new JSONObject();
+//            j.put("abc","abc");
+//                    String json = j.toString();
+//                    try {
+//                    json = cli.sendPostRequestWithJson("http://localhost:8888/_meta/", json);
+//                    byte[] response = json.getBytes();
+//                    Helper.responseToClient(httpExchange, response);
+//                    } catch(SocketTimeoutException e) {
+//                    System.out.println("timeout!!!!@#$@#$@$@#$@#$@#$@#$");
+//                    }catch (Exception e) {
+//                    e.printStackTrace();
+//                    }

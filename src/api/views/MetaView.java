@@ -3,7 +3,6 @@ package api.views;
 import annotations.ContentType;
 import annotations.URLAnnotation;
 import annotations.URLMethod;
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import helper.Helper;
@@ -25,42 +24,19 @@ public class MetaView implements HttpHandler {
 
 		if(method.equalsIgnoreCase("GET")){
 			byte[] response = this.getResponse();
-			Headers responseHeaders = httpExchange.getResponseHeaders();
-			httpExchange.sendResponseHeaders(200,response.length);
-			responseHeaders.set("Content-Type","application/json;charset=utf-8");
-			OutputStream responseBody = httpExchange.getResponseBody();
-			responseBody.write(response);
-			responseBody.close();
+			Helper.responseToClient(httpExchange, response);
 
 		}else if(method.equalsIgnoreCase("POST")){
 			/**
 			 * Read request body from client
 			 */
-			InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(),"utf-8");
-			BufferedReader br = new BufferedReader(isr);
-			StringBuilder buf = new StringBuilder();
-			int b;
-			while((b=br.read()) != -1){
-				buf.append((char)b);
-			}
-			br.close();
-			isr.close();
-			JSONObject json = Helper.encodeToJson(buf.toString());
-			System.out.println(json.toJSONString());
+			String json = Helper.getRequestBody(httpExchange.getRequestBody());
 
 			/**
 			 * Send response to client.
 			 */
-			byte[] response = Helper.decodeToStr(json).getBytes();
-			Headers responseHeaders = httpExchange.getResponseHeaders();
-			httpExchange.sendResponseHeaders(200,response.length);
-			responseHeaders.set("Content-Type","application/json;charset=utf-8");
-			OutputStream responseBody = httpExchange.getResponseBody();
-			responseBody.write(response);
-
-			responseBody.close();
-
-
+			byte[] response = json.getBytes();
+			Helper.responseToClient(httpExchange, response);
 		}
 	}
 	

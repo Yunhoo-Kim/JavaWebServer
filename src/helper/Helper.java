@@ -86,22 +86,35 @@ public class Helper {
         }
         return "";
     }
-    public static String getPostRequestBody(InputStream is) throws UnsupportedEncodingException, IOException {
+    public static String getRequestBody(InputStream is) throws UnsupportedEncodingException, IOException {
         /**
          * It is for retreiving request post data from body and convert to string to return
          */
-        InputStreamReader isr = new InputStreamReader(is, "utf-8");
-        BufferedReader br = new BufferedReader(isr);
-        StringBuilder buf = new StringBuilder();
-        int b;
-        while ((b = br.read()) != -1) {
-            buf.append((char)b);
-        }
-        br.close();
-        isr.close();
-        is.close();
+//        InputStreamReader isr = new InputStreamReader(is, "utf-8");
+        BufferedReader br = new BufferedReader(new InputStreamReader(is,"utf-8"));
+        String input_line;
+        StringBuffer response = new StringBuffer();
 
-        return buf.toString();
+        while((input_line = br.readLine()) != null){
+            response.append(input_line);
+        }
+
+        br.close();
+//        isr.close();
+        is.close();
+        System.out.println(response.toString());
+        return response.toString();
+    }
+    public static void responseWithErrorCodeToClient(HttpExchange httpExchange, int status_code) throws IOException{
+        Headers responseHeaders = httpExchange.getResponseHeaders();
+        JSONObject json = new JSONObject();
+        json.put("status",status_code);
+        byte[] response = json.toString().getBytes();
+        httpExchange.sendResponseHeaders(status_code,response.length);
+        responseHeaders.set("Content-Type","application/json;charset=utf-8");
+        OutputStream responseBody = httpExchange.getResponseBody();
+        responseBody.write(response);
+        responseBody.close();
     }
 
     public static void responseToClient(HttpExchange httpExchange, byte[] response) throws IOException{
@@ -114,6 +127,30 @@ public class Helper {
         OutputStream responseBody = httpExchange.getResponseBody();
         responseBody.write(response);
         responseBody.close();
+    }
+
+    public static void optionsResponse(HttpExchange httpExchange) throws IOException{
+//        Headers responseHeaders = httpExchange.getResponseHeaders();
+//        httpExchange.sendResponseHeaders(204,-1);
+//
+//
+//        responseHeaders.add("Access-Control-Allow-Origin","*");
+//        responseHeaders.add("Access-Control-Allow-Methods","POST, GET, PUT, OPTIONS");
+//        responseHeaders.add("Access-Control-Allow-Headers","Content-Type,Authorization");
+//        responseHeaders.add("Access-Control-Allow-Credentials","true");
+//        responseHeaders.add("Content-Type","text/plain");
+//        httpExchange.sendResponseHeaders(204,-1);
+//        responseHeaders.set("Content-Length","application/json;charset=utf-8");
+//        OutputStream responseBody = httpExchange.getResponseBody();
+//        responseBody.write(response);
+//        responseBody.close();
+        httpExchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+        httpExchange.getResponseHeaders().add("Access-Control-Allow-Methods", "API, CRUNCHIFYGET, GET, POST, PUT, UPDATE, OPTIONS");
+        httpExchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+        httpExchange.getResponseHeaders().add("Access-Control-Max-Age", "151200");
+//        httpExchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+//        httpExchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+        httpExchange.sendResponseHeaders(204, -1);
     }
 
 }
