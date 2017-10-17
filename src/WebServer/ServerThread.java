@@ -92,6 +92,12 @@ public class ServerThread implements Runnable {
 			outToClient = new DataOutputStream(
 					connectionSocket.getOutputStream());
 			String requestMessageLine = inFromClient.readLine();
+			System.out.println("Request message is " + requestMessageLine);
+            System.out.println("Request body is " + inFromClient.readLine());
+            System.out.println("Request body is " + inFromClient.readLine());
+            System.out.println("Request body is " + inFromClient.readLine());
+            System.out.println("Request body is " + inFromClient.readLine());
+            System.out.println("Request body is " + inFromClient.readLine());
 			StringTokenizer tokenizedLine = new StringTokenizer(
 					requestMessageLine);
 
@@ -101,36 +107,49 @@ public class ServerThread implements Runnable {
 
 			url = url.substring(1);
 			System.out.println("URL is : " + url);
+			boolean is_founded = false;
 			for (Class<?> cls : classes) {
 				URLAnnotation url_ano = cls.getAnnotation(URLAnnotation.class);
 				if (url_ano.value().equals(url)) {
+
 					Method[] methods = cls.getDeclaredMethods();
+
 					for (Method m : methods) {
 						Annotation an = m.getAnnotation(URLMethod.class);
 						URLMethod url_method = (URLMethod) an;
-						Object o = cls.newInstance();
-						System.out.println("URL Method " + url_method.value());
-						String ret = (String) m.invoke(o);
-						System.out.println("Return " + ret);
-						Annotation content_an = m
-								.getAnnotation(ContentType.class);
-						ContentType content_ano = (ContentType) content_an;
-						String content_type = content_ano.value();
-						int numOfBytes = (int) ret.length();
-						outToClient
-								.writeBytes("HTTP/1.0 200 Document Follows \r\n");
-						outToClient.writeBytes("Content-Type: " + content_type + ";charset=utf-8"
-								+ "\r\n");
-						outToClient.writeBytes("Content-Length: " + numOfBytes
-								+ "\r\n");
-						outToClient.writeBytes("\r\n");
-						outToClient.write(ret.getBytes(), 0, numOfBytes);
-//						outToClient.writeUTF(ret);
-						outToClient.close();
+						if(url_method.value().equals(method)) {
+							is_founded = true;
+							Object o = cls.newInstance();
+							System.out.println("URL Method " + url_method.value());
+							byte[] ret = (byte[]) m.invoke(o);
+
+							Annotation content_an = m
+									.getAnnotation(ContentType.class);
+							ContentType content_ano = (ContentType) content_an;
+							String content_type = content_ano.value();
+							int numOfBytes = (int) ret.length;
+							outToClient
+									.writeBytes("HTTP/1.0 200 Document Follows \r\n");
+							outToClient.writeBytes("Content-Type: " + content_type + ";charset=utf-8"
+									+ "\r\n");
+							outToClient.writeBytes("Content-Length: " + numOfBytes
+									+ "\r\n");
+							outToClient.writeBytes("\r\n");
+							outToClient.write(ret, 0, numOfBytes);
+							outToClient.close();
+						}
 					}
 				}
 			}
 
+			if(!is_founded){
+				 System.out.println("Bad Request");
+
+				 outToClient.writeBytes("HTTP/1.0 404 Not Found \r\n");
+				 outToClient.writeBytes("Connection: close\r\n");
+				 outToClient.writeBytes("\r\n");
+				 outToClient.close();
+			}
 			// if (tokenizedLine.nextToken().equals("GET")) {
 			// String fileName = tokenizedLine.nextToken();
 			// if (fileName.startsWith("/") == true) {
@@ -147,31 +166,25 @@ public class ServerThread implements Runnable {
 			// if (file.exists()) {
 			// String mimeType = new MimetypesFileTypeMap()
 			// .getContentType(file);
-			// // 파일의 바이트수를 찾아온다.
 			// int numOfBytes = (int) file.length();
 			//
-			// // 파일을 스트림을 읽어들일 준비를 한다.
 			// FileInputStream inFile = new FileInputStream(fileName);
 			// byte[] fileInBytes = new byte[numOfBytes];
 			// inFile.read(fileInBytes);
 			//
-			// // 정상적으로 처리가 되었음을 나타내는 200 코드를 출력한다.
 			// mimeType = "application/json";
 			// outToClient
 			// .writeBytes("HTTP/1.0 200 Document Follows \r\n");
 			// outToClient
 			// .writeBytes("Content-Type: " + mimeType + "\r\n");
 			//
-			// // 출력할 컨텐츠의 길이를 출력
 			// outToClient.writeBytes("Content-Length: " + numOfBytes
 			// + "\r\n");
 			// outToClient.writeBytes("\r\n");
 			//
-			// // 요청 파일을 출력한다.
 			// outToClient.write(fileInBytes, 0, numOfBytes);
 			// inFile.close();
 			// } else {
-			// // 파일이 존재하지 않는다는 에러인 404 에러를 출력하고 접속을 종료한다.
 			// System.out
 			// .println("Requested File Not Found : " + fileName);
 			//
@@ -180,7 +193,6 @@ public class ServerThread implements Runnable {
 			// outToClient.writeBytes("\r\n");
 			// }
 			// } else {
-			// // 잘못된 요청임을 나타내는 400 에러를 출력하고 접속을 종료한다.
 			// System.out.println("Bad Request");
 			//
 			// outToClient.writeBytes("HTTP/1.0 400 Bad Request Message \r\n");
