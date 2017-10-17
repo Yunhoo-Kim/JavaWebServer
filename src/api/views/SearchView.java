@@ -6,8 +6,12 @@ import annotations.URLMethod;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import helper.Helper;
+import org.json.simple.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 @URLAnnotation("_search/")
@@ -31,12 +35,34 @@ public class SearchView implements HttpHandler{
 
 			responseBody.close();
 		}else if(method.equalsIgnoreCase("POST")){
+			/**
+			 * Read request body from client
+			 */
+			InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(),"utf-8");
+			BufferedReader br = new BufferedReader(isr);
+			StringBuilder buf = new StringBuilder();
+			int b;
+			while((b=br.read()) != -1){
+				buf.append((char)b);
+			}
+			br.close();
+			isr.close();
+			JSONObject json = Helper.encodeToJson(buf.toString());
+			System.out.println(json.toJSONString());
+
+			/**
+			 * Send response to client.
+			 */
+			byte[] response = Helper.decodeToStr(json).getBytes();
 			Headers responseHeaders = httpExchange.getResponseHeaders();
-			responseHeaders.set("Content-Type", ((ContentType)(MainView.class.getAnnotation(ContentType.class))).value());
+			httpExchange.sendResponseHeaders(200,response.length);
+			responseHeaders.set("Content-Type","application/json;charset=utf-8");
 			OutputStream responseBody = httpExchange.getResponseBody();
-			byte[] response = this.getResponse();
 			responseBody.write(response);
+
 			responseBody.close();
+
+
 		}
 	}
 	
