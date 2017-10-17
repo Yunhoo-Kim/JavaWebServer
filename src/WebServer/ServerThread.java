@@ -1,9 +1,12 @@
 package WebServer;
 
+import annotations.ContentType;
+import annotations.URLAnnotation;
+import annotations.URLMethod;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
@@ -14,8 +17,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
-import javax.activation.MimetypesFileTypeMap;
 
 public class ServerThread implements Runnable {
 	private static final String DEFAULT_FILE_PATH = "index.json";
