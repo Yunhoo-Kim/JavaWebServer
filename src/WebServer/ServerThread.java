@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class ServerThread implements Runnable {
+    /*
+    Do not use anymore
+     */
 	private static final String DEFAULT_FILE_PATH = "index.json";
 	private Socket connectionSocket;
 

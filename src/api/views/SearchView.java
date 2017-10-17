@@ -32,8 +32,9 @@ public class SearchView implements HttpHandler{
 			responseHeaders.set("Content-Type","application/json;charset=utf-8");
 			OutputStream responseBody = httpExchange.getResponseBody();
 			responseBody.write(response);
-
 			responseBody.close();
+
+
 		}else if(method.equalsIgnoreCase("POST")){
 			/**
 			 * Read request body from client
