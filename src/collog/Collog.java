@@ -3,12 +3,16 @@ package collog;
 
 import WebServer.WebServer;
 import com.sun.net.httpserver.HttpServer;
+import data.DataNodeServer;
+import master.MasterMetaStorage;
 import master.MasterServer;
 import org.json.simple.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
@@ -20,7 +24,7 @@ public class Collog {
      * Singleton class
      */
 
-    private static Collog instance;
+    public static Collog instance;
     private boolean is_master = false;
     private int port = 0;
     private String input_module = null;
@@ -40,7 +44,7 @@ public class Collog {
     private Thread master_thread = null;
     private Thread data_thread = null;
     private Thread webservice_thread = null;
-
+    public int id;
     public HttpServer server = null;
     /*
     Data node List
@@ -49,6 +53,7 @@ public class Collog {
 
     private Collog() {
         try {
+            this.id = (int) (System.currentTimeMillis() / 1000);
             this.readProperties();
 
             if(this.webservice) {
@@ -58,6 +63,11 @@ public class Collog {
             if(this.is_master){
                 this.master_thread = new Thread(new MasterServer(this.port));
                 this.master_thread.start();
+//                MasterMetaStorage.getInstance();
+
+            }else{
+                this.data_thread = new Thread(new DataNodeServer(this.port));
+                this.data_thread.start();
             }
 
 
@@ -66,8 +76,9 @@ public class Collog {
         }
     }
 
-    public static synchronized Collog getInstance(){
+    public static Collog getInstance(){
         if(instance == null){
+            System.out.println("#############Create Collog Instance#################");
             instance = new Collog();
         }
         return instance;
@@ -134,6 +145,19 @@ public class Collog {
         }
     }
 
+    public JSONObject getSlave(int node_id){
+        Iterator<JSONObject> iter = this.slave_table.iterator();
+        JSONObject temp = null;
+        while(iter.hasNext()){
+            temp = iter.next();
+            if(Integer.parseInt(temp.get("node_id").toString()) == node_id){
+                return temp;
+            }
+        }
+
+        return temp;
+    }
+
     public ArrayList<JSONObject> getSlaveTable() {
         return slave_table;
     }
@@ -146,5 +170,28 @@ public class Collog {
         return this.shards;
     }
 
+    public String getMasterIp(){
+        return master_ip;
+    }
+
+    public String getMasterPort(){
+        return master_port;
+    }
+
+    public String getMyIP(){
+        InetAddress addr = null;
+        try {
+            addr = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+//        return addr.getHostAddress();
+
+        return "127.0.0.1";
+    }
+
+    public int getPort(){
+        return this.port;
+    }
 
 }

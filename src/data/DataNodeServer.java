@@ -1,18 +1,17 @@
-package master;
-
-
-import java.io.IOException;
-import java.net.*;
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
+package data;
 
 import annotations.URLAnnotation;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import helper.Helper;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
-public class MasterServer implements Runnable {
+
+public class DataNodeServer implements Runnable {
     /**
      * MasterServer is a WebServer for Master
      * This can register and unregister data node.
@@ -21,17 +20,18 @@ public class MasterServer implements Runnable {
      */
     private int port = 0;
 
-    public MasterServer(int port){
+    public DataNodeServer(int port){
         this.port = port;
     }
 
     @Override
     public void run() {
-        ArrayList<Class<?>> views_list = Helper.getClassesForPackage("master.views");
+        ArrayList<Class<?>> views_list = Helper.getClassesForPackage("data.views");
         // Retreive classes in package api view and find url
         InetSocketAddress addr = new InetSocketAddress(port);
         HttpServer web_server = null;
-        MasterMetaStorage.getInstance(); //Initialize Master Meta store
+
+
 
         try {
             web_server = HttpServer.create(addr, 0);
@@ -48,7 +48,7 @@ public class MasterServer implements Runnable {
             }
             web_server.setExecutor(Executors.newFixedThreadPool(30));
             web_server.start();
-
+            (new MasterManager()).registerToMaster();
 
 
         } catch (IOException e) {

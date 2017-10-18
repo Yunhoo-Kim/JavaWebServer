@@ -8,12 +8,12 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import helper.Helper;
 
-import master.ShardsAllocator;
+import master.DataNodeManager;
 import org.json.simple.JSONObject;
 import java.io.*;
 
-@URLAnnotation("master/node/register/")
-public class DataNodeRegisterHandler implements HttpHandler {
+@URLAnnotation("master/data/input/")
+public class DataInputHandler implements HttpHandler {
 
     @ContentType("application/json")
     public byte[] getResponse(){
@@ -23,15 +23,13 @@ public class DataNodeRegisterHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-//        System.out.println("Post input");
         String method = httpExchange.getRequestMethod();
-//        System.out.println("Method : " + method);
+
         if(method.equalsIgnoreCase("GET")){
-            byte[] response = this.getResponse();
+            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
             Helper.responseToClient(httpExchange, response);
 
         }else if(method.equalsIgnoreCase("POST")){
-//            System.out.println("Post input");
             /**
              * Read request body from client
              */
@@ -51,27 +49,16 @@ public class DataNodeRegisterHandler implements HttpHandler {
              */
 
             /**
+             * Send response to client.
+             */
+            byte[] response = Helper.decodeToStr(json).getBytes();
+            Helper.responseToClient(httpExchange, response);
+            /**
              * ToDo: Json format check
              */
 
-            Collog.getInstance().addSlave(json);
+            (new DataNodeManager()).sendDataToDataNodes(json);
 
-
-            /**
-             * Send response contain slave tables to client.
-             */
-            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
-            Helper.responseToClient(httpExchange, response);
-
-            /**
-             * ToDo: reallocation shards to slave
-             */
-            (new ShardsAllocator()).allocateShards();
-
-
-
-//            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
-//            Helper.responseToClient(httpExchange, response);
 
         }else if(method.equalsIgnoreCase("OPTIONS")){
             Helper.optionsResponse(httpExchange);
