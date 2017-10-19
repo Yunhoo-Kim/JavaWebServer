@@ -1,9 +1,13 @@
 package master;
 
 import collog.Collog;
+import com.sun.net.httpserver.Headers;
+import helper.Helper;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import webclient.WebClient;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -46,6 +50,77 @@ public class DataNodeManager {
             wcli.sendPostRequestWithJson(url,data.toString());
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public ArrayList<JSONObject> sendSearchToDataNode(JSONObject node, JSONObject data){
+        System.out.println("Send datatatatatat");
+        WebClient wcli = new WebClient();
+        String url = String.format("http://%s:%s/data/search/", node.get("ip").toString(), node.get("port").toString());
+        System.out.println(url);
+        try {
+            JSONObject response = Helper.encodeToJson(wcli.sendPostRequestWithJson(url,data.toString()));
+            return (ArrayList<JSONObject>)response.get("results");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<JSONObject>();
+    }
+
+    public JSONArray sendSearchRequest(JSONObject json){
+        Iterator<JSONObject> iter = Collog.getInstance().getSlaveTable().iterator();
+        Thread[] a = new Thread[Collog.getInstance().getSlaveTable().size()];
+        SearchThread[] s = new SearchThread[Collog.getInstance().getSlaveTable().size()];
+
+        DataNodeManager manager = new DataNodeManager();
+        ArrayList<JSONObject> res = new ArrayList<>();
+
+        int i = 0;
+        while(iter.hasNext()){
+            JSONObject node = iter.next();
+            s[i] = new SearchThread(manager, node, json);
+            a[i] = new Thread(s[i]);
+            a[i].start();
+        }
+
+
+        for(int j=0;j<a.length;j++){
+            try {
+                a[i].join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            res.addAll(s[i].getResponse());
+
+        }
+
+        JSONArray responses = new JSONArray();
+        responses.addAll(res);
+
+        return responses;
+
+
+    }
+
+    public class SearchThread implements Runnable{
+        private volatile ArrayList<JSONObject> response;
+        private DataNodeManager manager;
+        private JSONObject node;
+        private JSONObject json;
+
+        public SearchThread(DataNodeManager manager, JSONObject node, JSONObject json){
+            this.manager = manager;
+            this.node = node;
+            this.json = json;
+        }
+        @Override
+        public void run() {
+
+            response = manager.sendSearchToDataNode(node,json);
+        }
+
+        public ArrayList<JSONObject> getResponse() {
+            return response;
         }
     }
 

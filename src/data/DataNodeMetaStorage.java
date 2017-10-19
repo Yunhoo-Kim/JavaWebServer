@@ -36,24 +36,26 @@ public class DataNodeMetaStorage {
     }
 
     public ArrayList<Integer> getMyShards() {
-        ArrayList<Integer> list = null;
+        ArrayList<Integer> list = new ArrayList<>();
         try {
             JSONParser parser = new JSONParser();
             FileReader reader = new FileReader("src/data/meta.json");
 
             Object obj = parser.parse(reader);
             JSONObject json = (JSONObject) obj;
-            return (ArrayList<Integer>) json.get("shards");
+            if(json.containsKey("shards"))
+                return (ArrayList<Integer>) json.get("shards");
+            else
+                return list;
 
         } catch (FileNotFoundException e) {
             list = new ArrayList<Integer>();
             return list;
         } catch (IOException e) {
-            e.printStackTrace();
+            return list;
         } catch (ParseException e) {
-            e.printStackTrace();
+            return list;
         }
-        return list;
     }
 
     public void saveMetaInfo() {

@@ -4,6 +4,7 @@ package collog;
 import WebServer.WebServer;
 import com.sun.net.httpserver.HttpServer;
 import data.DataNodeServer;
+import helper.Helper;
 import master.MasterMetaStorage;
 import master.MasterServer;
 import org.json.simple.JSONObject;
@@ -164,16 +165,8 @@ public class Collog {
 
     public static void main(String[] args){
         Collog.getInstance();
-//        try (Stream<String> lines = Files.lines(Paths.get("data/1/data.txt"))){
-////
-//            for(String line : (Iterable<String>)lines::iterator){
-//                System.out.println(line);
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+
+
     }
 
 

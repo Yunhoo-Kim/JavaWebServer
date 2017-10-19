@@ -63,11 +63,11 @@ public class Helper {
 
     public static JSONObject encodeToJson(String str) {
         JSONParser parser = new JSONParser();
-        JSONObject json = null;
+        JSONObject json = new JSONObject();
         try {
             json = (JSONObject) parser.parse(str);
         } catch (ParseException e) {
-            e.printStackTrace();
+
         }
         return json;
     }
