@@ -8,14 +8,16 @@ import master.MasterMetaStorage;
 import master.MasterServer;
 import org.json.simple.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.stream.Stream;
 
 public class Collog {
     /**
@@ -69,8 +71,6 @@ public class Collog {
                 this.data_thread = new Thread(new DataNodeServer(this.port));
                 this.data_thread.start();
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -164,7 +164,18 @@ public class Collog {
 
     public static void main(String[] args){
         Collog.getInstance();
+//        try (Stream<String> lines = Files.lines(Paths.get("data/1/data.txt"))){
+////
+//            for(String line : (Iterable<String>)lines::iterator){
+//                System.out.println(line);
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
+
 
     public int getShards(){
         return this.shards;

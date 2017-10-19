@@ -1,25 +1,18 @@
-package master.views;
+package data.views;
 
 import annotations.ContentType;
 import annotations.URLAnnotation;
 import collog.Collog;
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import data.FileWriteHandler;
 import helper.Helper;
-
-import master.DataNodeManager;
 import org.json.simple.JSONObject;
-import java.io.*;
 
-@URLAnnotation("master/data/input/")
+import java.io.IOException;
+
+@URLAnnotation("data/input/")
 public class DataInputHandler implements HttpHandler {
-
-    @ContentType("application/json")
-    public byte[] getResponse(){
-        String a = "{'abc':'abc'}";
-        return a.getBytes();
-    }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
@@ -39,7 +32,7 @@ public class DataInputHandler implements HttpHandler {
             /**
              * data node register body structure
              *{
-             *      "shard" : "number of shard",
+             *      "node_id" : "node_indentification",
              *      "ip" : "node_ip",
              *      "port" : "port",
              *      "new" : "whether it is first time to register or not",
@@ -49,17 +42,20 @@ public class DataInputHandler implements HttpHandler {
              */
 
             /**
-             * Send response to client.
-             */
-
-            byte[] response = Helper.decodeToStr(json).getBytes();
-            Helper.responseToClient(httpExchange, response);
-            /**
              * ToDo: Json format check
              */
 
-            (new DataNodeManager()).sendDataToDataNodes(json);
+//            Collog.getInstance().addSlave(json);
 
+            /**
+             * Send response to client.
+             */
+            int shard = Integer.parseInt(json.get("shard").toString());
+            json.remove("shard");
+            System.out.println(json.toString());
+            byte[] response = Helper.decodeToStr(json).getBytes();
+            Helper.responseToClient(httpExchange, response);
+            (new FileWriteHandler()).write(json, shard);
 
         }else if(method.equalsIgnoreCase("OPTIONS")){
             Helper.optionsResponse(httpExchange);

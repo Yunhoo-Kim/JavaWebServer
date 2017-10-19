@@ -25,7 +25,8 @@ public class DataNodeManager {
 
     public void sendDataToDataNodes(JSONObject json){
         int shards = Collog.getInstance().getShards();
-        int shard = json.hashCode() % shards;
+        int shard = Math.abs(json.hashCode()) % shards;
+        System.out.println("Shard number is " + shard);
         json.put("shard",shard);
         Iterator<JSONObject> iter = Collog.getInstance().getSlaveTable().iterator();
         while(iter.hasNext()){
@@ -37,10 +38,15 @@ public class DataNodeManager {
     }
 
     public void sendDataToDataNode(JSONObject node, JSONObject data){
+        System.out.println("Send datatatatatat");
         WebClient wcli = new WebClient();
-        String url = String.format("http://%s:%s/data/reallocation/", json.get("ip").toString(), json.get("port").toString());
+        String url = String.format("http://%s:%s/data/input/", node.get("ip").toString(), node.get("port").toString());
         System.out.println(url);
-        wcli.sendPostRequestWithJson(url,body.toString());
+        try {
+            wcli.sendPostRequestWithJson(url,data.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
