@@ -30,8 +30,10 @@ public class DataNodeManager {
     public void sendDataToDataNodes(JSONObject json){
         int shards = Collog.getInstance().getShards();
         int shard = Math.abs(json.hashCode()) % shards;
+
         System.out.println("Shard number is " + shard);
-        json.put("shard",shard);
+        json.put("shard", shard);
+
         Iterator<JSONObject> iter = Collog.getInstance().getSlaveTable().iterator();
         while(iter.hasNext()){
             JSONObject node = iter.next();
@@ -70,6 +72,7 @@ public class DataNodeManager {
     public JSONArray sendSearchRequest(JSONObject json){
         Iterator<JSONObject> iter = Collog.getInstance().getSlaveTable().iterator();
         Thread[] a = new Thread[Collog.getInstance().getSlaveTable().size()];
+
         SearchThread[] s = new SearchThread[Collog.getInstance().getSlaveTable().size()];
 
         DataNodeManager manager = new DataNodeManager();

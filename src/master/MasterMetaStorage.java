@@ -75,6 +75,9 @@ public class MasterMetaStorage {
 
 
     public JSONObject getMetaData(){
+        /**
+         * we have to add slave info to json
+         */
         JSONObject json = new JSONObject();
         json.put("searchable_fields", this.searchable_fields);
         return json;

@@ -32,11 +32,8 @@ public class DataInputHandler implements HttpHandler {
             /**
              * data node register body structure
              *{
-             *      "node_id" : "node_indentification",
-             *      "ip" : "node_ip",
-             *      "port" : "port",
-             *      "new" : "whether it is first time to register or not",
-             *      "having_shards" : [0,1,2] # List of Shards number data node have,
+             *      "shard" : "shard number",
+             *
              *}
              *
              */
