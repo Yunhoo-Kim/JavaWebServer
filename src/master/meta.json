@@ -1,1 +1,1 @@
-{"searchable_fields":["remote_addr","request_time","body_bytes_sent","time","status","http_user_agent"]}
+{"searchable_fields":["remote_addr","request_time","body_bytes_sent","time","status","http_user_agent","method","version","url"]}

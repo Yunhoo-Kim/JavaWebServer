@@ -42,7 +42,7 @@ public class Collog {
     private String file_name = null;
     private String master_ip = null;
     private String master_port = null;
-    private int shards = 2;
+    private int shards = 4;
     private int replication = 0;
     private int webservice_port = 0;
     private boolean webservice = false;

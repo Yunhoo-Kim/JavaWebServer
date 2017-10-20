@@ -96,7 +96,7 @@ public class Helper {
         StringBuffer response = new StringBuffer();
 
         while((input_line = br.readLine()) != null){
-            response.append(input_line);
+            response.append(input_line + "\n");
         }
 
         br.close();
