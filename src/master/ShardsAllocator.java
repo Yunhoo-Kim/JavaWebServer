@@ -1,6 +1,7 @@
 package master;
 
 import collog.Collog;
+import logging.Logging;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -62,6 +63,72 @@ public class ShardsAllocator {
         /**
          *
          */
+        ArrayList<JSONObject> data_nodes = Collog.getInstance().getSlaveTable();
+        Iterator<JSONObject> iter = data_nodes.iterator();
+        ArrayList<JSONObject> over_mean_nodes = new ArrayList<>();
+        ArrayList<JSONObject> under_mean_nodes = new ArrayList<>();
+        int shards = Collog.getInstance().getShards();
+        int nodes_num = data_nodes.size();
+
+        int mean = shards/nodes_num;
+
+        while(iter.hasNext()){
+            JSONObject node = iter.next();
+            int shard_size_per_node = ((ArrayList<Integer>)node.get("shards")).size();
+            if(shard_size_per_node < mean){
+                under_mean_nodes.add(node);
+            }else if(shard_size_per_node > mean){
+                over_mean_nodes.add(node);
+            }
+        }
+
+        int i=0;
+        int j=0;
+        iter = over_mean_nodes.iterator();
+
+        while(true){
+            int over_size = over_mean_nodes.size();
+            int under_size = under_mean_nodes.size();
+
+            if(under_size == 0 || over_size == 0){
+                break;
+            }
+
+            JSONObject over_node = over_mean_nodes.get(j % over_size);
+            JSONObject under_node = under_mean_nodes.get(i % under_size);
+            j++;
+            i++;
+
+            ArrayList<Integer> over_node_shards = (ArrayList<Integer>)over_node.get("shards");
+            ArrayList<Integer> under_node_shards = (ArrayList<Integer>)under_node.get("shards");
+
+            if(over_node_shards.size() == mean){
+                over_mean_nodes.remove(over_node);
+                over_node = over_mean_nodes.get(j % (over_size - 1));
+                over_node_shards = (ArrayList<Integer>)over_node.get("shards");
+                j++;
+            }
+
+            JSONObject data = new JSONObject();
+            int shard_number = over_node_shards.get(0);
+            data.put("shard_number", shard_number);
+            Logging.logger.info("야야야야야야야양야야야야야야야야ㅑㅇ 새로 배치가 되었습니다.!!");
+            try {
+
+                (new DataNodeManager()).sendReallocationRequest(Integer.parseInt(under_node.get("node_id").toString()), data);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            under_node_shards.add(shard_number);
+            over_node_shards.remove(0);
+
+            if(under_node_shards.size() >= mean){
+                under_mean_nodes.remove(under_node);
+            }
+        }
+
+
     }
 
     private void balance(){

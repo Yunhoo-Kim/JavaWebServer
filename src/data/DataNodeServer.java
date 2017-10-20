@@ -32,7 +32,6 @@ public class DataNodeServer implements Runnable {
         HttpServer web_server = null;
 
 
-
         try {
             web_server = HttpServer.create(addr, 0);
 

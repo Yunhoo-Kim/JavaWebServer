@@ -12,7 +12,6 @@ import master.DataNodeManager;
 import master.MasterMetaStorage;
 import org.json.simple.JSONObject;
 import java.io.*;
-import java.util.Set;
 
 @URLAnnotation("master/data/input/")
 public class DataInputHandler implements HttpHandler {

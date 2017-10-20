@@ -13,6 +13,7 @@ public class FileWriteHandler {
         try {
             String file_name = String.format("data/%d/data.txt",shard);
             File file = new File(file_name);
+
             if(file.exists()) {
 
                 FileWriter writer = new FileWriter(String.format("data/%d/data.txt", shard), true);

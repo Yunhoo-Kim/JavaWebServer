@@ -30,7 +30,7 @@ public class FileSearchHandler {
         try (Stream<String> lines = Files.lines(Paths.get(String.format("data/%d/data.txt", shard)))){
 
             for(String line : (Iterable<String>)lines::iterator){
-                System.out.println(line);
+
                 JSONObject _j = Helper.encodeToJson(line);
                 if(_j.containsKey(key)){
                     if(_j.get(key).equals(value)){
