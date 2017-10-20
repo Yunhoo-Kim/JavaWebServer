@@ -19,10 +19,10 @@ public class DataNodeManager {
      */
 
 
-    public void sendReallocationRequest(int node_id, JSONObject body) throws Exception{
+    public void sendAllocationRequest(int node_id, JSONObject body) throws Exception{
         JSONObject json = Collog.getInstance().getSlave(node_id);
         WebClient wcli = new WebClient();
-        String url = String.format("http://%s:%s/data/reallocation/", json.get("ip").toString(), json.get("port").toString());
+        String url = String.format("http://%s:%s/data/allocation/", json.get("ip").toString(), json.get("port").toString());
         System.out.println(url);
         wcli.sendPostRequestWithJson(url,body.toString());
     }

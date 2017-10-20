@@ -45,7 +45,7 @@ public class ShardsAllocator {
             temp.put("shard_number", a);
 
             try {
-                (new DataNodeManager()).sendReallocationRequest(Integer.parseInt(node.get("node_id").toString()),temp);
+                (new DataNodeManager()).sendAllocationRequest(Integer.parseInt(node.get("node_id").toString()),temp);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -112,10 +112,12 @@ public class ShardsAllocator {
             JSONObject data = new JSONObject();
             int shard_number = over_node_shards.get(0);
             data.put("shard_number", shard_number);
-            Logging.logger.info("야야야야야야야양야야야야야야야야ㅑㅇ 새로 배치가 되었습니다.!!");
+            data.put("node_id",Collog.getInstance().getSlaveHasShard(shard_number).get("node_id").toString());
+
+//            Logging.logger.info("야야야야야야야양야야야야야야야야ㅑㅇ 새로 배치가 되었습니다.!!");
             try {
 
-                (new DataNodeManager()).sendReallocationRequest(Integer.parseInt(under_node.get("node_id").toString()), data);
+                (new DataNodeManager()).sendAllocationRequest(Integer.parseInt(under_node.get("node_id").toString()), data);
             } catch (Exception e) {
                 e.printStackTrace();
             }
