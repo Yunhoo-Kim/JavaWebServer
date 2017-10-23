@@ -9,7 +9,10 @@ import java.util.concurrent.Executors;
 import annotations.URLAnnotation;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+
+import collog.Collog;
 import helper.Helper;
+import master.inputmodule.TcpInputModule;
 
 
 public class MasterServer implements Runnable {
@@ -49,6 +52,15 @@ public class MasterServer implements Runnable {
             web_server.setExecutor(Executors.newFixedThreadPool(30));
             web_server.start();
 
+            //TODO modulizing
+            switch (Collog.getInstance().getInput_module()){
+                case "tcp":
+                    TcpInputModule module = new TcpInputModule(Collog.getInstance().getTcp_port());
+                    new Thread(module).start();
+                    break;
+                default:
+                    break;
+            }
 
 
         } catch (IOException e) {

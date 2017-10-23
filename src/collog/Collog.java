@@ -198,4 +198,36 @@ public class Collog {
         return this.port;
     }
 
+
+    public String getInput_module() {
+        return input_module;
+    }
+
+    public String getTcp_ip() {
+        return tcp_ip;
+    }
+
+    public int getTcp_port() {
+        return tcp_port;
+    }
+
+    public String getUdp_ip() {
+        return udp_ip;
+    }
+
+    public int getUdp_port() {
+        return udp_port;
+    }
+
+    public String getHttp_ip() {
+        return http_ip;
+    }
+
+    public int getHttp_port() {
+        return http_port;
+    }
+
+    public String getFile_name() {
+        return file_name;
+    }
 }

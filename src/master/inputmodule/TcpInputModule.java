@@ -30,18 +30,15 @@ public class TcpInputModule implements Runnable{
             String clientString = "";
             String line = "";
 
+            // 일단 항상 열어놓기
             while(true) {
 
                 Socket connection = serverSocket.accept();
                 //여기부터 분기
-                BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//        DataOutputStream outToClient = new DataOutputStream(connection.getOutputStream());
-                //소켓 닫는데도 IOException 발생
-                inFromClient.close();
-                connection.close();
+                new TcpServerThread(connection.getInputStream()).start();
 
-                serverSocket.close();
             }
+//            serverSocket.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,7 +47,7 @@ public class TcpInputModule implements Runnable{
 
     }
 
-    class TcpServerThread extends Thread{
+    private class TcpServerThread extends Thread{
         private BufferedReader inFromClient;
         private String clientString;
 
@@ -70,8 +67,6 @@ public class TcpInputModule implements Runnable{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
 }
