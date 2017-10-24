@@ -1,7 +1,6 @@
 package master.inputmodule;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,46 +8,36 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Created by semaj on 17. 10. 20.
+ * Created by semaj on 17. 10. 24.
  */
 
-public class TcpInputModule implements Runnable{
+public class UdpInputModule implements Runnable {
+    private int port;
 
-    int port;
-
-    public TcpInputModule(int tcp_port) {
-        this.port = tcp_port;
-    }
 
     @Override
     public void run() {
         ServerSocket serverSocket;
-        try {
-            //서버 소켓 열고
+        try{
             serverSocket = new ServerSocket(port);
 
-            // 일단 항상 열어놓기
-            while(true) {
-
+            while(true){
                 Socket connection = serverSocket.accept();
-                //여기부터 분기
-                new TcpServerThread(connection.getInputStream()).start();
 
+                new UdpServerThread(connection.getInputStream()).start();
             }
-//            serverSocket.close();
-
-        } catch (IOException e) {
+        }catch (IOException e){
             e.printStackTrace();
         }
 
-
     }
 
-    private class TcpServerThread extends Thread{
+    private  class UdpServerThread extends Thread{
+
         private BufferedReader inFromClient;
         private String clientString;
 
-        public TcpServerThread(InputStream inputStream) {
+        public UdpServerThread(InputStream inputStream) {
             this.inFromClient = new BufferedReader(new InputStreamReader(inputStream));
         }
 
@@ -67,4 +56,5 @@ public class TcpInputModule implements Runnable{
             }
         }
     }
+
 }

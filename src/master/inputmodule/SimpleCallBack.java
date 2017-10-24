@@ -5,7 +5,7 @@ package master.inputmodule;
  */
 
 public interface SimpleCallBack <T>{
-    void callback(T data);
+    void onSuccess(T data);
 
     void onFailure();
 }
