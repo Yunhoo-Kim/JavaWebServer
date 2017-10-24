@@ -50,22 +50,28 @@ public class DataSearchHandler implements HttpHandler {
             /**
              * ToDo: Json format check
              */
-            ArrayList<JSONObject> ress = new ArrayList<>();
-            System.out.println("Searching!!!!!!!1111111");
-            ress.addAll((new FileSearchHandler()).search(json,0));
-            ress.addAll((new FileSearchHandler()).search(json,1));
-            ress.addAll((new FileSearchHandler()).search(json,2));
-            ress.addAll((new FileSearchHandler()).search(json,3));
 
-            JSONArray res_arr = new JSONArray();
-            res_arr.addAll(ress);
             JSONObject res = new JSONObject();
-            res.put("results", res_arr);
-            System.out.println("Searching!!!!!!!222222222" + res.toString());
-            byte[] response = Helper.decodeToStr(res).getBytes();
-            Helper.responseToClient(httpExchange, response);
+            if (json.get("type").toString().equals("search")) {
+                ArrayList<JSONObject> ress = new ArrayList<>();
+//            System.out.println("Searching!!!!!!!1111111");
+                ress.addAll((new FileSearchHandler()).search(json, 0));
+                ress.addAll((new FileSearchHandler()).search(json, 1));
+                ress.addAll((new FileSearchHandler()).search(json, 2));
+                ress.addAll((new FileSearchHandler()).search(json, 3));
+
+                JSONArray res_arr = new JSONArray();
+                res_arr.addAll(ress);
+                res.put("results", res_arr);
+
+//            System.out.println("Searching!!!!!!!222222222" + res.toString());
+                byte[] response = Helper.decodeToStr(res).getBytes();
+                Helper.responseToClient(httpExchange, response);
 
 
+            }else if(json.get("type").toString().equals("count")){
+                
+            }
         } else if (method.equalsIgnoreCase("OPTIONS")) {
             Helper.optionsResponse(httpExchange);
         }
