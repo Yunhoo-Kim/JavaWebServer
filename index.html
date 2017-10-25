@@ -13,16 +13,29 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
             integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
-          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
-    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
     <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"-->
     <!--integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"-->
     <!--crossorigin="anonymous"></script>-->
+    <style>
+        .shard-box {
+            text-align: center;
+    border: 1px solid;
+    padding: 20px;
+    border-radius: 5px;
+}
+.node-box {
+            text-align: center;
+    border: 1px solid;
+    padding: 5px 20px 44px 20px;
+    border-radius: 5px;
+}
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -44,16 +57,42 @@
     </div>
 </nav>
 <div class="col-md-12 collog-view" id="dashboard-view">
-    <div class="col-md-8 col-offset-md-2">
-        <canvas id="myChart" width="400" height="400"></canvas>
-        <canvas id="myChart2" width="400" height="400"></canvas>
+    <div id="nodes-view" class="col-md-12">
+
+    </div>
+    <div class="col-md-8 col-offset-md-2" id="graph-div">
+        <!--<canvas id="myChart" width="400" height="400"></canvas>-->
+        <!--<canvas id="myChart2" width="400" height="400"></canvas>-->
     </div>
 </div>
 
-<div class="col-md-12 collog-view" id="dashboard-add-view">
+<div class="col-md-12 collog-view" id="dashboard-add-view" style="display:none;">
+    <div class="col-md-12">
+        <select id="graph-type">
+            <option value="line">line</option>
+            <option value="doughnut">Doughnut</option>
+            <option value="bar">bar</option>
+            <option value="pie">pie</option>
+        </select>
+        <select id="graph-searchable-field">
+        </select>
+        <select id="duration">
+            <option value="3600">1시간전</option>
+            <option value="7200">2시간전</option>
+            <option value="10800">3시간전</option>
+            <option value="14400">4시간전</option>
+        </select>
+        <input type="text" id="label-value">
+        <button id="draw-graph-btn">만들기</button>
+
+    </div>
+    <div class="col-md-8 col-offset-md-2" id="graph-preview-div">
+        <!--<canvas id="myChart" width="400" height="400"></canvas>-->
+        <!--<canvas id="myChart2" width="400" height="400"></canvas>-->
+    </div>
 </div>
 
-<div class="col-md-12 collog-view" id="query-view">
+<div class="col-md-12 collog-view" id="query-view" style="display:none;">
     <div class="col-md-12">
         <select id="searchable-field">
         </select>
@@ -87,83 +126,99 @@ $("#"+view).css("display","block");
 
 });
 
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
+<!--var ctx = document.getElementById("myChart").getContext('2d');-->
+<!--var myChart = new Chart(ctx, {-->
+    <!--type: 'bar',-->
+    <!--data: {-->
+        <!--labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],-->
+        <!--datasets: [{-->
+            <!--label: '# of Votes',-->
+            <!--data: [12, 19, 3, 5, 2, 3],-->
+            <!--backgroundColor: [-->
+                <!--'rgba(255, 99, 132, 0.2)',-->
+                <!--'rgba(54, 162, 235, 0.2)',-->
+                <!--'rgba(255, 206, 86, 0.2)',-->
+                <!--'rgba(75, 192, 192, 0.2)',-->
+                <!--'rgba(153, 102, 255, 0.2)',-->
+                <!--'rgba(255, 159, 64, 0.2)'-->
+            <!--],-->
+            <!--borderColor: [-->
+                <!--'rgba(255,99,132,1)',-->
+                <!--'rgba(54, 162, 235, 1)',-->
+                <!--'rgba(255, 206, 86, 1)',-->
+                <!--'rgba(75, 192, 192, 1)',-->
+                <!--'rgba(153, 102, 255, 1)',-->
+                <!--'rgba(255, 159, 64, 1)'-->
+            <!--],-->
+            <!--borderWidth: 1-->
+        <!--}]-->
+    <!--},-->
+    <!--options: {-->
+        <!--scales: {-->
+            <!--yAxes: [{-->
+                <!--ticks: {-->
+                    <!--beginAtZero:true-->
+                <!--}-->
+            <!--}]-->
+        <!--}-->
+    <!--}-->
+<!--});-->
 
-var ctx1 = document.getElementById("myChart2").getContext('2d');
+<!--var ctx1 = document.getElementById("myChart2").getContext('2d');-->
 
 
-var myDoughnutChart = new Chart(ctx1, {
-	type: 'doughnut',
-	data: {
-		datasets: [{data:[10,50]}],
-		labels: ["arc","asrc"]
-	},
-	options: {
-        
-    }
-});
+<!--var myDoughnutChart = new Chart(ctx1, {-->
+	<!--type: 'doughnut',-->
+	<!--data: {-->
+		<!--datasets: [{data:[10,50]}],-->
+		<!--labels: ["arc","asrc"]-->
+	<!--},-->
+	<!--options: {-->
+        <!---->
+    <!--}-->
+<!--});-->
 
 var searchable_fields = [];
+var data_nodes = []
 $.ajax({
     url: 'http://localhost:8885/master/meta/',
     type: "GET",
     success: function(data, textStatus, jqXHR) {
         // since we are using jQuery, you don't need to parse response
         searchable_fields = data.searchable_fields;
-        console.log("aaa");
+        data_nodes = data.shards;
+        drawDataNodes(data_nodes);
         for(var a =0;a<data.searchable_fields.length;a++){
             $("#query-table-row").append("<th>"+data.searchable_fields[a]+"</th>");
             $("#searchable-field").append('<option value="'+data.searchable_fields[a]+'">'+data.searchable_fields[a]+'</option>');
+            $("#graph-searchable-field").append('<option value="'+data.searchable_fields[a]+'">'+data.searchable_fields[a]+'</option>');
         }
-        <!--drawTable(data);-->
     }
 });
-var data = [
-            {
-            id: 1,
-            firstName: "Peter",
-            lastName: "Jhons"},
-        {
-            id: 2,
-            firstName: "David",
-            lastName: "Bowie"}
-        ];
+
+function drawDataNodes(data){
+    $("#nodes-view").empty();
+    for(var a=0;a<data.length;a++){
+        drawDataNode(data[a]);
+    }
+}
+
+function drawDataNode(data){
+    var str = '<div class="col-xs-3 node-box">'+
+        '<h3>'+
+        data.node_id+
+        '</h3>';
+    for(var a=0;a<data.shards.length;a++){
+        str += '<div class="shard-box col-xs-3">'+
+        data.shards[a] +
+        '</div>'
+    }
+
+    str += '</div>';
+
+    $("#nodes-view").append(str);
+}
+
 function drawTable(data) {
     for (var i = 0; i < data.length; i++) {
         drawRow(data[i]);
@@ -206,6 +261,122 @@ function searchToMaster(json_data, callback){
 }
 
 
+fetch_unix_timestamp = function(date)
+{
+	//return parseInt(new Date().getTime().toString().substring(0, 10));
+	return date.getTime()/1000;
+}
+
+timestamp = fetch_unix_timestamp(new Date());
+
+console.log(timestamp);
+
+var j_data = {
+    key : "status",
+    type : "count",
+    label : "asdfa",
+    graph_type : "bar",
+    time1 : "1308910110.075",
+    time2 : "1508910492.398"
+};
+
+function getGraphData(data){
+$.ajax({
+    url: 'http://localhost:8885/master/data/search/',
+    type: "POST",
+    data: JSON.stringify(data),
+    success: function(res, textStatus, jqXHR) {
+    console.log(res);
+         drawGraph(res.results, data);
+    }
+});
+}
+getGraphData(j_data);
+var chart_num = 0;
+function drawGraph(data, req_data){
+        $("#graph-preview-div").append('<canvas class="col-md-6" id="myChart'+chart_num+'"></canvas>');
+        var ctx1 = document.getElementById("myChart"+chart_num).getContext('2d');
+
+
+        var myDoughnutChart = new Chart(ctx1, {
+	    type: req_data.graph_type,
+	    data: {
+		    datasets: [
+		    {
+		    label: req_data.label,
+		    backgroundColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+             borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            data: Object.values(data)
+		    }
+		    ],
+		    labels:Object.keys(data)
+
+	    },
+	    options: {
+
+        }
+});
+chart_num++;
+
+}
+
+$("#draw-graph-btn").click(function(){
+    var key = $("#graph-searchable-field option:selected").val();
+    var type = $("#graph-type option:selected").val();
+    var time_offset = $("#duration option:selected").val();
+    var time1 = timestamp - time_offset;
+    var time2 = timestamp;
+    var label = $("#label-value").val();
+    var data = {
+        key: key,
+        type: "count",
+        label: label,
+        graph_type: type,
+        time1 : time1,
+        time2: time2
+    }
+
+    getGraphData(data);
+
+});
 
 </script>
 

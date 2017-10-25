@@ -50,7 +50,8 @@ public class DataInputHandler implements HttpHandler {
             int shard = Integer.parseInt(json.get("shard").toString());
             json.remove("shard");
             if(!json.containsKey("@timestamp")){
-                json.put("@timestamp",System.currentTimeMillis() / 1000);
+
+                json.put("@timestamp", ((double)System.currentTimeMillis())/1000);
             }
 //            System.out.println(json.toString());
             byte[] response = Helper.decodeToStr(json).getBytes();

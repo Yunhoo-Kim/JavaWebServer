@@ -2,6 +2,7 @@ package data;
 
 import collog.Collog;
 import logging.Logging;
+import master.MasterMetaStorage;
 import org.json.simple.JSONObject;
 import webclient.WebClient;
 
@@ -34,10 +35,10 @@ public class DataNodeManager {
             String response = wcli.sendPostRequestWithJson(url, req_data.toString());
 
 //            response.getBytes();
-            FileOutputStream os = new FileOutputStream(String.format("data/1/data.txt",shard_num));
+            FileOutputStream os = new FileOutputStream(String.format("data/%d/data.txt",shard_num));
             os.write(response.getBytes());
             os.close();
-
+//            (new DataNodeMetaStorage()).saveMetaInfo();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,7 +67,7 @@ public class DataNodeManager {
                 String line;
                 while ((line = in.readLine()) != null) {
                     builder.append(line + "\n");
-                    Logging.logger.info(line);
+//                    Logging.logger.info(line);
                 }
             }
             byte[] bytes = builder.toString().getBytes(Charset.forName("UTF-8"));
@@ -94,6 +95,8 @@ public class DataNodeManager {
                 break;
             }
         }
+
+//        (new DataNodeMetaStorage()).saveMetaInfo();
     }
 
 }

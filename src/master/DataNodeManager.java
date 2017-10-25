@@ -69,7 +69,7 @@ public class DataNodeManager {
         return new ArrayList<JSONObject>();
     }
 
-    public JSONArray sendSearchRequest(JSONObject json){
+    public ArrayList<JSONObject> sendSearchRequest(JSONObject json){
         Iterator<JSONObject> iter = Collog.getInstance().getSlaveTable().iterator();
         Thread[] a = new Thread[Collog.getInstance().getSlaveTable().size()];
 
@@ -97,7 +97,7 @@ public class DataNodeManager {
 
         }
 
-        JSONArray responses = new JSONArray();
+        ArrayList<JSONObject> responses = new ArrayList<>();
         responses.addAll(res);
 
         return responses;

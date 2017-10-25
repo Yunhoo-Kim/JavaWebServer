@@ -46,7 +46,6 @@ public class MasterManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        (new DataNodeMetaStorage()).saveMetaInfo();
     }
-
-
 }
