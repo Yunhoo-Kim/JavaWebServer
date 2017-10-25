@@ -1,6 +1,7 @@
 package data;
 
 import helper.Helper;
+import logging.Logging;
 import org.json.simple.JSONObject;
 
 import java.io.FileNotFoundException;
@@ -36,6 +37,32 @@ public class FileSearchHandler {
                     if(_j.get(key).equals(value)){
                         founded.add(_j);
                     }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            return founded;
+        } catch(NoSuchFileException e){
+            return founded;
+        } catch (IOException e) {
+            return founded;
+        }
+        return founded;
+    }
+
+    public ArrayList<JSONObject> countSearch(JSONObject json, int shard){
+        ArrayList<JSONObject> founded = new ArrayList<>();
+        String key = json.get("key").toString();
+        double time1 = Double.parseDouble(json.get("time1").toString());
+        double time2 = Double.parseDouble(json.get("time2").toString());
+        try (Stream<String> lines = Files.lines(Paths.get(String.format("data/%d/data.txt", shard)))){
+
+            for(String line : (Iterable<String>)lines::iterator){
+                JSONObject _j = Helper.encodeToJson(line);
+                JSONObject temp = new JSONObject();
+                double time = Double.parseDouble(_j.get("@timestamp").toString());
+                if(_j.containsKey(key) && time1 <= time && time <= time2){
+                    temp.put(_j.get(key).toString(), 1);
+                    founded.add(temp);
                 }
             }
         } catch (FileNotFoundException e) {

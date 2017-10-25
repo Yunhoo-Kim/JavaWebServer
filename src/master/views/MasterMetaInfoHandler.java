@@ -8,6 +8,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import helper.Helper;
 
+import logging.Logging;
 import master.DataNodeManager;
 import master.MasterMetaStorage;
 import org.json.simple.JSONArray;
@@ -26,6 +27,7 @@ public class MasterMetaInfoHandler implements HttpHandler {
         if (method.equalsIgnoreCase("GET")) {
             byte[] response = MasterMetaStorage.getInstance().getMetaData().toString().getBytes();
             Helper.responseToClient(httpExchange, response);
+
 
         } else if (method.equalsIgnoreCase("POST")) {
             /**

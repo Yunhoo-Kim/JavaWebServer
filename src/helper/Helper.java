@@ -96,7 +96,7 @@ public class Helper {
         StringBuffer response = new StringBuffer();
 
         while((input_line = br.readLine()) != null){
-            response.append(input_line);
+            response.append(input_line + "\n");
         }
 
         br.close();
@@ -121,9 +121,24 @@ public class Helper {
         /*
         It is to response json data to client
          */
-        Headers responseHeaders = httpExchange.getResponseHeaders();
+//        Headers responseHeaders = httpExchange.getResponseHeaders();
+        httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        httpExchange.getResponseHeaders().set("Content-Type","application/json;charset=utf-8");
         httpExchange.sendResponseHeaders(200,response.length);
-        responseHeaders.set("Content-Type","application/json;charset=utf-8");
+        OutputStream responseBody = httpExchange.getResponseBody();
+        responseBody.write(response);
+        responseBody.close();
+    }
+
+
+    public static void responseToClientHTML(HttpExchange httpExchange, byte[] response) throws IOException{
+        /*
+        It is to response json data to client
+         */
+//        Headers responseHeaders = httpExchange.getResponseHeaders();
+        httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+        httpExchange.getResponseHeaders().set("Content-Type","text/html");
+        httpExchange.sendResponseHeaders(200,response.length);
         OutputStream responseBody = httpExchange.getResponseBody();
         responseBody.write(response);
         responseBody.close();

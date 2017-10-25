@@ -80,6 +80,7 @@ public class MasterMetaStorage {
          */
         JSONObject json = new JSONObject();
         json.put("searchable_fields", this.searchable_fields);
+        json.put("shards", Collog.getInstance().getSlaveTable());
         return json;
     }
 

@@ -22,7 +22,9 @@ public class DataNodeMetaStorage {
         /**
          * Check I have shards are allocated to me or not
          */
-        ArrayList<Integer> list = this.getMyShards();
+//        ArrayList<Integer> list = this.getMyShards();
+        ArrayList<Integer> list = new ArrayList<>();
+
         if(list.size()>0){
             is_new = true;
             info.put("shards", list);
@@ -47,7 +49,6 @@ public class DataNodeMetaStorage {
                 return (ArrayList<Integer>) json.get("shards");
             else
                 return list;
-
         } catch (FileNotFoundException e) {
             list = new ArrayList<Integer>();
             return list;
@@ -61,7 +62,7 @@ public class DataNodeMetaStorage {
     public void saveMetaInfo() {
         try {
             FileWriter writer = new FileWriter("src/data/meta.json");
-            writer.write(this.getMyInfo().toString());
+            writer.write(this.getMetaInfo().toString());
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,22 +71,7 @@ public class DataNodeMetaStorage {
 
     public JSONObject getMetaInfo(){
         JSONObject json = null;
-
-        try {
-            JSONParser parser = new JSONParser();
-            FileReader reader = new FileReader("src/data/meta.json");
-
-            Object obj = parser.parse(reader);
-            json = (JSONObject) obj;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        json = Collog.getInstance().getSlave(Collog.getInstance().id);
         return json;
     }
 }
