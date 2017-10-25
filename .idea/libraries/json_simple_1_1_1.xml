@@ -1,8 +1,7 @@
 <component name="libraryTable">
   <library name="json-simple-1.1.1">
     <CLASSES>
-      <root url="jar://$USER_HOME$/capstone/json-simple-1.1.1.jar!/" />
-      <root url="jar://$USER_HOME$/capstone/log4j-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../json-simple-1.1.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
