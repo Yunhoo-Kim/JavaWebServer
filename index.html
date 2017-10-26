@@ -57,10 +57,19 @@
     </div>
 </nav>
 <div class="col-md-12 collog-view" id="dashboard-view">
+    <div class="col-md-12">
+        <h3>Shards Information</h3>
+    </div>
     <div id="nodes-view" class="col-md-12">
 
     </div>
-    <div class="col-md-8 col-offset-md-2" id="graph-div">
+    <br>
+    <br>
+    <div class="col-md-12">
+    <h3>DashBoards</h3>
+    </div>
+
+    <div class="col-md-12" id="graph-div">
         <!--<canvas id="myChart" width="400" height="400"></canvas>-->
         <!--<canvas id="myChart2" width="400" height="400"></canvas>-->
     </div>
@@ -77,16 +86,18 @@
         <select id="graph-searchable-field">
         </select>
         <select id="duration">
-            <option value="3600">1시간전</option>
-            <option value="7200">2시간전</option>
-            <option value="10800">3시간전</option>
-            <option value="14400">4시간전</option>
+            <option value="1">1일</option>
+            <option value="2">2일</option>
+            <option value="3">3일</option>
+            <option value="4">4일</option>
         </select>
         <input type="text" id="label-value">
         <button id="draw-graph-btn">만들기</button>
+        <button id="graph-save">저장</button>
+        <button id="clean-preview-graph">전체 지우기</button>
 
     </div>
-    <div class="col-md-8 col-offset-md-2" id="graph-preview-div">
+    <div class="col-md-12" id="graph-preview-div">
         <!--<canvas id="myChart" width="400" height="400"></canvas>-->
         <!--<canvas id="myChart2" width="400" height="400"></canvas>-->
     </div>
@@ -126,58 +137,6 @@ $("#"+view).css("display","block");
 
 });
 
-<!--var ctx = document.getElementById("myChart").getContext('2d');-->
-<!--var myChart = new Chart(ctx, {-->
-    <!--type: 'bar',-->
-    <!--data: {-->
-        <!--labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],-->
-        <!--datasets: [{-->
-            <!--label: '# of Votes',-->
-            <!--data: [12, 19, 3, 5, 2, 3],-->
-            <!--backgroundColor: [-->
-                <!--'rgba(255, 99, 132, 0.2)',-->
-                <!--'rgba(54, 162, 235, 0.2)',-->
-                <!--'rgba(255, 206, 86, 0.2)',-->
-                <!--'rgba(75, 192, 192, 0.2)',-->
-                <!--'rgba(153, 102, 255, 0.2)',-->
-                <!--'rgba(255, 159, 64, 0.2)'-->
-            <!--],-->
-            <!--borderColor: [-->
-                <!--'rgba(255,99,132,1)',-->
-                <!--'rgba(54, 162, 235, 1)',-->
-                <!--'rgba(255, 206, 86, 1)',-->
-                <!--'rgba(75, 192, 192, 1)',-->
-                <!--'rgba(153, 102, 255, 1)',-->
-                <!--'rgba(255, 159, 64, 1)'-->
-            <!--],-->
-            <!--borderWidth: 1-->
-        <!--}]-->
-    <!--},-->
-    <!--options: {-->
-        <!--scales: {-->
-            <!--yAxes: [{-->
-                <!--ticks: {-->
-                    <!--beginAtZero:true-->
-                <!--}-->
-            <!--}]-->
-        <!--}-->
-    <!--}-->
-<!--});-->
-
-<!--var ctx1 = document.getElementById("myChart2").getContext('2d');-->
-
-
-<!--var myDoughnutChart = new Chart(ctx1, {-->
-	<!--type: 'doughnut',-->
-	<!--data: {-->
-		<!--datasets: [{data:[10,50]}],-->
-		<!--labels: ["arc","asrc"]-->
-	<!--},-->
-	<!--options: {-->
-        <!---->
-    <!--}-->
-<!--});-->
-
 var searchable_fields = [];
 var data_nodes = []
 $.ajax({
@@ -185,6 +144,7 @@ $.ajax({
     type: "GET",
     success: function(data, textStatus, jqXHR) {
         // since we are using jQuery, you don't need to parse response
+        console.log(JSON.stringify(data));
         searchable_fields = data.searchable_fields;
         data_nodes = data.shards;
         drawDataNodes(data_nodes);
@@ -192,6 +152,10 @@ $.ajax({
             $("#query-table-row").append("<th>"+data.searchable_fields[a]+"</th>");
             $("#searchable-field").append('<option value="'+data.searchable_fields[a]+'">'+data.searchable_fields[a]+'</option>');
             $("#graph-searchable-field").append('<option value="'+data.searchable_fields[a]+'">'+data.searchable_fields[a]+'</option>');
+        }
+
+        for(var a=0;a<data.dashboards.length;a++){
+            drawDashBoard(data.dashboards[a]);
         }
     }
 });
@@ -254,7 +218,6 @@ function searchToMaster(json_data, callback){
     datatype: "json",
     data: JSON.stringify(json_data),
     success: function(data, textStatus, jqXHR) {
-        <!--console.log(JSON.stringify(data));-->
         drawTable(data.result);
     }
 });
@@ -263,7 +226,6 @@ function searchToMaster(json_data, callback){
 
 fetch_unix_timestamp = function(date)
 {
-	//return parseInt(new Date().getTime().toString().substring(0, 10));
 	return date.getTime()/1000;
 }
 
@@ -280,7 +242,31 @@ var j_data = {
     time2 : "1508910492.398"
 };
 
+function drawDashBoard(data){
+
+    var timestamp = fetch_unix_timestamp(new Date());
+    var time1 = timestamp - data.timestamp_offset;
+    var time2 = timestamp;
+    data.time1 = time1;
+    data.time2 = time2;
+    delete data.timestamp_offset;
+    $.ajax({
+    url: 'http://localhost:8885/master/data/search/',
+    type: "POST",
+    data: JSON.stringify(data),
+    success: function(res, textStatus, jqXHR) {
+         drawDashboardGraph(res.results, data);
+    }
+});
+}
+
 function getGraphData(data){
+    var timestamp = fetch_unix_timestamp(new Date());
+    var time1 = timestamp - data.timestamp_offset;
+    var time2 = timestamp;
+    data.time1 = time1;
+    data.time2 = time2;
+    delete data.timestamp_offset;
 $.ajax({
     url: 'http://localhost:8885/master/data/search/',
     type: "POST",
@@ -291,12 +277,14 @@ $.ajax({
     }
 });
 }
-getGraphData(j_data);
-var chart_num = 0;
-function drawGraph(data, req_data){
-        $("#graph-preview-div").append('<canvas class="col-md-6" id="myChart'+chart_num+'"></canvas>');
-        var ctx1 = document.getElementById("myChart"+chart_num).getContext('2d');
 
+
+
+var chart_num = 0;
+var dashboard_temps = [];
+function drawGraph(data, req_data){
+        $("#graph-preview-div").append('<canvas class="col-md-4" id="myChart'+chart_num+'"></canvas>');
+        var ctx1 = document.getElementById("myChart"+chart_num).getContext('2d');
 
         var myDoughnutChart = new Chart(ctx1, {
 	    type: req_data.graph_type,
@@ -304,46 +292,7 @@ function drawGraph(data, req_data){
 		    datasets: [
 		    {
 		    label: req_data.label,
-		    backgroundColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-             borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
+		    backgroundColor: dynamicColors(Object.values(data).length),
             data: Object.values(data)
 		    }
 		    ],
@@ -351,17 +300,54 @@ function drawGraph(data, req_data){
 
 	    },
 	    options: {
+title: {text : req_data.label,display:true,position:"bottom"}
+        }
 
+});
+chart_num++;
+
+}
+
+function drawDashboardGraph(data, req_data){
+        $("#graph-div").append('<canvas class="col-md-4" id="myChart'+chart_num+'"></canvas>');
+        var ctx1 = document.getElementById("myChart"+chart_num).getContext('2d');
+
+        var myDoughnutChart = new Chart(ctx1, {
+	    type: req_data.graph_type,
+	    data: {
+		    datasets: [
+		    {
+		    backgroundColor: dynamicColors(Object.values(data).length),
+
+            data: Object.values(data)
+		    }
+		    ],
+		    labels:Object.keys(data)
+
+	    },
+	    options: {
+title: {text : req_data.label,display:true,position:"bottom"}
         }
 });
 chart_num++;
 
 }
 
+function dynamicColors(len) {
+var dynamic_colors = [];
+for(var a = 0;a<len;a++){
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    dynamic_colors.push("rgb(" + r + "," + g + "," + b + ")");
+    }
+    return dynamic_colors;
+}
 $("#draw-graph-btn").click(function(){
     var key = $("#graph-searchable-field option:selected").val();
     var type = $("#graph-type option:selected").val();
     var time_offset = $("#duration option:selected").val();
+    time_offset = time_offset * 3600 * 24;
     var time1 = timestamp - time_offset;
     var time2 = timestamp;
     var label = $("#label-value").val();
@@ -370,12 +356,36 @@ $("#draw-graph-btn").click(function(){
         type: "count",
         label: label,
         graph_type: type,
-        time1 : time1,
-        time2: time2
+        timestamp_offset: time_offset
     }
+    dashboard_temps.push(data);
+    getGraphData( JSON.parse(JSON.stringify(data)));
+});
 
-    getGraphData(data);
+$("#graph-save").click(function(){
+    var data = {
+        dashboards : dashboard_temps
+    }
+    console.log(JSON.stringify(data));
+    $.ajax({
+    url: 'http://localhost:8885/master/dashboard/',
+    type: "POST",
+    data: JSON.stringify(data),
+    success: function(res, textStatus, jqXHR) {
+    <!--console.log(res);-->
+         <!--drawGraph(res.results, data);-->
+         for(var a=0;a<dashboard_temps.length;a++){
+            drawDashBoard(dashboard_temps[a]);
+         }
+         $("#clean-preview-graph").trigger("click");
+    }
+});
 
+});
+
+$("#clean-preview-graph").click(function(){
+    dashboard_temps = [];
+    $("#graph-preview-div").empty();
 });
 
 </script>
