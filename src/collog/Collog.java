@@ -10,6 +10,7 @@ import master.MasterServer;
 import org.json.simple.JSONObject;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
@@ -118,17 +119,19 @@ public class Collog {
                     this.http_port = Integer.parseInt(properties.getProperty("http_port"));
                     break;
             }
-
-
         } else {
             // data node
             this.master_ip = properties.getProperty("master_IP");
             this.master_port = properties.getProperty("master_PORT");
+            System.out.println("abc");
 
 
         }
     }
 
+    public void updateSlaveTable(ArrayList<JSONObject> json){
+        this.slave_table = json;
+    }
 
     public void addSlave(JSONObject json){
         this.slave_table.add(json);
@@ -161,6 +164,18 @@ public class Collog {
 
     public ArrayList<JSONObject> getSlaveTable() {
         return slave_table;
+    }
+
+    public JSONObject getSlavehasShard(int shard){
+        Iterator<JSONObject> iter = this.slave_table.iterator();
+        JSONObject temp = null;
+        while(iter.hasNext()){
+            temp = iter.next();
+            if(((ArrayList<Integer>)temp.get("shards")).contains(shard)){
+                return temp;
+            }
+        }
+        return temp;
     }
 
     public static void main(String[] args){

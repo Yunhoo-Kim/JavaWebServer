@@ -34,18 +34,23 @@ public class DataNodeServer implements Runnable {
 
         try {
             web_server = HttpServer.create(addr, 0);
-
+            System.out.println(1);
 
             /**
              * Register Contexts in web server
              */
 
             for (Class<?> cls : views_list) {
+                System.out.println(2);
                 URLAnnotation a = cls.getAnnotation(URLAnnotation.class);
+                System.out.println(a.value());
+                System.out.println(3);
                 web_server.createContext("/" + a.value(), (HttpHandler) cls.newInstance());
+                System.out.println(4);
                 System.out.println(a.value());
             }
             web_server.setExecutor(Executors.newFixedThreadPool(30));
+            System.out.println(5);
             web_server.start();
             (new MasterManager()).registerToMaster();
 

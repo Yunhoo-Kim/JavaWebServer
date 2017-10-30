@@ -67,7 +67,7 @@ public class Helper {
         try {
             json = (JSONObject) parser.parse(str);
         } catch (ParseException e) {
-
+            e.printStackTrace();
         }
         return json;
     }

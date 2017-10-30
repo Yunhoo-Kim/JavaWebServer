@@ -25,7 +25,10 @@ public class DataNodeListHandler implements HttpHandler {
         String method = httpExchange.getRequestMethod();
 
         if(method.equalsIgnoreCase("GET")){
-            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
+
+            JSONObject res = new JSONObject();
+            res.put("shards", Collog.getInstance().getSlaveTable());
+            byte[] response = res.toString().getBytes();
             Helper.responseToClient(httpExchange, response);
 
         }else if(method.equalsIgnoreCase("POST")){

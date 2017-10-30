@@ -49,6 +49,9 @@ public class DataNodeRemoveHandler implements HttpHandler {
             int node_id = Integer.parseInt(json.get("node_id").toString());
             Collog.getInstance().removeSlave(node_id);
 
+            // 샤드 재분배??,  각 데이터노드 슬레이브 테이블 동기화
+
+
             /**
              * Send response to client.
              */
@@ -58,5 +61,4 @@ public class DataNodeRemoveHandler implements HttpHandler {
             Helper.optionsResponse(httpExchange);
         }
     }
-
 }
