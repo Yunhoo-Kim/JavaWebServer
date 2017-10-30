@@ -19,10 +19,12 @@ public class MasterMetaStorage {
 
     private static MasterMetaStorage instance = null;
     private ArrayList<String> searchable_fields = new ArrayList<>();
+    private ArrayList<JSONObject> dashboard_datas = new ArrayList<>();
 
     public static MasterMetaStorage getInstance() {
         if(instance==null){
             instance = new MasterMetaStorage();
+            instance.searchable_fields.add("@timestamp"); // intialize searchable fields
         }
 
         return instance;
@@ -63,6 +65,10 @@ public class MasterMetaStorage {
         }
     }
 
+    public ArrayList<JSONObject> getDashboardDatas() {
+        return dashboard_datas;
+    }
+
     public void addFields(String field){
         this.searchable_fields.add(field);
         this.saveMetaInfo();
@@ -73,6 +79,17 @@ public class MasterMetaStorage {
         this.saveMetaInfo();
     }
 
+    public void addDashBoardData(JSONObject json){
+//        this.searchable_fields.add(field);
+        this.dashboard_datas.add(json);
+        this.saveMetaInfo();
+    }
+
+    public void removeDashBoardData(JSONObject json){
+        this.dashboard_datas.remove(json);
+        this.saveMetaInfo();
+    }
+
 
     public JSONObject getMetaData(){
         /**
@@ -80,6 +97,7 @@ public class MasterMetaStorage {
          */
         JSONObject json = new JSONObject();
         json.put("searchable_fields", this.searchable_fields);
+        json.put("dashboards",this.dashboard_datas);
         json.put("shards", Collog.getInstance().getSlaveTable());
         return json;
     }
@@ -94,8 +112,11 @@ public class MasterMetaStorage {
             Object obj = parser.parse(reader);
             json = (JSONObject) obj;
 
+            if(json.containsKey("dashboards"))
+                this.dashboard_datas = (ArrayList<JSONObject>)json.getOrDefault("dashboard_datas",new ArrayList<JSONObject>());
+
             if(json.containsKey("searchable_fields"))
-                this.searchable_fields = (ArrayList<String>)json.get("searchable_fields");
+                this.searchable_fields.addAll((ArrayList<String>)json.get("searchable_fields"));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
