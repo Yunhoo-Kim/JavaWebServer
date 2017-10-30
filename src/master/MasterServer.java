@@ -12,7 +12,9 @@ import com.sun.net.httpserver.HttpServer;
 
 import collog.Collog;
 import helper.Helper;
+import master.inputmodule.FileInputModule;
 import master.inputmodule.TcpInputModule;
+import master.inputmodule.UdpInputModule;
 
 
 public class MasterServer implements Runnable {
@@ -55,8 +57,16 @@ public class MasterServer implements Runnable {
             //TODO modulizing
             switch (Collog.getInstance().getInput_module()){
                 case "tcp":
-                    TcpInputModule module = new TcpInputModule(Collog.getInstance().getTcp_port());
-                    new Thread(module).start();
+                    TcpInputModule tcpmodule = new TcpInputModule(Collog.getInstance().getTcp_port());
+                    new Thread(tcpmodule).start();
+                    break;
+                case "upd":
+                    UdpInputModule udpmodule = new UdpInputModule(Collog.getInstance());
+                    new Thread(udpmodule).start();
+                    break;
+                case "file":
+                    FileInputModule filemodule = new FileInputModule();
+                    new Thread(filemodule).start();
                     break;
                 default:
                     break;

@@ -7,12 +7,18 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import collog.Collog;
+
 /**
  * Created by semaj on 17. 10. 24.
  */
 
 public class UdpInputModule implements Runnable {
     private int port;
+
+    public UdpInputModule(Collog instance) {
+        port = instance.getUdp_port();
+    }
 
 
     @Override

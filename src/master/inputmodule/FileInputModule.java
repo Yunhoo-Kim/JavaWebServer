@@ -22,27 +22,31 @@ public class FileInputModule implements Runnable{
 
             while(true){
                 String line = bufferedReader.readLine();
-                if(line == null)
-                    break;
+                if(line == null) { // 파일 끝부분 오면 뒷내용 추가될때까지 대기하도록
+                    //아마도 지금까지 읽은 부분만 보내도록 해야할듯?
+
+                    //데이터 전송후 초기화
+                    data = "";
+                    //읽을 수 있는 상태일때까지 대기
+                    while(!bufferedReader.ready())
+                        Thread.sleep(500);
+                }
                 else
                     data += line;
 
             }
 
-            //data 전송
-
-            bufferedReader.close();
-
-            callBack.onSuccess(data);
-
         } catch (IOException e) {
             e.printStackTrace();
             callBack.onFailure();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
     }
 
     private String inputFile() {
+        System.out.print("Input file name : ");
         Scanner scan = new Scanner(System.in);
 
         String fileNameTemp = scan.nextLine();
