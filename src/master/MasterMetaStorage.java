@@ -30,7 +30,7 @@ public class MasterMetaStorage {
         return instance;
     }
 
-    private ArrayList<Integer> unallocation_shards = new ArrayList<>();
+    public ArrayList<Integer> unallocation_shards = new ArrayList<>();
 
     private MasterMetaStorage() {
         this.initUnallocationShard();
@@ -113,10 +113,17 @@ public class MasterMetaStorage {
             json = (JSONObject) obj;
 
             if(json.containsKey("dashboards"))
-                this.dashboard_datas = (ArrayList<JSONObject>)json.getOrDefault("dashboard_datas",new ArrayList<JSONObject>());
+                this.dashboard_datas = (ArrayList<JSONObject>)json.getOrDefault("dashboards",new ArrayList<JSONObject>());
 
-            if(json.containsKey("searchable_fields"))
-                this.searchable_fields.addAll((ArrayList<String>)json.get("searchable_fields"));
+            if(json.containsKey("searchable_fields")) {
+                Iterator<String> iter = ((ArrayList<String>) json.get("searchable_fields")).iterator();
+                while(iter.hasNext()){
+                    String data = iter.next();
+                    if(!this.searchable_fields.contains(data))
+                        this.searchable_fields.add(data);
+                }
+//                this.searchable_fields.addAll((ArrayList<String>) json.get("searchable_fields"));
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -24,7 +24,7 @@ public class DataNodeMetaStorage {
          */
 //        ArrayList<Integer> list = this.getMyShards();
         ArrayList<Integer> list = new ArrayList<>();
-
+//
         if(list.size()>0){
             is_new = true;
             info.put("shards", list);

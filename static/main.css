@@ -1,0 +1,18 @@
+        .shard-box {
+            text-align: center;
+    border: 1px solid;
+    padding: 20px;
+    border-radius: 5px;
+}
+.node-box {
+            text-align: center;
+    border: 1px solid;
+    padding: 5px 20px 44px 20px;
+    border-radius: 5px;
+}
+.navbar-brand {
+color: white !important;
+}
+.navbar-inverse {
+border-color: inherit;
+}

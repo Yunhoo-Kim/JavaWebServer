@@ -100,7 +100,6 @@ public class Helper {
         }
 
         br.close();
-//        isr.close();
         is.close();
         System.out.println(response.toString());
         return response.toString();
@@ -145,27 +144,10 @@ public class Helper {
     }
 
     public static void optionsResponse(HttpExchange httpExchange) throws IOException{
-//        Headers responseHeaders = httpExchange.getResponseHeaders();
-//        httpExchange.sendResponseHeaders(204,-1);
-//
-//
-//        responseHeaders.add("Access-Control-Allow-Origin","*");
-//        responseHeaders.add("Access-Control-Allow-Methods","POST, GET, PUT, OPTIONS");
-//        responseHeaders.add("Access-Control-Allow-Headers","Content-Type,Authorization");
-//        responseHeaders.add("Access-Control-Allow-Credentials","true");
-//        responseHeaders.add("Content-Type","text/plain");
-//        httpExchange.sendResponseHeaders(204,-1);
-//        responseHeaders.set("Content-Length","application/json;charset=utf-8");
-//        OutputStream responseBody = httpExchange.getResponseBody();
-//        responseBody.write(response);
-//        responseBody.close();
         httpExchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
         httpExchange.getResponseHeaders().add("Access-Control-Allow-Methods", "API, CRUNCHIFYGET, GET, POST, PUT, UPDATE, OPTIONS");
         httpExchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
         httpExchange.getResponseHeaders().add("Access-Control-Max-Age", "151200");
-//        httpExchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-//        httpExchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
         httpExchange.sendResponseHeaders(204, -1);
     }
-
 }

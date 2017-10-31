@@ -4,12 +4,18 @@ package collog;
 import WebServer.WebServer;
 import com.sun.net.httpserver.HttpServer;
 import data.DataNodeServer;
+import data.ElectionWoker;
+import heartbeat.HeartBeatManager;
+import heartbeat.HeartBeatWorker;
 import helper.Helper;
 import logging.Logging;
 import master.MasterMetaStorage;
 import master.MasterServer;
+import master.ShardsAllocator;
 import org.apache.log4j.BasicConfigurator;
 import org.json.simple.JSONObject;
+import queue.HeartBeatQueue;
+import sun.plugin2.main.server.HeartbeatThread;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -17,9 +23,7 @@ import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Properties;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Collog {
@@ -51,6 +55,13 @@ public class Collog {
     private Thread webservice_thread = null;
     public int id;
     public HttpServer server = null;
+    public HeartBeatQueue heartbeat_queue = null;
+    public Map<Integer,Long> heartbeat_map = new HashMap<>();
+    private boolean is_electioning = false;
+    private Thread election_thread;
+    public HeartBeatManager heartbeat_thread;
+    public Timer timer = null;
+    public HttpServer http_server;
     /*
     Data node List
      */
@@ -76,6 +87,12 @@ public class Collog {
                 this.data_thread = new Thread(new DataNodeServer(this.port));
                 this.data_thread.start();
             }
+
+            this.timer = new Timer();
+            long delay = 2000;
+            long period = 3000;
+            this.heartbeat_thread = new HeartBeatManager(this.is_master);
+            this.timer.scheduleAtFixedRate(this.heartbeat_thread, delay, period);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,6 +102,12 @@ public class Collog {
         if(instance == null){
             System.out.println("#############Create Collog Instance#################");
             instance = new Collog();
+            if(instance.is_master){
+
+                instance.heartbeat_queue = new HeartBeatQueue();
+                Thread heartbeat_worker = new Thread(new HeartBeatWorker());
+                heartbeat_worker.start();
+            }
         }
         return instance;
     }
@@ -143,8 +166,11 @@ public class Collog {
 
         while(iter.hasNext()){
             JSONObject temp = iter.next();
+            this.heartbeat_map.remove(id);
             if(Integer.parseInt(temp.get("node_id").toString()) == id){
                 this.slave_table.remove(temp);
+                MasterMetaStorage.getInstance().unallocation_shards.addAll((ArrayList<Integer>)temp.get("shards"));
+                (new ShardsAllocator()).allocateShards();
                 break;
             }
         }
@@ -209,8 +235,6 @@ public class Collog {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-//        return addr.getHostAddress();
-
         return "127.0.0.1";
     }
 
@@ -220,5 +244,41 @@ public class Collog {
     public int getId(){
         return this.id;
     }
+    public void startElection(){
+        if(this.is_electioning)
+            return;
+        this.is_electioning = true;
+        this.election_thread = new Thread(new ElectionWoker());
+        this.election_thread.start();
+    }
 
+    public void setElection(boolean flag){
+        this.is_electioning = flag;
+    }
+
+    public void completeElection(JSONObject data){
+        String ip = data.get("ip").toString();
+        String port = data.get("port").toString();
+        this.master_ip = ip;
+        this.master_port = port;
+        this.election_thread.interrupt();
+        this.is_electioning = false;
+    }
+
+    public void runAsMaster(){
+        this.is_master = true;
+        this.data_thread.interrupt();
+        this.http_server.stop(0);
+        this.timer.cancel();
+        this.master_thread = new Thread(new MasterServer(this.port));
+        this.master_thread.start();
+
+        this.timer = new Timer();
+        long delay = 2000;
+        long period = 3000;
+        this.heartbeat_thread = new HeartBeatManager(this.is_master);
+        this.timer.scheduleAtFixedRate(this.heartbeat_thread, delay, period);
+
+//        this.heartbeat_thread.
+    }
 }

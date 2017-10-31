@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.concurrent.Executors;
 
 import annotations.URLAnnotation;
+import collog.Collog;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import helper.Helper;
@@ -49,6 +50,7 @@ public class MasterServer implements Runnable {
             web_server.setExecutor(Executors.newFixedThreadPool(30));
             web_server.start();
 
+            Collog.getInstance().http_server = web_server;
 
 
         } catch (IOException e) {

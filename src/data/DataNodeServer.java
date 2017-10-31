@@ -1,6 +1,7 @@
 package data;
 
 import annotations.URLAnnotation;
+import collog.Collog;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import helper.Helper;
@@ -31,7 +32,6 @@ public class DataNodeServer implements Runnable {
         InetSocketAddress addr = new InetSocketAddress(port);
         HttpServer web_server = null;
 
-
         try {
             web_server = HttpServer.create(addr, 0);
 
@@ -48,6 +48,7 @@ public class DataNodeServer implements Runnable {
             web_server.setExecutor(Executors.newFixedThreadPool(30));
             web_server.start();
             (new MasterManager()).registerToMaster();
+            Collog.getInstance().http_server = web_server;
 
 
         } catch (IOException e) {
