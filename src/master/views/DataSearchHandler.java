@@ -58,7 +58,6 @@ public class DataSearchHandler implements HttpHandler {
 //            status == 200 && time == 500
 
             String type = json.get("type").toString();
-            String key = json.get("key").toString();
             ArrayList<JSONObject> res_arr = (new DataNodeManager()).sendSearchRequest(json);
             JSONObject temp = new JSONObject();
             temp.put("result", res_arr);
@@ -66,6 +65,8 @@ public class DataSearchHandler implements HttpHandler {
             Logging.logger.info(temp.toString());
 
             if(type.equalsIgnoreCase("count")){
+
+                String key = json.get("key").toString();
                 Iterator<JSONObject> iter1 = res_arr.iterator();
                 Map<String, Integer> res_map = new HashMap<>();
 
@@ -96,6 +97,7 @@ public class DataSearchHandler implements HttpHandler {
 
             }else if(type.equalsIgnoreCase("max")){
 
+                String key = json.get("key").toString();
                 Iterator<JSONObject> iter = res_arr.iterator();
 //                if (!iter.hasNext()){
 ////                    return new_result;
@@ -127,6 +129,7 @@ public class DataSearchHandler implements HttpHandler {
             }
             else if(type.equalsIgnoreCase("min")){
 
+                String key = json.get("key").toString();
                 Iterator<JSONObject> iter = res_arr.iterator();
 
 

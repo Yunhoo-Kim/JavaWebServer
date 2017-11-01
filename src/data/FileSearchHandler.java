@@ -2,6 +2,7 @@ package data;
 
 import helper.Helper;
 import logging.Logging;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.File;
@@ -15,6 +16,7 @@ import java.util.Iterator;
 import java.util.stream.Stream;
 
 public class FileSearchHandler {
+
     public ArrayList<JSONObject> search(JSONObject json,int shard){
         /**
          * This method for Searching file follow input json request like below
@@ -25,8 +27,8 @@ public class FileSearchHandler {
          *
          * Find the json in data directory and Return the list we found in the file!
          */
-        String key = json.get("key").toString();
-        String value = json.get("value").toString();
+//        String key = json.get("key").toString();
+//        String value = json.get("value").toString();
 
         ArrayList<JSONObject> founded = new ArrayList<>();
         String file_name = String.format("data/%d/data.txt", shard);
@@ -34,17 +36,22 @@ public class FileSearchHandler {
         if(!file.exists()){
             return founded;
         }
+        JSONArray must = (JSONArray) json.getOrDefault("must", new JSONArray());
+        JSONArray should = (JSONArray) json.getOrDefault("should", new JSONArray());
 
         try (Stream<String> lines = Files.lines(Paths.get(file_name))){
 
             for(String line : (Iterable<String>)lines::iterator){
 
                 JSONObject _j = Helper.encodeToJson(line);
-                if(_j.containsKey(key)){
-                    if(_j.get(key).equals(value)){
-                        founded.add(_j);
-                    }
+                if(andForSearch(_j, must) || orForSearch(_j, should)){
+                    founded.add(_j);
                 }
+//                if(_j.containsKey(key)){
+//                    if(_j.get(key).equals(value)){
+//                        founded.add(_j);
+//                    }
+//                }
             }
         } catch (FileNotFoundException e) {
             return founded;
@@ -157,6 +164,46 @@ public class FileSearchHandler {
             return founded;
         }
         return founded;
+    }
+
+    public boolean andForSearch(JSONObject _j, JSONArray conditions){
+        JSONArray new_aa = new JSONArray();
+
+        Iterator<JSONObject> iter = conditions.iterator();
+        while(iter.hasNext()){
+            JSONObject temp = iter.next();
+            String key = temp.get("key").toString();
+            String value = temp.get("value").toString();
+
+            if(!_j.containsKey(key)){
+                return false;
+            }else {
+                if(!_j.get(key).equals(value)){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public boolean orForSearch(JSONObject _j, JSONArray conditions){
+        JSONArray new_aa = new JSONArray();
+
+        Iterator<JSONObject> iter = conditions.iterator();
+        while(iter.hasNext()){
+            JSONObject temp = iter.next();
+            String key = temp.get("key").toString();
+            String value = temp.get("value").toString();
+
+            if(_j.containsKey(key)){
+                if(_j.get(key).equals(value)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 }
