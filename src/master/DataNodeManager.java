@@ -27,11 +27,19 @@ public class DataNodeManager {
         wcli.sendPostRequestWithJson(url,body.toString());
     }
 
+    public void sendReplicaAllocationRequest(int node_id, JSONObject body) throws Exception{
+        JSONObject json = Collog.getInstance().getSlave(node_id);
+        WebClient wcli = new WebClient();
+        String url = String.format("http://%s:%s/data/allocation/replica/", json.get("ip").toString(), json.get("port").toString());
+        System.out.println(url);
+        wcli.sendPostRequestWithJson(url,body.toString());
+    }
+
     public void sendDataToDataNodes(JSONObject json){
         int shards = Collog.getInstance().getShards();
         int shard = Math.abs(json.hashCode()) % shards;
 
-        System.out.println("Shard number is " + shard);
+//        System.out.println("Shard number is " + shard);
         json.put("shard", shard);
 
         Iterator<JSONObject> iter = Collog.getInstance().getSlaveTable().iterator();
@@ -40,14 +48,27 @@ public class DataNodeManager {
             if(((ArrayList<Integer>)node.get("shards")).contains(shard)){
                 this.sendDataToDataNode(node, json);
             }
+            if(((ArrayList<Integer>)node.get("replica_shards")).contains(shard)){
+                this.sendReplicaDataToDataNode(node, json);
+            }
+
         }
     }
 
     public void sendDataToDataNode(JSONObject node, JSONObject data){
-        System.out.println("Send datatatatatat");
         WebClient wcli = new WebClient();
         String url = String.format("http://%s:%s/data/input/", node.get("ip").toString(), node.get("port").toString());
-        System.out.println(url);
+//        System.out.println(url);
+        try {
+            wcli.sendPostRequestWithJson(url,data.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void sendReplicaDataToDataNode(JSONObject node, JSONObject data){
+        WebClient wcli = new WebClient();
+        String url = String.format("http://%s:%s/data/input/replica/", node.get("ip").toString(), node.get("port").toString());
+//        System.out.println(url);
         try {
             wcli.sendPostRequestWithJson(url,data.toString());
         } catch (Exception e) {

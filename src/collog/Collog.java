@@ -13,6 +13,7 @@ import master.MasterMetaStorage;
 import master.MasterServer;
 import master.ShardsAllocator;
 import org.apache.log4j.BasicConfigurator;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import queue.HeartBeatQueue;
 import sun.plugin2.main.server.HeartbeatThread;
@@ -103,7 +104,6 @@ public class Collog {
             System.out.println("#############Create Collog Instance#################");
             instance = new Collog();
             if(instance.is_master){
-
                 instance.heartbeat_queue = new HeartBeatQueue();
                 Thread heartbeat_worker = new Thread(new HeartBeatWorker());
                 heartbeat_worker.start();
@@ -169,7 +169,11 @@ public class Collog {
             this.heartbeat_map.remove(id);
             if(Integer.parseInt(temp.get("node_id").toString()) == id){
                 this.slave_table.remove(temp);
-                MasterMetaStorage.getInstance().unallocation_shards.addAll((ArrayList<Integer>)temp.get("shards"));
+                Iterator<Long> iter_2 = ((ArrayList<Long>)temp.get("shards")).iterator();
+                while(iter_2.hasNext()){
+                    MasterMetaStorage.getInstance().unallocation_shards.add(Integer.valueOf(iter_2.next().intValue()));
+
+                }
                 (new ShardsAllocator()).allocateShards();
                 break;
             }
@@ -194,7 +198,7 @@ public class Collog {
         JSONObject temp = null;
         while(iter.hasNext()){
             temp = iter.next();
-            if(((ArrayList<Integer>)(temp.get("shards"))).contains(shard)){
+            if(((ArrayList<Integer>)(temp.get("shards"))).contains(shard) || ((ArrayList<Integer>)(temp.get("replica_shards"))).contains(shard)){
                 return temp;
             }
         }
@@ -244,10 +248,12 @@ public class Collog {
     public int getId(){
         return this.id;
     }
+
     public void startElection(){
         if(this.is_electioning)
             return;
         this.is_electioning = true;
+        this.timer.cancel();
         this.election_thread = new Thread(new ElectionWoker());
         this.election_thread.start();
     }
@@ -262,23 +268,34 @@ public class Collog {
         this.master_ip = ip;
         this.master_port = port;
         this.election_thread.interrupt();
+        this.timer = new Timer();
+        long delay = 2000;
+        long period = 3000;
+        this.heartbeat_thread = new HeartBeatManager(this.is_master);
+        this.timer.scheduleAtFixedRate(this.heartbeat_thread, delay, period);
         this.is_electioning = false;
     }
 
     public void runAsMaster(){
+        Logging.logger.info("node " + this.id + " is new master");
         this.is_master = true;
         this.data_thread.interrupt();
         this.http_server.stop(0);
         this.timer.cancel();
         this.master_thread = new Thread(new MasterServer(this.port));
         this.master_thread.start();
-
+        this.removeSlave(this.id);
         this.timer = new Timer();
         long delay = 2000;
         long period = 3000;
         this.heartbeat_thread = new HeartBeatManager(this.is_master);
         this.timer.scheduleAtFixedRate(this.heartbeat_thread, delay, period);
+        this.is_electioning = false;
 
 //        this.heartbeat_thread.
+    }
+
+    public boolean isElectioning(){
+        return this.is_electioning;
     }
 }

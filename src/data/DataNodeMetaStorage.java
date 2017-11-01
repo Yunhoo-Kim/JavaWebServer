@@ -28,8 +28,10 @@ public class DataNodeMetaStorage {
         if(list.size()>0){
             is_new = true;
             info.put("shards", list);
+            info.put("replica_shards",list);
         }else{
             info.put("shards",list);
+            info.put("replica_shards",list);
         }
         info.put("new", is_new);
 

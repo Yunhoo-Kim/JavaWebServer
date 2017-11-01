@@ -2,29 +2,27 @@ package data.views;
 
 import annotations.ContentType;
 import annotations.URLAnnotation;
-import annotations.URLMethod;
 import collog.Collog;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import data.FileWriteHandler;
 import helper.Helper;
-import logging.Logging;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
 
-@URLAnnotation("data/election/complete/")
-public class ElectedNewMasterHandler implements HttpHandler {
-
+@URLAnnotation("data/input/replica/")
+public class DataReplicaInputHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String method = httpExchange.getRequestMethod();
 
-        if (method.equalsIgnoreCase("GET")) {
+        if(method.equalsIgnoreCase("GET")){
             byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
             Helper.responseToClient(httpExchange, response);
 
-        } else if (method.equalsIgnoreCase("POST")) {
+        }else if(method.equalsIgnoreCase("POST")){
             /**
              * Read request body from client
              */
@@ -34,23 +32,31 @@ public class ElectedNewMasterHandler implements HttpHandler {
             /**
              * data node register body structure
              *{
-             *      "node_id" : "node_indentification",
-             *      "ip" : "node_ip",
-             *      "port" : "port"
+             *      "shard" : "shard number",
+             *
              *}
              *
              */
+
+            /**
+             * ToDo: Json format check
+             */
+
+//            Collog.getInstance().addSlave(json);
+
             /**
              * Send response to client.
              */
-//            Logging.logger.info("###############receive election comoplete message###################");
-
+            int shard = Integer.parseInt(json.get("shard").toString());
+            json.remove("shard");
+            if(!json.containsKey("@timestamp")){
+                json.put("@timestamp", ((double)System.currentTimeMillis())/1000);
+            }
             byte[] response = Helper.decodeToStr(json).getBytes();
             Helper.responseToClient(httpExchange, response);
-//
-            Collog.getInstance().completeElection(json);
+            (new FileWriteHandler()).replicaWrite(json, shard);
 
-        } else if (method.equalsIgnoreCase("OPTIONS")) {
+        }else if(method.equalsIgnoreCase("OPTIONS")){
             Helper.optionsResponse(httpExchange);
         }
     }

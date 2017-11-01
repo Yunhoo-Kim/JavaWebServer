@@ -1,6 +1,7 @@
 package master;
 
 import collog.Collog;
+import logging.Logging;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -31,6 +32,7 @@ public class MasterMetaStorage {
     }
 
     public ArrayList<Integer> unallocation_shards = new ArrayList<>();
+    public ArrayList<Integer> unallocation_replica_shards = new ArrayList<>();
 
     private MasterMetaStorage() {
         this.initUnallocationShard();
@@ -40,9 +42,13 @@ public class MasterMetaStorage {
         /*
         shards information initializing
          */
+        if(Collog.getInstance().isElectioning())
+            return;
+        Logging.logger.info("initialize");
         int num_of_shards = Collog.getInstance().getShards();
         for(int i=0;i<num_of_shards;i++){
             unallocation_shards.add(i);
+            unallocation_replica_shards.add(i);
         }
         this.readMetaFile();
 
@@ -53,6 +59,14 @@ public class MasterMetaStorage {
 
     public ArrayList<Integer> getUnallocationShards() {
         return unallocation_shards;
+    }
+
+    public void removeUnallocationReplicaShard(Integer a){
+        unallocation_replica_shards.remove(a);
+    }
+
+    public ArrayList<Integer> getUnallocationReplicaShards() {
+        return unallocation_replica_shards;
     }
 
     public void saveMetaInfo() {
