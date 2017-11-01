@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import webclient.WebClient;
 
 import javax.xml.crypto.Data;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -17,6 +18,20 @@ public class DataNodeManager {
      * It can send data to multiple data nodes or specific one
      *
      */
+
+    public void syncSlaveTableInfoWithMaster() throws Exception {
+        ArrayList<JSONObject> data_nodes = Collog.getInstance().getSlaveTable();
+        Iterator<JSONObject> iter = data_nodes.iterator();
+
+        while(iter.hasNext()){
+            JSONObject node = iter.next();
+            String url = String.format("http://%s:%s/data/update/slaveTable/",node.get("ip").toString(),node.get("port").toString());
+
+            WebClient wcli = new WebClient();
+            wcli.sendGetRequest(url);
+        }
+    }
+
 
     public void sendAllocationRequest(int node_id, JSONObject body) throws Exception{
 //        JSONObject json = Collog.getInstance().getSlave(node_id);
@@ -28,7 +43,15 @@ public class DataNodeManager {
         String url = String.format("http://%s:%s/data/allocation/", json.get("ip").toString(), json.get("port").toString());
         System.out.println(url);
         wcli.sendPostRequestWithJson(url,body.toString());
+    }
 
+    public void removeDataNode(int node_id) throws Exception {
+        Collog collog = Collog.getInstance();
+        JSONObject json = Collog.getInstance().getSlave(node_id);
+        WebClient wcli = new WebClient();
+        String url = String.format("http://%s:%s/master/node/remove/", collog.getMasterIp(),collog.getMasterPort());
+        System.out.println(url);
+        wcli.sendPostRequestWithJson(url,json.toString());
     }
 
 
@@ -107,16 +130,132 @@ public class DataNodeManager {
                 e.printStackTrace();
             }
             res.addAll(s[i].getResponse());
-
         }
 
         JSONArray responses = new JSONArray();
         responses.addAll(res);
 
+        String type = json.get("type").toString();
+        String key = json.get("key").toString();
+        String value = json.get("value").toString();
+        switch (type){
+            case "search":
+                break;
+            case "count":
+                responses = getCountForSearchResult(responses, key);
+                break;
+            case "max":
+                responses = getMaxForSearchResult(responses, value);
+                break;
+            case "min":
+                responses = getMinForSearchResult(responses, value);
+                break;
+            default:
+                break;
+        }
+
         return responses;
+/*
+*
+* {
+  "type": "search",
+  "key": "key",
+  "value": "value"
+}
+
+{
+"type" : "count",
+"key" : "어떤 키에대해 카운트할지",
+"time1" : "time1",
+"time2" : "time2"
+}
+
+{
+"type" : "max",
+"key" : "어떤 키에대해 Max할지",
+"time1" : "time1",
+"time2" : "time2"
+}
 
 
+{
+"type" : "min",
+"key" : "어떤 키에대해 Min할지",
+"time1" : "time1",
+"time2" : "time2"
+}
+* */
     }
+
+    public JSONArray getCountForSearchResult(JSONArray results, String key){
+        JSONArray new_result = new JSONArray();
+
+        JSONObject json = new JSONObject();
+        json.put(key, results.size());
+
+        new_result.add(json);
+
+        return new_result;
+    }
+
+    public JSONArray getMaxForSearchResult(JSONArray results, String value){
+        JSONArray new_result = new JSONArray();
+        JSONObject max_value = new JSONObject();
+
+        Iterator<JSONObject> iter = results.iterator();
+        if (!iter.hasNext()){
+            return new_result;
+        }
+
+        max_value = (JSONObject) results.get(0);
+        iter.next();
+
+        while(iter.hasNext()){
+            JSONObject temp = iter.next();
+            if (((Long) max_value.get(value)) < ((Long) temp.get(value))){
+                max_value = temp;
+            }
+
+            // 캐스팅 실패 시 패스
+        }
+
+        new_result.add(max_value);
+
+        return new_result;
+    }
+
+//    public Long convertToLong(Object o){
+    //    Long.valueOf()?
+//        String str = String.valueOf(o);
+//        Long value = Long.parseLong(str);
+//        return value;
+//    }
+
+    public JSONArray getMinForSearchResult(JSONArray results, String value){
+        JSONArray new_result = new JSONArray();
+        JSONObject min_value = new JSONObject();
+
+        Iterator<JSONObject> iter = results.iterator();
+        if (!iter.hasNext()){
+            return new_result;
+        }
+
+        min_value = (JSONObject) results.get(0);
+        iter.next();
+
+        while(iter.hasNext()){
+            JSONObject temp = iter.next();
+            if (((Long) min_value.get(value)) > ((Long) temp.get(value))){
+                min_value = temp;
+            }
+        }
+
+        new_result.add(min_value);
+
+        return new_result;
+    }
+
+
 
     public class SearchThread implements Runnable{
         private volatile ArrayList<JSONObject> response;
@@ -139,7 +278,4 @@ public class DataNodeManager {
             return response;
         }
     }
-
-
-
 }
