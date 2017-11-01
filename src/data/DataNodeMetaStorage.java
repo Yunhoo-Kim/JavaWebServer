@@ -73,6 +73,7 @@ public class DataNodeMetaStorage {
 
     public JSONObject getMetaInfo(){
         JSONObject json = null;
+//        (new MasterManager()).syncShardsInfoWithMaster();
         json = Collog.getInstance().getSlave(Collog.getInstance().id);
         return json;
     }

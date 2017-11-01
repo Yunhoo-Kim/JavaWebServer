@@ -2,6 +2,7 @@ package helper;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
+import logging.Logging;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -101,7 +102,8 @@ public class Helper {
 
         br.close();
         is.close();
-        System.out.println(response.toString());
+//        Logging.logger.info(response.toString());
+//        System.out.println(response.toString());
         return response.toString();
     }
     public static void responseWithErrorCodeToClient(HttpExchange httpExchange, int status_code) throws IOException{

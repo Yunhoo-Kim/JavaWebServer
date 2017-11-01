@@ -1,18 +1,37 @@
-        .shard-box {
-            text-align: center;
-    border: 1px solid;
+.shard-box {
+    background-color: #00aaff;
+    color: white;
+    text-align: center;
+    border: 1px solid #00aaff;
     padding: 20px;
     border-radius: 5px;
+    margin: 5px;
+}
+
+.replica-shard-box {
+    text-align: center;
+    border: 1px solid #757575;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 5px;
+    background-color: #757575;
+    color: white;
+
 }
 .node-box {
-            text-align: center;
+    margin: 5px;
+    text-align: center;
     border: 1px solid;
     padding: 5px 20px 44px 20px;
     border-radius: 5px;
+    min-height: 250px;
 }
 .navbar-brand {
 color: white !important;
 }
 .navbar-inverse {
 border-color: inherit;
+}
+.bg-primary{
+    background-color: #00aaff !important;
 }

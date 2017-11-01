@@ -3,6 +3,7 @@ package api.views;
 import annotations.ContentType;
 import annotations.URLAnnotation;
 import annotations.URLMethod;
+import collog.Collog;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import helper.Helper;
@@ -23,7 +24,11 @@ public class MetaView implements HttpHandler {
 		String method = httpExchange.getRequestMethod();
 
 		if(method.equalsIgnoreCase("GET")){
-			byte[] response = this.getResponse();
+//			byte[] response = this.getResponse();
+			JSONObject data = new JSONObject();
+			data.put("master_ip",Collog.getInstance().getMyIP());
+			data.put("master_port",Collog.getInstance().getPort());
+			byte[] response = data.toString().getBytes();
 			Helper.responseToClient(httpExchange, response);
 
 		}else if(method.equalsIgnoreCase("POST")){

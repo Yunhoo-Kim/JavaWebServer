@@ -13,11 +13,24 @@ $(this).addClass("active");
 $("#"+view).css("display","block");
 
 });
+var master_address = "";
+$.ajax({
+    url: '/_meta/',
+    type: "GET",
+    success: function(data, textStatus, jqXHR) {
+    console.log(data);
+        // since we are using jQuery, you don't need to parse response
+        master_address = data.master_ip + ":" + data.master_port;
+        console.log(master_address);
+        getMeta();
+    }
+});
 
 var searchable_fields = [];
 var data_nodes = []
+function getMeta(){
 $.ajax({
-    url: 'http://localhost:8885/master/meta/',
+    url: 'http://'+master_address+'/master/meta/',
     type: "GET",
     success: function(data, textStatus, jqXHR) {
         // since we are using jQuery, you don't need to parse response
@@ -36,7 +49,7 @@ $.ajax({
         }
     }
 });
-
+}
 function drawDataNodes(data){
     $("#nodes-view").empty();
     for(var a=0;a<data.length;a++){
@@ -45,15 +58,21 @@ function drawDataNodes(data){
 }
 
 function drawDataNode(data){
-    var str = '<div class="col-xs-3 node-box">'+
+    var str = '<div class="col-xs-2 node-box">'+
         '<h3>'+
         data.node_id+
         '</h3>';
     for(var a=0;a<data.shards.length;a++){
-        str += '<div class="shard-box col-xs-3">'+
-        data.shards[a] +
-        '</div>'
-    }
+            str += '<div class="shard-box col-xs-3">'+
+            data.shards[a] +
+            '</div>'
+        }
+
+        for(var a=0;a<data.replica_shards.length;a++){
+                str += '<div class="replica-shard-box col-xs-3">'+
+                data.replica_shards[a] +
+                '</div>'
+            }
 
     str += '</div>';
 
@@ -90,12 +109,15 @@ $("#search-btn").click(function(){
 
 function searchToMaster(json_data, callback){
     $.ajax({
-    url: 'http://localhost:8885/master/data/search/',
+    url: 'http://'+master_address+'/master/data/search/',
     type: "POST",
     datatype: "json",
     data: JSON.stringify(json_data),
     success: function(data, textStatus, jqXHR) {
         drawTable(data.result);
+        console.log(data.result);
+    },error(res,xhr,error){
+    console.log("error")
     }
 });
 }
@@ -108,7 +130,7 @@ fetch_unix_timestamp = function(date)
 
 timestamp = fetch_unix_timestamp(new Date());
 
-console.log(timestamp);
+//console.log(timestamp);
 
 var j_data = {
     key : "status",
@@ -128,7 +150,7 @@ function drawDashBoard(data){
     data.time2 = time2;
     delete data.timestamp_offset;
     $.ajax({
-    url: 'http://localhost:8885/master/data/search/',
+    url: 'http://'+master_address+'/master/data/search/',
     type: "POST",
     data: JSON.stringify(data),
     success: function(res, textStatus, jqXHR) {
@@ -145,7 +167,7 @@ function getGraphData(data){
     data.time2 = time2;
     delete data.timestamp_offset;
 $.ajax({
-    url: 'http://localhost:8885/master/data/search/',
+    url: 'http://'+master_address+'/master/data/search/',
     type: "POST",
     data: JSON.stringify(data),
     success: function(res, textStatus, jqXHR) {
@@ -160,8 +182,10 @@ $.ajax({
 var chart_num = 0;
 var dashboard_temps = [];
 function drawGraph(data, req_data){
-        $("#graph-preview-div").append('<canvas class="col-md-4" id="myChart'+chart_num+'"></canvas>');
-        var ctx1 = document.getElementById("myChart"+chart_num).getContext('2d');
+        var req_id = req_data.id.toString().replace(".","_");
+
+        $("#graph-preview-div").append('<canvas class="col-md-4" id="myChart'+req_id+'"></canvas>');
+        var ctx1 = document.getElementById("myChart"+req_id).getContext('2d');
 
         var myDoughnutChart = new Chart(ctx1, {
 	    type: req_data.graph_type,
@@ -180,14 +204,18 @@ function drawGraph(data, req_data){
 title: {text : req_data.label,display:true,position:"bottom"}
         }
 
+
 });
+        $("#myChart"+req_id).prop("data",req_data);
+
 chart_num++;
 
 }
 
 function drawDashboardGraph(data, req_data){
-        $("#graph-div").append('<canvas class="col-md-4" id="myChart'+chart_num+'"></canvas>');
-        var ctx1 = document.getElementById("myChart"+chart_num).getContext('2d');
+        var req_id = req_data.id.toString().replace(".","_");
+        $("#graph-div").append('<canvas class="col-md-4" id="myChart'+req_id+'"></canvas>');
+        var ctx1 = document.getElementById("myChart"+req_id).getContext('2d');
 
         var myDoughnutChart = new Chart(ctx1, {
 	    type: req_data.graph_type,
@@ -206,6 +234,8 @@ function drawDashboardGraph(data, req_data){
 title: {text : req_data.label,display:true,position:"bottom"}
         }
 });
+        $("#myChart"+req_id).prop("data",req_data);
+
 chart_num++;
 
 }
@@ -229,6 +259,7 @@ $("#draw-graph-btn").click(function(){
     var time2 = timestamp;
     var label = $("#label-value").val();
     var data = {
+        id : fetch_unix_timestamp(new Date()),
         key: key,
         type: "count",
         label: label,
@@ -245,7 +276,7 @@ $("#graph-save").click(function(){
     }
     console.log(JSON.stringify(data));
     $.ajax({
-    url: 'http://localhost:8885/master/dashboard/',
+    url: 'http://'+master_address+'/master/dashboard/',
     type: "POST",
     data: JSON.stringify(data),
     success: function(res, textStatus, jqXHR) {

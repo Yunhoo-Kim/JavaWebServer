@@ -3,6 +3,7 @@ package master;
 import collog.Collog;
 import com.sun.net.httpserver.Headers;
 import helper.Helper;
+import logging.Logging;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import webclient.WebClient;
@@ -23,7 +24,7 @@ public class DataNodeManager {
         JSONObject json = Collog.getInstance().getSlave(node_id);
         WebClient wcli = new WebClient();
         String url = String.format("http://%s:%s/data/allocation/", json.get("ip").toString(), json.get("port").toString());
-        System.out.println(url);
+//        System.out.println(url);
         wcli.sendPostRequestWithJson(url,body.toString());
     }
 
@@ -31,7 +32,7 @@ public class DataNodeManager {
         JSONObject json = Collog.getInstance().getSlave(node_id);
         WebClient wcli = new WebClient();
         String url = String.format("http://%s:%s/data/allocation/replica/", json.get("ip").toString(), json.get("port").toString());
-        System.out.println(url);
+//        System.out.println(url);
         wcli.sendPostRequestWithJson(url,body.toString());
     }
 
@@ -77,12 +78,13 @@ public class DataNodeManager {
     }
 
     public ArrayList<JSONObject> sendSearchToDataNode(JSONObject node, JSONObject data){
-        System.out.println("Send datatatatatat");
         WebClient wcli = new WebClient();
         String url = String.format("http://%s:%s/data/search/", node.get("ip").toString(), node.get("port").toString());
         System.out.println(url);
         try {
             JSONObject response = Helper.encodeToJson(wcli.sendPostRequestWithJson(url,data.toString()));
+//            Logging.logger.info("responsed");
+//            Logging.logger.info(response.get("results").toString());
             return (ArrayList<JSONObject>)response.get("results");
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,19 +107,22 @@ public class DataNodeManager {
             s[i] = new SearchThread(manager, node, json);
             a[i] = new Thread(s[i]);
             a[i].start();
+            i++;
         }
 
 
         for(int j=0;j<a.length;j++){
             try {
-                a[i].join();
+                a[j].join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            res.addAll(s[i].getResponse());
+            JSONObject temp = new JSONObject();
+            temp.put("result",s[j].getResponse());
+            Logging.logger.info("data " + temp.toString());
+            res.addAll(s[j].getResponse());
 
         }
-
         ArrayList<JSONObject> responses = new ArrayList<>();
         responses.addAll(res);
 
@@ -127,7 +132,7 @@ public class DataNodeManager {
     }
 
     public class SearchThread implements Runnable{
-        private volatile ArrayList<JSONObject> response;
+        private ArrayList<JSONObject> response;
         private DataNodeManager manager;
         private JSONObject node;
         private JSONObject json;
@@ -140,7 +145,7 @@ public class DataNodeManager {
         @Override
         public void run() {
 
-            response = manager.sendSearchToDataNode(node,json);
+            this.response = manager.sendSearchToDataNode(node, json);
         }
 
         public ArrayList<JSONObject> getResponse() {
