@@ -5,8 +5,12 @@ import annotations.URLAnnotation;
 import collog.Collog;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import data.MasterManager;
 import helper.Helper;
 
+import master.DataNodeManager;
+import master.MasterMetaStorage;
+import master.ShardsAllocator;
 import org.json.simple.JSONObject;
 import java.io.*;
 
@@ -35,6 +39,12 @@ public class DataNodeRemoveHandler implements HttpHandler {
             JSONObject json = Helper.encodeToJson(request_body);
 
             /**
+             * Send response to client.
+             */
+            byte[] response = json.toString().getBytes();
+            Helper.responseToClient(httpExchange, response);
+
+            /**
              * data node register body structure
              *{
              *      "node_id" : "node_indentification",
@@ -44,19 +54,28 @@ public class DataNodeRemoveHandler implements HttpHandler {
 
             /**
              * ToDo: Json format check
+             *
+             *
+             * 샤드 재분배??,  각 데이터노드 슬레이브 테이블 동기화
+             * unassigned로 다시 배정하고 할당 프로세스 반복
              */
 
             int node_id = Integer.parseInt(json.get("node_id").toString());
             Collog.getInstance().removeSlave(node_id);
 
-            // 샤드 재분배??,  각 데이터노드 슬레이브 테이블 동기화
+            (new MasterMetaStorage()).updateUnallocationShard();
+            // 각 데이터 노드들 싱크 맞춰줘야 하는데
+            try {
+                (new DataNodeManager()).syncSlaveTableInfoWithMaster();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            (new ShardsAllocator()).allocateShards();
 
 
-            /**
-             * Send response to client.
-             */
-            byte[] response = json.toString().getBytes();
-            Helper.responseToClient(httpExchange, response);
+
+
         }else if(method.equalsIgnoreCase("OPTIONS")){
             Helper.optionsResponse(httpExchange);
         }

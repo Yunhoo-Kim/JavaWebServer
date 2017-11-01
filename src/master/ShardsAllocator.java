@@ -27,6 +27,7 @@ public class ShardsAllocator {
     }
 
     private void allocateUnassignedShards(){
+        System.out.println("allocateUnassignedShards");
         /**
          * Method for assign unassigned shards to Data Node
          */
@@ -62,6 +63,7 @@ public class ShardsAllocator {
     }
 
     private void moveShards(){
+        System.out.println("moveShards");
         /**
          *
          */
@@ -135,6 +137,7 @@ public class ShardsAllocator {
     }
 
     private void balance(){
+        System.out.println("balance");
         /**
          * Method for balancing among shards
          */

@@ -16,7 +16,22 @@ public class SearchThreadDataNode implements Runnable {
     }
 
     public void run(){
-        response = (new FileSearchHandler()).search(json,shard);
+        switch (json.get("type").toString()){
+            case "search":
+                response = (new FileSearchHandler()).search(json,shard);
+                break;
+            case "count":
+                response = (new FileSearchHandler()).countSearch(json,shard);
+                break;
+            case "max":
+                response = (new FileSearchHandler()).maxSearch(json,shard);
+                break;
+            case "min":
+                response = (new FileSearchHandler()).minSearch(json,shard);
+                break;
+            default:
+                break;
+        }
     }
 
     public ArrayList<JSONObject> getResponse(){

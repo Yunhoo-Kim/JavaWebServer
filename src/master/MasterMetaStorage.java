@@ -30,7 +30,7 @@ public class MasterMetaStorage {
 
     private ArrayList<Integer> unallocation_shards = new ArrayList<>();
 
-    private MasterMetaStorage() {
+    public MasterMetaStorage() {
         this.initUnallocationShard();
     }
 
@@ -51,6 +51,29 @@ public class MasterMetaStorage {
 
     public ArrayList<Integer> getUnallocationShards() {
         return unallocation_shards;
+    }
+
+    public void updateUnallocationShard(){
+        ArrayList<JSONObject> data_nodes = Collog.getInstance().getSlaveTable();
+        Iterator<JSONObject> iter = data_nodes.iterator();
+
+        ArrayList<Integer> new_unallocation_shards = (ArrayList<Integer>) this.unallocation_shards.clone();
+
+        while(iter.hasNext()){
+            JSONObject temp = iter.next();
+            ArrayList<Integer> shards = (ArrayList<Integer>)temp.get("shards");
+            for (int i=0; i<shards.size(); i++){
+
+                if (new_unallocation_shards.contains(shards.get(i))){
+                    new_unallocation_shards.remove(shards.get(i));
+                }
+            }
+            if (new_unallocation_shards.size() == 0) {
+                break;
+            }
+        }
+
+        this.unallocation_shards = new_unallocation_shards;
     }
 
     public void saveMetaInfo() {

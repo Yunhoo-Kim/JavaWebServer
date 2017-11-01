@@ -25,6 +25,7 @@ public class WebClient {
         HttpURLConnection con = (HttpURLConnection)_url.openConnection();
 
         con.setRequestMethod("POST");
+//        con.setConnectTimeout(5000);
         con.setReadTimeout(5000);
         con.setRequestProperty("User-Agent", "CollogClient");
         con.setRequestProperty("Content-Type","application/json");

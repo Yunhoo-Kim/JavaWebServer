@@ -2,6 +2,7 @@ package data;
 
 import com.sun.deploy.util.StringUtils;
 import helper.Helper;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.FileNotFoundException;
@@ -15,6 +16,33 @@ import java.util.Iterator;
 import java.util.stream.Stream;
 
 public class FileSearchHandler {
+
+//    public boolean aa(JSONObject _j, JSONArray conditions){
+//        JSONArray new_aa = new JSONArray();
+//
+//        Iterator<JSONObject> iter = conditions.iterator();
+//        while(iter.hasNext()){
+//            JSONObject temp = iter.next();
+//
+//            if(_j.containsKey(key)){
+//                if(_j.get(key).equals(value)){
+//                    founded.add(_j);
+//                }
+//            }
+//        }
+//        for (int i=0; i < conditions.size();i++){
+//            String key = conditions
+//            if(_j.containsKey(key)){
+//                if(_j.get(key).equals(value)){
+//                    founded.add(_j);
+//                }
+//            }
+//        }
+//
+//
+//        return true;
+//    }
+
     public ArrayList<JSONObject> search(JSONObject json,int shard){
         /**
          * This method for Searching file follow input json request like below
@@ -28,12 +56,20 @@ public class FileSearchHandler {
         String key = json.get("key").toString();
         String value = json.get("value").toString();
 
+
+
+
+
         ArrayList<JSONObject> founded = new ArrayList<>();
 
         try (Stream<String> lines = Files.lines(Paths.get(String.format("data/%d/data.txt", shard)))){
 
             for(String line : (Iterable<String>)lines::iterator){
                 JSONObject _j = Helper.encodeToJson(line);
+
+
+
+
                 if(_j.containsKey(key)){
                     if(_j.get(key).equals(value)){
                         founded.add(_j);
@@ -78,7 +114,9 @@ public class FileSearchHandler {
 
     public ArrayList<JSONObject> maxSearch(JSONObject json, int shard){
         ArrayList<JSONObject> founded = new ArrayList<>();
+
         String key = json.get("key").toString();
+        String value = json.get("value").toString();
         double time1 = Double.parseDouble(json.get("time1").toString());
         double time2 = Double.parseDouble(json.get("time2").toString());
 
@@ -96,7 +134,7 @@ public class FileSearchHandler {
                 JSONObject _j = Helper.encodeToJson(line);
                 double time = Double.parseDouble(_j.get("@timestamp").toString());
                 if(_j.containsKey(key) && time1 <= time && time <= time2) {
-                    if ((Long) _j.get(key) > (Long) maxValue.get(key)) {
+                    if ((Long) _j.get(value) > (Long) maxValue.get(value)) {
                         maxValue = _j;
                     }
                 }
@@ -114,7 +152,9 @@ public class FileSearchHandler {
 
     public ArrayList<JSONObject> minSearch(JSONObject json, int shard){
         ArrayList<JSONObject> founded = new ArrayList<>();
+
         String key = json.get("key").toString();
+        String value = json.get("value").toString();
         double time1 = Double.parseDouble(json.get("time1").toString());
         double time2 = Double.parseDouble(json.get("time2").toString());
 
@@ -131,7 +171,7 @@ public class FileSearchHandler {
                 JSONObject _j = Helper.encodeToJson(line);
                 double time = Double.parseDouble(_j.get("@timestamp").toString());
                 if(_j.containsKey(key) && time1 <= time && time <= time2){
-                    if ((Long) _j.get(key) < (Long) minValue.get(key)) {
+                    if ((Long) _j.get(value) < (Long) minValue.get(value)) {
                         minValue = _j;
                     }
                 }
