@@ -40,7 +40,7 @@ public class DataSearchHandler implements HttpHandler {
             /**
              * data search request body structure like this
              *{
-             *      "type" : "search", "range", "aggreation",
+             *      "type" : "search", "range", "aggreation", "max", "min"
              *      "key" : "key",
              *      "value" : "value"
              *}

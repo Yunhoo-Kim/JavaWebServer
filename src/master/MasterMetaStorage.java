@@ -1,6 +1,7 @@
 package master;
 
 import collog.Collog;
+import logging.Logging;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -30,7 +31,8 @@ public class MasterMetaStorage {
         return instance;
     }
 
-    private ArrayList<Integer> unallocation_shards = new ArrayList<>();
+    public ArrayList<Integer> unallocation_shards = new ArrayList<>();
+    public ArrayList<Integer> unallocation_replica_shards = new ArrayList<>();
 
     private MasterMetaStorage() {
         this.initUnallocationShard();
@@ -40,9 +42,13 @@ public class MasterMetaStorage {
         /*
         shards information initializing
          */
+        if(Collog.getInstance().isElectioning())
+            return;
+        Logging.logger.info("initialize");
         int num_of_shards = Collog.getInstance().getShards();
         for(int i=0;i<num_of_shards;i++){
             unallocation_shards.add(i);
+            unallocation_replica_shards.add(i);
         }
         this.readMetaFile();
 
@@ -53,6 +59,14 @@ public class MasterMetaStorage {
 
     public ArrayList<Integer> getUnallocationShards() {
         return unallocation_shards;
+    }
+
+    public void removeUnallocationReplicaShard(Integer a){
+        unallocation_replica_shards.remove(a);
+    }
+
+    public ArrayList<Integer> getUnallocationReplicaShards() {
+        return unallocation_replica_shards;
     }
 
     public void saveMetaInfo() {
@@ -113,10 +127,17 @@ public class MasterMetaStorage {
             json = (JSONObject) obj;
 
             if(json.containsKey("dashboards"))
-                this.dashboard_datas = (ArrayList<JSONObject>)json.getOrDefault("dashboard_datas",new ArrayList<JSONObject>());
+                this.dashboard_datas = (ArrayList<JSONObject>)json.getOrDefault("dashboards",new ArrayList<JSONObject>());
 
-            if(json.containsKey("searchable_fields"))
-                this.searchable_fields.addAll((ArrayList<String>)json.get("searchable_fields"));
+            if(json.containsKey("searchable_fields")) {
+                Iterator<String> iter = ((ArrayList<String>) json.get("searchable_fields")).iterator();
+                while(iter.hasNext()){
+                    String data = iter.next();
+                    if(!this.searchable_fields.contains(data))
+                        this.searchable_fields.add(data);
+                }
+//                this.searchable_fields.addAll((ArrayList<String>) json.get("searchable_fields"));
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

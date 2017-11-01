@@ -71,6 +71,7 @@ public class MasterServer implements Runnable {
                 default:
                     break;
             }
+            Collog.getInstance().http_server = web_server;
 
 
         } catch (IOException e) {
