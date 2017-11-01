@@ -1,11 +1,10 @@
 package master.inputmodule;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Scanner;
+import java.io.RandomAccessFile;
+
+import collog.Collog;
 
 /**
  * Created by semaj on 17. 10. 20.
@@ -13,43 +12,24 @@ import java.util.Scanner;
 
 public class FileInputModule implements Runnable{
 
+    private boolean alive = true;
 
-    public void inputDataFromFile(String fileName, SimpleCallBack<String> callBack){
-        String data ="";
+    private LineListener<String> listener;
 
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+    private long delay = 1000L;
 
-            while(true){
-                String line = bufferedReader.readLine();
-                if(line == null) { // 파일 끝부분 오면 뒷내용 추가될때까지 대기하도록
-                    //아마도 지금까지 읽은 부분만 보내도록 해야할듯?
+    private File file;
 
-                    //데이터 전송후 초기화
-                    data = "";
-                    //읽을 수 있는 상태일때까지 대기
-                    while(!bufferedReader.ready())
-                        Thread.sleep(500);
-                }
-                else
-                    data += line;
-
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            callBack.onFailure();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+    public FileInputModule(String filename, LineListener<String> listener) {
+        file = new File(filename);
+        this.listener = listener;
     }
 
     private String inputFile() {
-        System.out.print("Input file name : ");
-        Scanner scan = new Scanner(System.in);
-
-        String fileNameTemp = scan.nextLine();
+//        System.out.print("Input file name : ");
+//        Scanner scan = new Scanner(System.in);
+//        String fileNameTemp = scan.nextLine();
+        String fileNameTemp = Collog.getInstance().getFile_name();
 
         if(validFileName(fileNameTemp))
             return fileNameTemp;
@@ -64,26 +44,50 @@ public class FileInputModule implements Runnable{
     @Override
     public void run() {
 
-        String fileName;
+        long filePointer = 0;
+        RandomAccessFile reader = null;
 
-        while(true){
-            //input file
-            fileName = inputFile();
+        try {
+            while(alive) {
+                long fileLength = this.file.length();
 
-            //read file data
-            inputDataFromFile(fileName, new SimpleCallBack<String>() {
-                @Override
-                public void onSuccess(String data) {
-                    //String data to JSON data
+                try {
+                    if(fileLength == 0) {
+                        System.out.println("E log : filelength " + fileLength);
+                        continue;
+                    }
+                    if (fileLength < filePointer) {
+                        System.out.println("log : filelength " + fileLength);
+                        reader = new RandomAccessFile(this.file, "r");
+                        filePointer = 0;
+                        continue;
+                    } else if(fileLength > filePointer){
+
+                        reader = new RandomAccessFile(this.file, "r");
+                        reader.seek(filePointer);
+
+                        String line = reader.readLine();
+                        while (line != null) {
+                            listener.handle(line);
+                            line = reader.readLine();
+                        }
+                        filePointer = reader.getFilePointer();
+                        System.out.println("log : file Pointer " + filePointer);
+
+                        reader.close();
+                    }
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException ignored) {
+                    }
+                }catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                @Override
-                public void onFailure() {
-
-                }
-            });
-
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
+
 }

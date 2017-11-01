@@ -13,6 +13,7 @@ import com.sun.net.httpserver.HttpServer;
 import collog.Collog;
 import helper.Helper;
 import master.inputmodule.FileInputModule;
+import master.inputmodule.LineListener;
 import master.inputmodule.TcpInputModule;
 import master.inputmodule.UdpInputModule;
 
@@ -55,22 +56,7 @@ public class MasterServer implements Runnable {
             web_server.start();
 
             //TODO modulizing
-            switch (Collog.getInstance().getInput_module()){
-                case "tcp":
-                    TcpInputModule tcpmodule = new TcpInputModule(Collog.getInstance().getTcp_port());
-                    new Thread(tcpmodule).start();
-                    break;
-                case "upd":
-                    UdpInputModule udpmodule = new UdpInputModule(Collog.getInstance());
-                    new Thread(udpmodule).start();
-                    break;
-                case "file":
-                    FileInputModule filemodule = new FileInputModule();
-                    new Thread(filemodule).start();
-                    break;
-                default:
-                    break;
-            }
+//            runInputModule();
             Collog.getInstance().http_server = web_server;
 
 
@@ -81,6 +67,40 @@ public class MasterServer implements Runnable {
         }
         catch(IllegalAccessException e){
             e.printStackTrace();
+        }
+    }
+
+    public static void runInputModule() {
+        LineListener<String> listener = new LineListener<String>() {
+            @Override
+            public void handle(String data) {
+                try {
+                    (new DataInputManager()).inputDataRequestToMaster(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void errorHandle(String data) {
+
+            }
+        };
+        switch (Collog.getInstance().getInput_module()){
+            case "tcp":
+                TcpInputModule tcpmodule = new TcpInputModule(Collog.getInstance().getTcp_port(),listener);
+                new Thread(tcpmodule).start();
+                break;
+            case "upd":
+                UdpInputModule udpmodule = new UdpInputModule(Collog.getInstance(),listener);
+                new Thread(udpmodule).start();
+                break;
+            case "file":
+                FileInputModule filemodule = new FileInputModule(Collog.getInstance().getFile_name(),listener);
+                new Thread(filemodule).start();
+                break;
+            default:
+                break;
         }
     }
 }

@@ -16,7 +16,6 @@ import org.apache.log4j.BasicConfigurator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import queue.HeartBeatQueue;
-import sun.plugin2.main.server.HeartbeatThread;
 
 import java.io.*;
 import java.net.InetAddress;

@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import collog.Collog;
+import master.DataInputManager;
 
 /**
  * Created by semaj on 17. 10. 24.
@@ -15,9 +16,11 @@ import collog.Collog;
 
 public class UdpInputModule implements Runnable {
     private int port;
+    private LineListener<String> listener;
 
-    public UdpInputModule(Collog instance) {
+    public UdpInputModule(Collog instance, LineListener<String> listener) {
         port = instance.getUdp_port();
+        this.listener = listener;
     }
 
 
@@ -38,7 +41,7 @@ public class UdpInputModule implements Runnable {
 
     }
 
-    private  class UdpServerThread extends Thread{
+    private class UdpServerThread extends Thread{
 
         private BufferedReader inFromClient;
         private String clientString;
@@ -53,12 +56,14 @@ public class UdpInputModule implements Runnable {
             //연결 끊길때까지 data 받아오기
             try {
                 while ((line = inFromClient.readLine()) != null) {
-                    clientString += line;
+//                    (new DataInputManager()).inputDataRequestToMaster(line);
+                    listener.handle(line);
                     System.out.println(line);
                 }
-                //모아진 data 보내기 - onSuccess? synchronize 필요
-            } catch (IOException e) {
+                //TODO 모아진 data 보내기 - onSuccess? synchronize 필요
+            } catch (Exception e) {
                 e.printStackTrace();
+                listener.errorHandle(e.getMessage());
             }
         }
     }
