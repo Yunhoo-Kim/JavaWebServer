@@ -43,7 +43,7 @@ public class DataNodeMetaStorage {
         ArrayList<Integer> list = new ArrayList<>();
         try {
             JSONParser parser = new JSONParser();
-            FileReader reader = new FileReader("src/data/meta.json");
+            FileReader reader = new FileReader("src/main/java/data/meta.json");
 
             Object obj = parser.parse(reader);
             JSONObject json = (JSONObject) obj;
@@ -63,7 +63,7 @@ public class DataNodeMetaStorage {
 
     public void saveMetaInfo() {
         try {
-            FileWriter writer = new FileWriter("src/data/meta.json");
+            FileWriter writer = new FileWriter("src/main/java/data/meta.json");
             writer.write(this.getMetaInfo().toString());
             writer.close();
         } catch (IOException e) {
