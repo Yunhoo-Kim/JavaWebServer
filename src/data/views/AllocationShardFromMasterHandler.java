@@ -1,6 +1,7 @@
 package data.views;
-
+import annotations.ContentType;
 import annotations.URLAnnotation;
+import annotations.URLMethod;
 import collog.Collog;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -11,9 +12,15 @@ import org.json.simple.JSONObject;
 
 import java.io.IOException;
 
-
 @URLAnnotation("data/allocation/")
 public class AllocationShardFromMasterHandler implements HttpHandler {
+
+    @ContentType("application/json")
+    @URLMethod("GET")
+    public byte[] getResponse(){
+        String a = "{'abc':'abc'}";
+        return a.getBytes();
+    }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
@@ -24,32 +31,41 @@ public class AllocationShardFromMasterHandler implements HttpHandler {
             Helper.responseToClient(httpExchange, response);
 
         }else if(method.equalsIgnoreCase("POST")){
+            /**
+             * Read request body from client
+             */
             String request_body = Helper.getRequestBody(httpExchange.getRequestBody());
 
             JSONObject json = Helper.encodeToJson(request_body);
+            /**
+             * data node register body structure
+             *{
+             *      "shard_number" : "shard number","node_id" : "node_id"
+             *}
+             *
+             */
 
             /**
              * ToDo: Json format check
              */
 
-            // 데이터 노드의 슬레이브 테이블 업데이트
-            (new MasterManager()).syncShardsInfoWithMaster();
-            if(json.containsKey("node_id")){
-                // 각 노드 별 데이터 통신
-                try {
-                    (new DataNodeManager()).sendShardRequestToDataNode(Integer.parseInt(json.get("node_id").toString()),json);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+//            Collog.getInstance().addSlave(json);
 
+            /**
+             * Send response to client.
+             */
             byte[] response = Helper.decodeToStr(json).getBytes();
             Helper.responseToClient(httpExchange, response);
+
+            new MasterManager().syncShardsInfoWithMaster();
+            if(json.containsKey("node_id")) {
+                new DataNodeManager().sendShardRequestToDataNode(Integer.parseInt(json.get("node_id").toString()), Integer.parseInt(json.get("shard_number").toString()));
+            }
+
 
         }else if(method.equalsIgnoreCase("OPTIONS")){
             Helper.optionsResponse(httpExchange);
         }
-
     }
 
 }

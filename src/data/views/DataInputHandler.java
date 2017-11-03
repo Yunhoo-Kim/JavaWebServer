@@ -49,7 +49,11 @@ public class DataInputHandler implements HttpHandler {
              */
             int shard = Integer.parseInt(json.get("shard").toString());
             json.remove("shard");
-            System.out.println(json.toString());
+            if(!json.containsKey("@timestamp")){
+
+                json.put("@timestamp", ((double)System.currentTimeMillis())/1000);
+            }
+//            System.out.println(json.toString());
             byte[] response = Helper.decodeToStr(json).getBytes();
             Helper.responseToClient(httpExchange, response);
             (new FileWriteHandler()).write(json, shard);

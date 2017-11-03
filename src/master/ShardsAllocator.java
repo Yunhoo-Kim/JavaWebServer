@@ -5,7 +5,6 @@ import logging.Logging;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -17,7 +16,6 @@ public class ShardsAllocator {
 
         Collog.getInstance().getSlaveTable();
     }
-
     public void allocateShards(){
 
         this.allocateUnassignedShards();
@@ -27,7 +25,6 @@ public class ShardsAllocator {
     }
 
     private void allocateUnassignedShards(){
-        System.out.println("allocateUnassignedShards");
         /**
          * Method for assign unassigned shards to Data Node
          */
@@ -58,12 +55,11 @@ public class ShardsAllocator {
             i++;
         }
         for(i = 0; i<data_nodes_size;i++){
-            System.out.println("data_nodes : " + data_nodes.get(i).toString());
+            System.out.println(data_nodes.get(i).toString());
         }
     }
 
     private void moveShards(){
-        System.out.println("moveShards");
         /**
          *
          */
@@ -115,12 +111,13 @@ public class ShardsAllocator {
 
             JSONObject data = new JSONObject();
             int shard_number = over_node_shards.get(0);
-            data.put("shard", shard_number);
-            data.put("node_id", Collog.getInstance().getSlavehasShard(shard_number).toString());
+            data.put("shard_number", shard_number);
+            data.put("node_id",Collog.getInstance().getSlaveHasShard(shard_number).get("node_id").toString());
 
-            Logging.logger.info("야야야야야야야양야야야야야야야야ㅑㅇ 새로 배치가 되었습니다.!!");
+//            Logging.logger.info("야야야야야야야양야야야야야야야야ㅑㅇ 새로 배치가 되었습니다.!!");
             try {
-                (new DataNodeManager()).sendAllocationRequest(Integer.parseInt(under_node.get("node_id").toString()),data);
+
+                (new DataNodeManager()).sendAllocationRequest(Integer.parseInt(under_node.get("node_id").toString()), data);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -137,7 +134,6 @@ public class ShardsAllocator {
     }
 
     private void balance(){
-        System.out.println("balance");
         /**
          * Method for balancing among shards
          */

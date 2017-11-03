@@ -49,7 +49,7 @@ public class MainView implements HttpHandler {
         String method = httpExchange.getRequestMethod();
         if (method.equalsIgnoreCase("GET")) {
             byte[] response = this.getResponse();
-            Helper.responseToClient(httpExchange, response);
+            Helper.responseToClientHTML(httpExchange, response);
         } else if (method.equalsIgnoreCase("POST")) {
             /**
              * Read request body from client

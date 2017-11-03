@@ -2,10 +2,10 @@ package data;
 
 import collog.Collog;
 import helper.Helper;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import webclient.WebClient;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MasterManager {
@@ -37,16 +37,15 @@ public class MasterManager {
 
     public void syncShardsInfoWithMaster(){
         Collog collog = Collog.getInstance();
-        String url = String.format("http://%s:%s/master/node/",collog.getMasterIp(),collog.getMasterPort());
+        String url = String.format("http://%s:%s/master/node/", collog.getMasterIp(), collog.getMasterPort());
         try {
             String response = (new WebClient()).sendGetRequest(url);
             JSONObject json = Helper.encodeToJson(response);
             ArrayList<JSONObject> shards = (ArrayList<JSONObject>)json.get("shards");
             collog.updateSlaveTable(shards);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        //(new DataNodeMetaStorage()).saveMetaInfo();
+        (new DataNodeMetaStorage()).saveMetaInfo();
     }
 }

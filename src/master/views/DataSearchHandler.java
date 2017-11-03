@@ -14,6 +14,9 @@ import org.json.simple.JSONObject;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 @URLAnnotation("master/data/search/")
 public class DataSearchHandler implements HttpHandler {
@@ -52,12 +55,45 @@ public class DataSearchHandler implements HttpHandler {
              * ToDo: Json format check
              */
 
-            JSONArray res_arr = (new DataNodeManager()).sendSearchRequest(json);
-            JSONObject res = new JSONObject();
-            res.put("result", res_arr);
+            String type = json.get("type").toString();
 
-            byte[] response = Helper.decodeToStr(res).getBytes();
-            Helper.responseToClient(httpExchange, response);
+            ArrayList<JSONObject> res_arr = (new DataNodeManager()).sendSearchRequest(json);
+//            res_arr.toArray()
+            if(type.equalsIgnoreCase("count")){
+                Iterator<JSONObject> iter1 = res_arr.iterator();
+                Map<String, Integer> res_map = new HashMap<>();
+
+                while (iter1.hasNext()) {
+                    JSONObject _d = iter1.next();
+                    Iterator<String> i = _d.keySet().iterator();
+                    String key = i.next();
+                    int cnt = res_map.getOrDefault(key, 0);
+                    cnt++;
+                    res_map.put(key, cnt);
+                }
+
+                JSONObject data = new JSONObject();
+                for( Map.Entry<String, Integer> entry : res_map.entrySet() ) {
+                    String key = entry.getKey();
+                    Integer value = entry.getValue();
+                    data.put(key, value);
+                }
+
+                JSONObject res = new JSONObject();
+                res.put("key",json.get("key").toString());
+                res.put("results",data);
+
+                byte[] response = Helper.decodeToStr(res).getBytes();
+                Helper.responseToClient(httpExchange, response);
+
+
+            }else if(type.equalsIgnoreCase("search")) {
+                JSONObject res = new JSONObject();
+                res.put("result", res_arr);
+
+                byte[] response = Helper.decodeToStr(res).getBytes();
+                Helper.responseToClient(httpExchange, response);
+            }
 
 
         } else if (method.equalsIgnoreCase("OPTIONS")) {

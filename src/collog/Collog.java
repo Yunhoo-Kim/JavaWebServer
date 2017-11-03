@@ -5,12 +5,13 @@ import WebServer.WebServer;
 import com.sun.net.httpserver.HttpServer;
 import data.DataNodeServer;
 import helper.Helper;
+import logging.Logging;
 import master.MasterMetaStorage;
 import master.MasterServer;
+import org.apache.log4j.BasicConfigurator;
 import org.json.simple.JSONObject;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
@@ -22,7 +23,7 @@ import java.util.Properties;
 import java.util.stream.Stream;
 
 public class Collog {
-    /**
+    /**d
      * Base class for collog node
      * It can read a properties file and Run master or data node
      * Singleton class
@@ -53,9 +54,11 @@ public class Collog {
     /*
     Data node List
      */
-    ArrayList<JSONObject> slave_table = new ArrayList<JSONObject>();
+    ArrayList<JSONObject> slave_table = new ArrayList<>();
 
     private Collog() {
+        BasicConfigurator.configure();
+
         try {
             this.id = (int) (System.currentTimeMillis() / 1000);
             this.readProperties();
@@ -119,19 +122,17 @@ public class Collog {
                     this.http_port = Integer.parseInt(properties.getProperty("http_port"));
                     break;
             }
+
+
         } else {
             // data node
             this.master_ip = properties.getProperty("master_IP");
             this.master_port = properties.getProperty("master_PORT");
-            System.out.println("abc");
 
 
         }
     }
 
-    public void updateSlaveTable(ArrayList<JSONObject> json){
-        this.slave_table = json;
-    }
 
     public void addSlave(JSONObject json){
         this.slave_table.add(json);
@@ -162,22 +163,26 @@ public class Collog {
         return temp;
     }
 
-    public ArrayList<JSONObject> getSlaveTable() {
-        return slave_table;
-    }
-
-    public JSONObject getSlavehasShard(int shard){
+    public JSONObject getSlaveHasShard(int shard){
         Iterator<JSONObject> iter = this.slave_table.iterator();
         JSONObject temp = null;
         while(iter.hasNext()){
             temp = iter.next();
-            if(((ArrayList<Integer>)temp.get("shards")).contains(shard)){
+            if(((ArrayList<Integer>)(temp.get("shards"))).contains(shard)){
                 return temp;
             }
         }
+
         return temp;
     }
 
+    public ArrayList<JSONObject> getSlaveTable() {
+        return slave_table;
+    }
+
+    public void updateSlaveTable(ArrayList<JSONObject> table){
+        this.slave_table = table;
+    }
     public static void main(String[] args){
         Collog.getInstance();
 
@@ -211,6 +216,9 @@ public class Collog {
 
     public int getPort(){
         return this.port;
+    }
+    public int getId(){
+        return this.id;
     }
 
 }

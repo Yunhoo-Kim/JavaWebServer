@@ -8,6 +8,8 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import helper.Helper;
 
+import logging.Logging;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.io.*;
 
@@ -25,9 +27,9 @@ public class DataNodeListHandler implements HttpHandler {
         String method = httpExchange.getRequestMethod();
 
         if(method.equalsIgnoreCase("GET")){
-
             JSONObject res = new JSONObject();
             res.put("shards", Collog.getInstance().getSlaveTable());
+            Logging.logger.info(res.toString());
             byte[] response = res.toString().getBytes();
             Helper.responseToClient(httpExchange, response);
 
