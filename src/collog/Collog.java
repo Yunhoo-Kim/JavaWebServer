@@ -317,4 +317,20 @@ public class Collog {
     public boolean hasShard(int node_id, int shard_num) {
         return ((ArrayList<Integer>) this.getSlave(node_id).get("shards")).contains(shard_num);
     }
+
+    public int getTcp_port(){
+        return this.tcp_port;
+    }
+
+    public int getUdp_port(){
+        return this.udp_port;
+    }
+
+    public String getInput_module(){
+        return this.input_module;
+    }
+
+    public String getFile_name(){
+        return this.file_name;
+    }
 }
