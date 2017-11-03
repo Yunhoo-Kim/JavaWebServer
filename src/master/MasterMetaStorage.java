@@ -78,7 +78,27 @@ public class MasterMetaStorage {
             e.printStackTrace();
         }
     }
+    public void removeDashboard(double id){
 
+        for(JSONObject j : this.dashboard_datas){
+            double _id = Double.parseDouble(j.get("id").toString());
+            if(_id == id){
+                this.dashboard_datas.remove(j);
+                break;
+            }
+        }
+    }
+    public void updateDashboard(double id, JSONObject data){
+        for(JSONObject j : this.dashboard_datas){
+            double _id = Double.parseDouble(j.get("id").toString());
+            if(_id == id){
+//                this.dashboard_datas.
+                this.dashboard_datas.remove(j);
+                this.dashboard_datas.add(data);
+                break;
+            }
+        }
+    }
     public ArrayList<JSONObject> getDashboardDatas() {
         return dashboard_datas;
     }

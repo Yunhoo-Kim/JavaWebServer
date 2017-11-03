@@ -125,7 +125,7 @@ public class Helper {
 //        Headers responseHeaders = httpExchange.getResponseHeaders();
         httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
         httpExchange.getResponseHeaders().set("Content-Type","application/json;charset=utf-8");
-        httpExchange.sendResponseHeaders(200,response.length);
+        httpExchange.sendResponseHeaders(200, response.length);
         OutputStream responseBody = httpExchange.getResponseBody();
         responseBody.write(response);
         responseBody.close();

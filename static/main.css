@@ -35,3 +35,6 @@ border-color: inherit;
 .bg-primary{
     background-color: #00aaff !important;
 }
+.dis-none{
+    display: none;
+}

@@ -104,10 +104,22 @@
 
 <div class="col-md-12 collog-view" id="query-view" style="display:none;">
     <div class="col-md-12">
+        <button id="add-must">add AND query</button>
+        <button id="add-should">add Or query</button>
+    </div>
+    <div class="col-md-12">
         <select id="searchable-field">
         </select>
         <input type="text" id="search-value">
         <button id="search-btn">검색!</button>
+    </div>
+    <h3>And</h3>
+    <div id="must-query-div">
+    </div>
+
+    <h3>OR</h3>
+    <div id="should-query-div">
+
     </div>
     <table class="col-md-12 table" id="personDataTable" style="font-size: 15px;">
         <tr id="query-table-row" style="font-size: 18px;">
@@ -118,7 +130,54 @@
 
     </table>
 </div>
-
+<div class="modal fade" id="update-graph-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">그래프 수정</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="update-text-div">
+                    <p>액션을 선택해주세요</p>
+                </div>
+                <div id="update-div" class="dis-none">
+                    <select id="update-duration">
+                        <option value="1">1일</option>
+                        <option value="2">2일</option>
+                        <option value="3">3일</option>
+                        <option value="4">4일</option>
+                        <option value="5">5일</option>
+                        <option value="6">6일</option>
+                        <option value="7">7일</option>
+                        <option value="8">8일</option>
+                        <option value="9">9일</option>
+                        <option value="10">10일</option>
+                        <option value="20">20일</option>
+                        <option value="30">30일</option>
+                    </select>
+                    <select id="update-graph-type">
+                        <option value="line">line</option>
+                        <option value="doughnut">Doughnut</option>
+                        <option value="bar">bar</option>
+                        <option value="pie">pie</option>
+                    </select>
+                    <input type="text" id="update-label-value">
+                    <button id="update-complete-btn">
+                        수정 완료
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="update-btn">수정</button>
+                <button type="button" class="btn btn-primary" id="remove-btn">삭제</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 </script>
 

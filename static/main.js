@@ -98,11 +98,36 @@ function drawRow(rowData) {
 $("#search-btn").click(function(){
     var field = $("#searchable-field option:selected").val();
     var value = $("#search-value").val();
+    var must =[{"key" : field,
+
+                 "value" : value}]
+    var should = []
+
+    $(".must-div").each(function(){
+        var select = $(this).find("select");
+        var id = select.attr("id");
+        var key = $("#"+id+" option:selected").val();
+        var value = $(this).find("input").val();
+        var d = {"key" : key,"value" : value};
+        must.push(d);
+    });
+
+
+    $(".should-div").each(function(){
+        var select = $(this).find("select");
+        var id = select.attr("id");
+        var key = $("#"+id+" option:selected").val();
+        var value = $(this).find("input").val();
+        var d = {"key" : key,"value" : value};
+        should.push(d);
+    });
+
     var request_json = {
-    "type" : "search",
-    "key" : field,
-    "value" : value
-    };
+        "type" : "search",
+        "must": must,
+        "should" : should
+        };
+        $('#personDataTable tr:not(:first)').remove();
     searchToMaster(request_json,null);
     console.log(JSON.stringify(request_json));
 });
@@ -148,7 +173,7 @@ function drawDashBoard(data){
     var time2 = timestamp;
     data.time1 = time1;
     data.time2 = time2;
-    delete data.timestamp_offset;
+//    delete data.timestamp_offset;
     $.ajax({
     url: 'http://'+master_address+'/master/data/search/',
     type: "POST",
@@ -171,7 +196,7 @@ $.ajax({
     type: "POST",
     data: JSON.stringify(data),
     success: function(res, textStatus, jqXHR) {
-    console.log(res);
+//    console.log(res);
          drawGraph(res.results, data);
     }
 });
@@ -214,7 +239,20 @@ chart_num++;
 
 function drawDashboardGraph(data, req_data){
         var req_id = req_data.id.toString().replace(".","_");
-        $("#graph-div").append('<canvas class="col-md-4" id="myChart'+req_id+'"></canvas>');
+        if($("#myChart"+req_id).length != 0){
+        var ctx = document.getElementById("myChart"+req_id);
+var LineGraph = new Chart(ctx, {
+        type: req_data.graph_type,
+        data: Object.values(data)});
+        LineGraph.destroy();
+
+            }
+            else{
+            $("#graph-div").append('<canvas class="col-md-4 update-modal-open" id="myChart'+req_id+'"></canvas>');
+            }
+//        }
+//        else{
+//        }
         var ctx1 = document.getElementById("myChart"+req_id).getContext('2d');
 
         var myDoughnutChart = new Chart(ctx1, {
@@ -230,6 +268,7 @@ function drawDashboardGraph(data, req_data){
 		    labels:Object.keys(data)
 
 	    },
+	     responsive : true,
 	    options: {
 title: {text : req_data.label,display:true,position:"bottom"}
         }
@@ -294,4 +333,131 @@ $("#graph-save").click(function(){
 $("#clean-preview-graph").click(function(){
     dashboard_temps = [];
     $("#graph-preview-div").empty();
+});
+
+$("body").on("click",".update-modal-open", function(){
+    var data = $(this).prop("data");
+    $("#update-graph-modal").modal("show");
+    $("#update-graph-modal").prop("data",data);
+    console.log(JSON.stringify(data));
+});
+
+$("#update-btn").click(function(){
+    disBlkContent($("#update-div"));
+    disNoneContent($("#update-text-div"));
+    var data = $("#update-graph-modal").prop("data");
+    var type = data.graph_type;
+    var label = data.label;
+    var time_offset = data.timestamp_offset;
+    time_offset = parseInt(time_offset/(3600*24));
+    console.log(time_offset);
+    $("#update-duration").val(time_offset.toString());
+    $("#update-graph-type").val(type);
+    $("#update-label-value").val(label);
+});
+
+function disBlkContent($a){
+    $a.removeClass("dis-none");
+}
+function disNoneContent($a){
+    $a.addClass("dis-none");
+}
+
+$("#update-complete-btn").click(function(){
+    var data = $("#update-graph-modal").prop("data");
+    var type = $("#update-graph-type option:selected").val();
+    var time_offset = $("#update-duration option:selected").val();
+    var label = $("#update-label-value").val();
+
+    delete data.time1;
+    delete data.time2;
+    data.graph_type = type;
+    data.timestamp_offset = parseInt(time_offset) * 3600 * 24;
+    data.label = label;
+    console.log(JSON.stringify(data));
+
+
+//    drawDashBoard(data);
+
+    updateDashboard(data);
+});
+
+function updateDashboard(data){
+// var data = {
+//        dashboards : dashboard_temps
+//    }
+//    console.log(JSON.stringify(data));
+
+    $.ajax({
+    url: 'http://'+master_address+'/master/dashboard/update/',
+    type: "POST",
+    data: JSON.stringify(data),
+    success: function(res, textStatus, jqXHR) {
+//         for(var a=0;a<dashboard_temps.length;a++){
+//            drawDashBoard(dashboard_temps[a]);
+//         }
+//         $("#clean-preview-graph").trigger("click");
+        drawDashBoard(data);
+
+    disNoneContent($("#update-div"));
+    disBlkContent($("#update-text-div"));
+    $("#update-graph-modal").modal("hide");
+//        $("#")
+    }
+});
+}
+
+function removeDashbord(data){
+    $.ajax({
+    url: 'http://'+master_address+'/master/dashboard/remove/',
+    type: "POST",
+    data: JSON.stringify(data),
+    success: function(res, textStatus, jqXHR) {
+//         for(var a=0;a<dashboard_temps.length;a++){
+//            drawDashBoard(dashboard_temps[a]);
+//         }
+//         $("#clean-preview-graph").trigger("click");
+//        drawDashBoard(data);
+        var _id = data.id.toString().replace(".","_");
+
+    $("#myChart"+_id).remove();
+    disNoneContent($("#update-div"));
+    disBlkContent($("#update-text-div"));
+    $("#update-graph-modal").modal("hide");
+//        $("#")
+    }
+});
+}
+
+$("#remove-btn").click(function(){
+     var data = $("#update-graph-modal").prop("data");
+    removeDashbord(data);
+});
+var must_order = 0;
+var should_order = 0;
+$("#add-must").click(function(){
+
+        var str = '<div class="must-div">'+
+            '<select id="must-div-select'+must_order+'">'+
+            '</select>'+
+            '<input type="text" id="must-div-input">'+
+        '</div>';
+        $("#must-query-div").append(str);
+        for(var a =0;a<searchable_fields.length;a++){
+            $("#must-div-select"+must_order).append('<option value="'+searchable_fields[a]+'">'+searchable_fields[a]+'</option>');
+        }
+        must_order += 1;
+});
+
+$("#add-should").click(function(){
+var str = '<div class="should-div">'+
+            '<select id="should-div-select'+should_order+'">'+
+            '</select>'+
+            '<input type="text" id="should-div-input'+should_order+'">'+
+        '</div>';
+        $("#should-query-div").append(str);
+        for(var a =0;a<searchable_fields.length;a++){
+            $("#should-div-select"+should_order).append('<option value="'+searchable_fields[a]+'">'+searchable_fields[a]+'</option>');
+        }
+        should_order += 1;
 });
