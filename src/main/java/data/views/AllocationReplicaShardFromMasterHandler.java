@@ -1,22 +1,22 @@
-package master.views;
-
+package data.views;
 import annotations.ContentType;
 import annotations.URLAnnotation;
+import annotations.URLMethod;
 import collog.Collog;
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import data.DataNodeManager;
+import data.MasterManager;
 import helper.Helper;
-
-import master.MasterServer;
-import master.ShardsAllocator;
 import org.json.simple.JSONObject;
-import java.io.*;
 
-@URLAnnotation("master/node/register/")
-public class DataNodeRegisterHandler implements HttpHandler {
+import java.io.IOException;
+
+@URLAnnotation("data/allocation/replica/")
+public class AllocationReplicaShardFromMasterHandler implements HttpHandler {
 
     @ContentType("application/json")
+    @URLMethod("GET")
     public byte[] getResponse(){
         String a = "{'abc':'abc'}";
         return a.getBytes();
@@ -24,15 +24,13 @@ public class DataNodeRegisterHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-//        System.out.println("Post input");
         String method = httpExchange.getRequestMethod();
-//        System.out.println("Method : " + method);
+
         if(method.equalsIgnoreCase("GET")){
-            byte[] response = this.getResponse();
+            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
             Helper.responseToClient(httpExchange, response);
 
         }else if(method.equalsIgnoreCase("POST")){
-//            System.out.println("Post input");
             /**
              * Read request body from client
              */
@@ -42,11 +40,7 @@ public class DataNodeRegisterHandler implements HttpHandler {
             /**
              * data node register body structure
              *{
-             *      "node_id" : "node_indentification",
-             *      "ip" : "node_ip",
-             *      "port" : "port",
-             *      "new" : "whether it is first time to register or not",
-             *      "having_shards" : [0,1,2] # List of Shards number data node have,
+             *      "shard_number" : "shard number","node_id" : "node_id"
              *}
              *
              */
@@ -55,26 +49,19 @@ public class DataNodeRegisterHandler implements HttpHandler {
              * ToDo: Json format check
              */
 
-            Collog.getInstance().addSlave(json);
-
+//            Collog.getInstance().addSlave(json);
 
             /**
-             * Send response contain slave tables to client.
+             * Send response to client.
              */
-            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
+            byte[] response = Helper.decodeToStr(json).getBytes();
             Helper.responseToClient(httpExchange, response);
 
-            /**
-             * ToDo: reallocation shards to slave
-             */
-            (new ShardsAllocator()).allocateShards();
-
-            if(Collog.getInstance().getSlaveTable().size() == 1) {
-                MasterServer.runInputModule();
+            new MasterManager().syncShardsInfoWithMaster();
+            if(json.containsKey("node_id")) {
+                new DataNodeManager().sendReplicaShardRequestToDataNode(Integer.parseInt(json.get("node_id").toString()), Integer.parseInt(json.get("shard_number").toString()));
             }
 
-//            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
-//            Helper.responseToClient(httpExchange, response);
 
         }else if(method.equalsIgnoreCase("OPTIONS")){
             Helper.optionsResponse(httpExchange);

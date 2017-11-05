@@ -71,14 +71,34 @@ public class MasterMetaStorage {
 
     public void saveMetaInfo() {
         try {
-            FileWriter writer = new FileWriter("src/master/meta.json");
+            FileWriter writer = new FileWriter("src/main/java/master/meta.json");
             writer.write(this.getMetaData().toString());
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    public void removeDashboard(double id){
 
+        for(JSONObject j : this.dashboard_datas){
+            double _id = Double.parseDouble(j.get("id").toString());
+            if(_id == id){
+                this.dashboard_datas.remove(j);
+                break;
+            }
+        }
+    }
+    public void updateDashboard(double id, JSONObject data){
+        for(JSONObject j : this.dashboard_datas){
+            double _id = Double.parseDouble(j.get("id").toString());
+            if(_id == id){
+//                this.dashboard_datas.
+                this.dashboard_datas.remove(j);
+                this.dashboard_datas.add(data);
+                break;
+            }
+        }
+    }
     public ArrayList<JSONObject> getDashboardDatas() {
         return dashboard_datas;
     }
@@ -121,7 +141,7 @@ public class MasterMetaStorage {
 
         try {
             JSONParser parser = new JSONParser();
-            FileReader reader = new FileReader("src/master/meta.json");
+            FileReader reader = new FileReader("src/main/java/master/meta.json");
 
             Object obj = parser.parse(reader);
             json = (JSONObject) obj;
