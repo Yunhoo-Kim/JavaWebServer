@@ -70,8 +70,11 @@ public class MasterServer implements Runnable {
         }
     }
 
+    /**
+     * TODO 적절한 곳으로 옮겨줘야 할 부분
+     */
     public static void runInputModule() {
-        LineListener<String> listener = new LineListener<String>() {
+        LineListener<String> listener = new LineListener<>() {
             @Override
             public void handle(String data) {
                 try {
