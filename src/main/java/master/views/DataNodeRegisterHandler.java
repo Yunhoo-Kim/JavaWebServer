@@ -61,6 +61,7 @@ public class DataNodeRegisterHandler implements HttpHandler {
             /**
              * Send response contain slave tables to client.
              */
+//            JSONObject data = new JSONObject()
             byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
             Helper.responseToClient(httpExchange, response);
 

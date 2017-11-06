@@ -18,7 +18,7 @@ public class StaticFilesHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         String fileId = exchange.getRequestURI().getPath();
         fileId = fileId.substring(1);
-        File file = getFile(fileId);
+        File file = getFile("src/main/resources/" +fileId);
 
         if (file == null) {
             String response = "Error 404 File not found.";

@@ -72,7 +72,7 @@ public class MasterServer implements Runnable {
             @Override
             public void handle(String data) {
                 try {
-                    (new DataInputManager()).inputDataRequestToMaster(data);
+//                    (new DataInputManager()).inputDataRequestToMaster(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
