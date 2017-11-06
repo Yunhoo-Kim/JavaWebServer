@@ -24,12 +24,14 @@ public class DataNodeMetaStorage {
          */
 //        ArrayList<Integer> list = this.getMyShards();
         ArrayList<Integer> list = new ArrayList<>();
-
+//
         if(list.size()>0){
             is_new = true;
             info.put("shards", list);
+            info.put("replica_shards",list);
         }else{
             info.put("shards",list);
+            info.put("replica_shards",list);
         }
         info.put("new", is_new);
 
@@ -71,7 +73,11 @@ public class DataNodeMetaStorage {
 
     public JSONObject getMetaInfo(){
         JSONObject json = null;
+//        (new MasterManager()).syncShardsInfoWithMaster();
         json = Collog.getInstance().getSlave(Collog.getInstance().id);
+//        if(json == null){
+//            json = new JSONObject();
+//        }
         return json;
     }
 }

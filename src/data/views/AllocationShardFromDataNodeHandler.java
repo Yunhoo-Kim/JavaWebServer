@@ -1,4 +1,5 @@
 package data.views;
+
 import annotations.ContentType;
 import annotations.URLAnnotation;
 import annotations.URLMethod;
@@ -21,7 +22,7 @@ public class AllocationShardFromDataNodeHandler implements HttpHandler {
 
     @ContentType("application/json")
     @URLMethod("GET")
-    public byte[] getResponse(){
+    public byte[] getResponse() {
         String a = "{'abc':'abc'}";
         return a.getBytes();
     }
@@ -30,11 +31,11 @@ public class AllocationShardFromDataNodeHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         String method = httpExchange.getRequestMethod();
 
-        if(method.equalsIgnoreCase("GET")){
+        if (method.equalsIgnoreCase("GET")) {
             byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
             Helper.responseToClient(httpExchange, response);
 
-        }else if(method.equalsIgnoreCase("POST")){
+        } else if (method.equalsIgnoreCase("POST")) {
             /**
              * Read request body from client
              */
@@ -62,12 +63,14 @@ public class AllocationShardFromDataNodeHandler implements HttpHandler {
 
 
             String file_name = String.format("data/%d/data.txt", json.get("shard"));
+            String file_name2 = String.format("replica/%d/data.txt", json.get("shard"));
             File file = new File(file_name);
+            File file2 = new File(file_name);
 
-            if(!file.exists()){
-                Helper.responseToClient(httpExchange, "".getBytes());
-
-            }else {
+            if (file.exists()) {
+//                Helper.responseToClient(httpExchange, "".getBytes());
+//
+//            } {
                 Scanner scanner = new Scanner(new FileReader(file_name));
                 String response = "";
                 String str;
@@ -77,9 +80,22 @@ public class AllocationShardFromDataNodeHandler implements HttpHandler {
 
                 byte[] file_bytes = response.getBytes(Charset.forName("UTF-8"));
                 Helper.responseToClient(httpExchange, file_bytes);
+            } else if (file2.exists()) {
+                Scanner scanner = new Scanner(new FileReader(file_name2));
+                String response = "";
+                String str;
+                while (scanner.hasNextLine()) {
+                    response += scanner.nextLine() + "\n";
+                }
+
+                byte[] file_bytes = response.getBytes(Charset.forName("UTF-8"));
+                Helper.responseToClient(httpExchange, file_bytes);
+            } else {
+                Helper.responseToClient(httpExchange, "".getBytes());
+
             }
 
-        }else if(method.equalsIgnoreCase("OPTIONS")){
+        } else if (method.equalsIgnoreCase("OPTIONS")) {
             Helper.optionsResponse(httpExchange);
         }
     }

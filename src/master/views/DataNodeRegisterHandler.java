@@ -8,6 +8,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import helper.Helper;
 
+import master.MasterServer;
 import master.ShardsAllocator;
 import org.json.simple.JSONObject;
 import java.io.*;
@@ -55,7 +56,7 @@ public class DataNodeRegisterHandler implements HttpHandler {
              */
 
             Collog.getInstance().addSlave(json);
-            System.out.println("DataNodeRegisterHandler : " + Collog.getInstance().getSlaveTable());
+
 
             /**
              * Send response contain slave tables to client.
@@ -69,7 +70,9 @@ public class DataNodeRegisterHandler implements HttpHandler {
             (new ShardsAllocator()).allocateShards();
 
 
-
+            if(Collog.getInstance().getSlaveTable().size() == 1) {
+                MasterServer.runInputModule();
+            }
 //            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
 //            Helper.responseToClient(httpExchange, response);
 

@@ -1,6 +1,7 @@
 package data;
 
 import annotations.URLAnnotation;
+import collog.Collog;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import helper.Helper;
@@ -31,28 +32,23 @@ public class DataNodeServer implements Runnable {
         InetSocketAddress addr = new InetSocketAddress(port);
         HttpServer web_server = null;
 
-
         try {
             web_server = HttpServer.create(addr, 0);
-            System.out.println(1);
+
 
             /**
              * Register Contexts in web server
              */
 
             for (Class<?> cls : views_list) {
-                System.out.println(2);
                 URLAnnotation a = cls.getAnnotation(URLAnnotation.class);
-                System.out.println(a.value());
-                System.out.println(3);
                 web_server.createContext("/" + a.value(), (HttpHandler) cls.newInstance());
-                System.out.println(4);
                 System.out.println(a.value());
             }
             web_server.setExecutor(Executors.newFixedThreadPool(30));
-            System.out.println(5);
             web_server.start();
             (new MasterManager()).registerToMaster();
+            Collog.getInstance().http_server = web_server;
 
 
         } catch (IOException e) {

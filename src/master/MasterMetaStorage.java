@@ -1,6 +1,7 @@
 package master;
 
 import collog.Collog;
+import logging.Logging;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -19,18 +20,21 @@ public class MasterMetaStorage {
 
     private static MasterMetaStorage instance = null;
     private ArrayList<String> searchable_fields = new ArrayList<>();
+    private ArrayList<JSONObject> dashboard_datas = new ArrayList<>();
 
     public static MasterMetaStorage getInstance() {
         if(instance==null){
             instance = new MasterMetaStorage();
+            instance.searchable_fields.add("@timestamp"); // intialize searchable fields
         }
 
         return instance;
     }
 
-    private ArrayList<Integer> unallocation_shards = new ArrayList<>();
+    public ArrayList<Integer> unallocation_shards = new ArrayList<>();
+    public ArrayList<Integer> unallocation_replica_shards = new ArrayList<>();
 
-    public MasterMetaStorage() {
+    private MasterMetaStorage() {
         this.initUnallocationShard();
     }
 
@@ -38,9 +42,13 @@ public class MasterMetaStorage {
         /*
         shards information initializing
          */
+        if(Collog.getInstance().isElectioning())
+            return;
+        Logging.logger.info("initialize");
         int num_of_shards = Collog.getInstance().getShards();
         for(int i=0;i<num_of_shards;i++){
             unallocation_shards.add(i);
+            unallocation_replica_shards.add(i);
         }
         this.readMetaFile();
 
@@ -53,27 +61,12 @@ public class MasterMetaStorage {
         return unallocation_shards;
     }
 
-    public void updateUnallocationShard(){
-        ArrayList<JSONObject> data_nodes = Collog.getInstance().getSlaveTable();
-        Iterator<JSONObject> iter = data_nodes.iterator();
+    public void removeUnallocationReplicaShard(Integer a){
+        unallocation_replica_shards.remove(a);
+    }
 
-        ArrayList<Integer> new_unallocation_shards = (ArrayList<Integer>) this.unallocation_shards.clone();
-
-        while(iter.hasNext()){
-            JSONObject temp = iter.next();
-            ArrayList<Integer> shards = (ArrayList<Integer>)temp.get("shards");
-            for (int i=0; i<shards.size(); i++){
-
-                if (new_unallocation_shards.contains(shards.get(i))){
-                    new_unallocation_shards.remove(shards.get(i));
-                }
-            }
-            if (new_unallocation_shards.size() == 0) {
-                break;
-            }
-        }
-
-        this.unallocation_shards = new_unallocation_shards;
+    public ArrayList<Integer> getUnallocationReplicaShards() {
+        return unallocation_replica_shards;
     }
 
     public void saveMetaInfo() {
@@ -84,6 +77,30 @@ public class MasterMetaStorage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void removeDashboard(double id){
+
+        for(JSONObject j : this.dashboard_datas){
+            double _id = Double.parseDouble(j.get("id").toString());
+            if(_id == id){
+                this.dashboard_datas.remove(j);
+                break;
+            }
+        }
+    }
+    public void updateDashboard(double id, JSONObject data){
+        for(JSONObject j : this.dashboard_datas){
+            double _id = Double.parseDouble(j.get("id").toString());
+            if(_id == id){
+//                this.dashboard_datas.
+                this.dashboard_datas.remove(j);
+                this.dashboard_datas.add(data);
+                break;
+            }
+        }
+    }
+    public ArrayList<JSONObject> getDashboardDatas() {
+        return dashboard_datas;
     }
 
     public void addFields(String field){
@@ -96,6 +113,17 @@ public class MasterMetaStorage {
         this.saveMetaInfo();
     }
 
+    public void addDashBoardData(JSONObject json){
+//        this.searchable_fields.add(field);
+        this.dashboard_datas.add(json);
+        this.saveMetaInfo();
+    }
+
+    public void removeDashBoardData(JSONObject json){
+        this.dashboard_datas.remove(json);
+        this.saveMetaInfo();
+    }
+
 
     public JSONObject getMetaData(){
         /**
@@ -103,6 +131,7 @@ public class MasterMetaStorage {
          */
         JSONObject json = new JSONObject();
         json.put("searchable_fields", this.searchable_fields);
+        json.put("dashboards",this.dashboard_datas);
         json.put("shards", Collog.getInstance().getSlaveTable());
         return json;
     }
@@ -117,8 +146,18 @@ public class MasterMetaStorage {
             Object obj = parser.parse(reader);
             json = (JSONObject) obj;
 
-            if(json.containsKey("searchable_fields"))
-                this.searchable_fields = (ArrayList<String>)json.get("searchable_fields");
+            if(json.containsKey("dashboards"))
+                this.dashboard_datas = (ArrayList<JSONObject>)json.getOrDefault("dashboards",new ArrayList<JSONObject>());
+
+            if(json.containsKey("searchable_fields")) {
+                Iterator<String> iter = ((ArrayList<String>) json.get("searchable_fields")).iterator();
+                while(iter.hasNext()){
+                    String data = iter.next();
+                    if(!this.searchable_fields.contains(data))
+                        this.searchable_fields.add(data);
+                }
+//                this.searchable_fields.addAll((ArrayList<String>) json.get("searchable_fields"));
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

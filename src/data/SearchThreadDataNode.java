@@ -1,5 +1,6 @@
 package data;
 
+import logging.Logging;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class SearchThreadDataNode implements Runnable {
     }
 
     public ArrayList<JSONObject> getResponse(){
+//        Logging.logger.info(response);
         return response;
     }
 }

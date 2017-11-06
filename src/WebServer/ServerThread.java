@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class ServerThread implements Runnable {
-    /*
+	/*
     Do not use anymore
      */
 	private static final String DEFAULT_FILE_PATH = "index.json";
@@ -97,11 +97,11 @@ public class ServerThread implements Runnable {
 					connectionSocket.getOutputStream());
 			String requestMessageLine = inFromClient.readLine();
 			System.out.println("Request message is " + requestMessageLine);
-            System.out.println("Request body is " + inFromClient.readLine());
-            System.out.println("Request body is " + inFromClient.readLine());
-            System.out.println("Request body is " + inFromClient.readLine());
-            System.out.println("Request body is " + inFromClient.readLine());
-            System.out.println("Request body is " + inFromClient.readLine());
+			System.out.println("Request body is " + inFromClient.readLine());
+			System.out.println("Request body is " + inFromClient.readLine());
+			System.out.println("Request body is " + inFromClient.readLine());
+			System.out.println("Request body is " + inFromClient.readLine());
+			System.out.println("Request body is " + inFromClient.readLine());
 			StringTokenizer tokenizedLine = new StringTokenizer(
 					requestMessageLine);
 
@@ -147,12 +147,12 @@ public class ServerThread implements Runnable {
 			}
 
 			if(!is_founded){
-				 System.out.println("Bad Request");
+				System.out.println("Bad Request");
 
-				 outToClient.writeBytes("HTTP/1.0 404 Not Found \r\n");
-				 outToClient.writeBytes("Connection: close\r\n");
-				 outToClient.writeBytes("\r\n");
-				 outToClient.close();
+				outToClient.writeBytes("HTTP/1.0 404 Not Found \r\n");
+				outToClient.writeBytes("Connection: close\r\n");
+				outToClient.writeBytes("\r\n");
+				outToClient.close();
 			}
 			// if (tokenizedLine.nextToken().equals("GET")) {
 			// String fileName = tokenizedLine.nextToken();
