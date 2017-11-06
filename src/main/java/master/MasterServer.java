@@ -1,21 +1,18 @@
 package master;
 
 
-import java.io.IOException;
-import java.net.*;
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
-
 import annotations.URLAnnotation;
+import collog.Collog;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-
-import collog.Collog;
 import helper.Helper;
-import master.inputmodule.FileInputModule;
-import master.inputmodule.LineListener;
-import master.inputmodule.TcpInputModule;
-import master.inputmodule.UdpInputModule;
+import master.inputmodule.*;
+import scala.actors.threadpool.Arrays;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
 
 public class MasterServer implements Runnable {
@@ -74,7 +71,7 @@ public class MasterServer implements Runnable {
      * TODO 적절한 곳으로 옮겨줘야 할 부분
      */
     public static void runInputModule() {
-        LineListener<String> listener = new LineListener<>() {
+        LineListener<String> listener = new LineListener<String>() {
             @Override
             public void handle(String data) {
                 try {
@@ -101,6 +98,10 @@ public class MasterServer implements Runnable {
             case "file":
                 FileInputModule filemodule = new FileInputModule(Collog.getInstance().getFile_name(),listener);
                 new Thread(filemodule).start();
+                break;
+            case "kafka":
+                KafkaInputModule kafkaInputModule = new KafkaInputModule(Arrays.asList(Collog.getInstance().getTopics()),listener);
+                new Thread(kafkaInputModule).start();
                 break;
             default:
                 break;

@@ -7,24 +7,20 @@ import data.DataNodeServer;
 import data.ElectionWoker;
 import heartbeat.HeartBeatManager;
 import heartbeat.HeartBeatWorker;
-import helper.Helper;
 import logging.Logging;
 import master.MasterMetaStorage;
 import master.MasterServer;
 import master.ShardsAllocator;
 import org.apache.log4j.BasicConfigurator;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import queue.HeartBeatQueue;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Collog {
     /**
@@ -67,6 +63,7 @@ public class Collog {
     Data node List
      */
     ArrayList<JSONObject> slave_table = new ArrayList<>();
+    private String[] topics;
 
     private Collog() {
         BasicConfigurator.configure();
@@ -145,6 +142,12 @@ public class Collog {
                 case "http":
                     this.http_port = Integer.parseInt(properties.getProperty("http_port"));
                     break;
+                case "kafka":
+                    this.topics = properties.getProperty("topics").split(",");
+                    break;
+                default:
+                    break;
+
             }
 
 
@@ -332,5 +335,9 @@ public class Collog {
 
     public String getFile_name(){
         return this.file_name;
+    }
+
+    public String[] getTopics() {
+        return topics;
     }
 }
