@@ -1,84 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3453f8f8-6f40-42ee-a34e-8ec21159b425" name="Default" comment="20171025 1830">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/api/views/StaticFilesHandler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/data/ElectionWoker.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/data/views/AllocationReplicaShardFromMasterHandler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/data/views/DataReplicaInputHandler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/data/views/ElectedNewMasterHandler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/data/views/ElectionHandler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/heartbeat/HeartBeatManager.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/heartbeat/HeartBeatWorker.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/master/DataInputManager.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/master/inputmodule/FileInputModule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/master/inputmodule/LineListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/master/inputmodule/TcpInputModule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/master/inputmodule/UdpInputModule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/master/views/DashBoardRemoveView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/master/views/DashBoardUpdateView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/master/views/DashBoardView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/master/views/HeartBeatHandler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/queue/HeartBeatQueue.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/queue/PassiveQueue.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/queue/SimpleQueue.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/data/views/SlaveTableUpdateHandler.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/api/views/MainView.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/api/views/MainView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/api/views/MetaView.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/api/views/MetaView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/collog/Collog.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/collog/Collog.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/DataNodeManager.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/DataNodeManager.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/DataNodeMetaStorage.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/DataNodeMetaStorage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/DataNodeServer.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/DataNodeServer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/FileSearchHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/FileSearchHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/FileWriteHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/FileWriteHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/MasterManager.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/MasterManager.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/SearchThreadDataNode.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/SearchThreadDataNode.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/views/AllocationShardFromDataNodeHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/views/AllocationShardFromDataNodeHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/views/AllocationShardFromMasterHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/views/AllocationShardFromMasterHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/views/DataInputHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/views/DataInputHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/views/DataSearchHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/views/DataSearchHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/helper/Helper.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/helper/Helper.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/master/DataNodeManager$SearchThread.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/master/DataNodeManager$SearchThread.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/master/DataNodeManager.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/master/DataNodeManager.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/master/MasterMetaStorage.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/master/MasterMetaStorage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/master/MasterServer.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/master/MasterServer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/master/ShardsAllocator.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/master/ShardsAllocator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/master/views/DataNodeListHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/master/views/DataNodeListHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/master/views/DataNodeRegisterHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/master/views/DataNodeRegisterHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/master/views/DataNodeRemoveHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/master/views/DataNodeRemoveHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/master/views/DataSearchHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/master/views/DataSearchHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/master/views/MasterMetaInfoHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/master/views/MasterMetaInfoHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/webclient/WebClient.class" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/webclient/WebClient.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/json_simple_1_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/json_simple_1_1_1.xml" />
+    <list default="true" id="3453f8f8-6f40-42ee-a34e-8ec21159b425" name="Default" comment="20171106 1348">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JavaWebServer.iml" afterPath="$PROJECT_DIR$/JavaWebServer.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/data/meta.json" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/data/meta.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/master/meta.json" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/master/meta.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaWebServer/properties/settings.properties" afterPath="$PROJECT_DIR$/out/production/JavaWebServer/properties/settings.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/WebServer/ServerThread.java" afterPath="$PROJECT_DIR$/src/WebServer/ServerThread.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/views/MainView.java" afterPath="$PROJECT_DIR$/src/api/views/MainView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/views/MetaView.java" afterPath="$PROJECT_DIR$/src/api/views/MetaView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/api/views/SearchView.java" afterPath="$PROJECT_DIR$/src/api/views/SearchView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/collog/Collog.java" afterPath="$PROJECT_DIR$/src/collog/Collog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/DataNodeManager.java" afterPath="$PROJECT_DIR$/src/data/DataNodeManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/DataNodeMetaStorage.java" afterPath="$PROJECT_DIR$/src/data/DataNodeMetaStorage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/DataNodeServer.java" afterPath="$PROJECT_DIR$/src/data/DataNodeServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/FileSearchHandler.java" afterPath="$PROJECT_DIR$/src/data/FileSearchHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/FileWriteHandler.java" afterPath="$PROJECT_DIR$/src/data/FileWriteHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/MasterManager.java" afterPath="$PROJECT_DIR$/src/data/MasterManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/SearchThreadDataNode.java" afterPath="$PROJECT_DIR$/src/data/SearchThreadDataNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/meta.json" afterPath="$PROJECT_DIR$/src/data/meta.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/views/AllocationShardFromDataNodeHandler.java" afterPath="$PROJECT_DIR$/src/data/views/AllocationShardFromDataNodeHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/views/DataSearchHandler.java" afterPath="$PROJECT_DIR$/src/data/views/DataSearchHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/helper/Helper.java" afterPath="$PROJECT_DIR$/src/helper/Helper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/master/DataNodeManager.java" afterPath="$PROJECT_DIR$/src/master/DataNodeManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/master/MasterMetaStorage.java" afterPath="$PROJECT_DIR$/src/master/MasterMetaStorage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/master/MasterServer.java" afterPath="$PROJECT_DIR$/src/master/MasterServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/master/ShardsAllocator.java" afterPath="$PROJECT_DIR$/src/master/ShardsAllocator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/master/views/DataNodeRegisterHandler.java" afterPath="$PROJECT_DIR$/src/master/views/DataNodeRegisterHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/master/views/DataNodeRemoveHandler.java" afterPath="$PROJECT_DIR$/src/master/views/DataNodeRemoveHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/master/views/DataSearchHandler.java" afterPath="$PROJECT_DIR$/src/master/views/DataSearchHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/properties/settings.properties" afterPath="$PROJECT_DIR$/src/properties/settings.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/master/inputmodule/FileInputModule.java" afterPath="$PROJECT_DIR$/src/master/inputmodule/FileInputModule.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -90,104 +15,109 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Collog.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Collog.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/collog/Collog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="95" column="14" lean-forward="true" selection-start-line="95" selection-start-column="14" selection-end-line="95" selection-end-column="14" />
+            <state relative-caret-position="282">
+              <caret line="87" column="55" lean-forward="false" selection-start-line="87" selection-start-column="55" selection-end-line="87" selection-end-column="55" />
               <folding>
                 <element signature="e#7513#7514#0" expanded="true" />
                 <element signature="e#7547#7548#0" expanded="true" />
+                <element signature="e#10358#10359#0" expanded="true" />
+                <element signature="e#10395#10396#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HeartBeatWorker.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/heartbeat/HeartBeatWorker.java">
+      <file leaf-file-name="MainView.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/api/views/MainView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ElectionWoker.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/ElectionWoker.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="637">
-              <caret line="49" column="57" lean-forward="true" selection-start-line="49" selection-start-column="57" selection-end-line="49" selection-end-column="57" />
+            <state relative-caret-position="235">
+              <caret line="56" column="36" lean-forward="false" selection-start-line="56" selection-start-column="36" selection-end-line="56" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ElectedNewMasterHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/views/ElectedNewMasterHandler.java">
+      <file leaf-file-name="MetaView.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/api/views/MetaView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="50" column="43" lean-forward="false" selection-start-line="50" selection-start-column="43" selection-end-line="50" selection-end-column="43" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ElectionHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/views/ElectionHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="362">
-              <caret line="52" column="51" lean-forward="true" selection-start-line="52" selection-start-column="51" selection-end-line="52" selection-end-column="51" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HeartBeatManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/heartbeat/HeartBeatManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
-              <caret line="44" column="79" lean-forward="false" selection-start-line="44" selection-start-column="79" selection-end-line="44" selection-end-column="79" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HeartBeatHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/master/views/HeartBeatHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="48" column="59" lean-forward="false" selection-start-line="48" selection-start-column="59" selection-end-line="48" selection-end-column="59" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MasterServer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/master/MasterServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="439">
-              <caret line="69" column="37" lean-forward="false" selection-start-line="69" selection-start-column="23" selection-end-line="69" selection-end-column="37" />
+            <state relative-caret-position="-99">
+              <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PassiveQueue.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/queue/PassiveQueue.java">
+      <file leaf-file-name="StaticFilesHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/api/views/StaticFilesHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="32" lean-forward="true" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
+            <state relative-caret-position="-86">
+              <caret line="27" column="27" lean-forward="true" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataNodeServer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/DataNodeServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="166">
+              <caret line="49" column="50" lean-forward="false" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="50" />
+              <folding>
+                <element signature="e#600#601#0" expanded="true" />
+                <element signature="e#632#633#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MasterManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/MasterManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataNodeRegisterHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/master/views/DataNodeRegisterHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="257">
+              <caret line="68" column="15" lean-forward="true" selection-start-line="68" selection-start-column="15" selection-end-line="68" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShardsAllocator.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/master/ShardsAllocator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="276">
+              <caret line="118" column="13" lean-forward="true" selection-start-line="118" selection-start-column="13" selection-end-line="118" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataNodeManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/DataNodeManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="101">
+              <caret line="43" column="16" lean-forward="false" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SearchView.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/api/views/SearchView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-63">
+              <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -227,6 +157,9 @@
       <find>main</find>
       <find>heartbeat_map</find>
       <find>runInputModule</find>
+      <find>(new DataInputManager()).inputDataRequestToMaste</find>
+      <find>clientString</find>
+      <find>getFile</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -276,7 +209,6 @@
         <option value="$PROJECT_DIR$/src/master/MasterMetaStorage.java" />
         <option value="$PROJECT_DIR$/src/master/MasterServer.java" />
         <option value="$PROJECT_DIR$/src/master/ShardsAllocator.java" />
-        <option value="$PROJECT_DIR$/src/master/inputmodule/FileInputModule.java" />
         <option value="$PROJECT_DIR$/src/master/inputmodule/LineListener.java" />
         <option value="$PROJECT_DIR$/src/master/inputmodule/TcpInputModule.java" />
         <option value="$PROJECT_DIR$/src/master/inputmodule/UdpInputModule.java" />
@@ -292,10 +224,11 @@
         <option value="$PROJECT_DIR$/src/master/views/MasterMetaInfoHandler.java" />
         <option value="$PROJECT_DIR$/src/data/MasterManager.java" />
         <option value="$PROJECT_DIR$/src/data/DataNodeMetaStorage.java" />
-        <option value="$PROJECT_DIR$/src/collog/Collog.java" />
         <option value="$PROJECT_DIR$/src/properties/settings.properties" />
         <option value="$PROJECT_DIR$/src/heartbeat/HeartBeatManager.java" />
         <option value="$PROJECT_DIR$/src/webclient/WebClient.java" />
+        <option value="$PROJECT_DIR$/src/master/inputmodule/FileInputModule.java" />
+        <option value="$PROJECT_DIR$/src/collog/Collog.java" />
       </list>
     </option>
   </component>
@@ -329,7 +262,30 @@
             <path>
               <item name="JavaWebServer" type="b2602c69:ProjectViewProjectNode" />
               <item name="JavaWebServer" type="462c0819:PsiDirectoryNode" />
+              <item name=".settings" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaWebServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaWebServer" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaWebServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaWebServer" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaWebServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaWebServer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaWebServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaWebServer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="JavaWebServer" type="b2602c69:ProjectViewProjectNode" />
@@ -347,7 +303,26 @@
               <item name="JavaWebServer" type="b2602c69:ProjectViewProjectNode" />
               <item name="JavaWebServer" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaWebServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaWebServer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="heartbeat" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaWebServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaWebServer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="helper" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaWebServer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaWebServer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="logging" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="JavaWebServer" type="b2602c69:ProjectViewProjectNode" />
@@ -540,7 +515,14 @@
       <option name="project" value="LOCAL" />
       <updated>1509520684512</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="20171106 1348">
+      <created>1509943749216</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1509943749216</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -629,212 +611,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="20171025 1830" />
-    <option name="LAST_COMMIT_MESSAGE" value="20171025 1830" />
+    <MESSAGE value="20171106 1348" />
+    <option name="LAST_COMMIT_MESSAGE" value="20171106 1348" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/data/SearchThreadDataNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/views/DataInputHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/views/DataRemoveHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/views/DataReplicaInputHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="64" column="0" lean-forward="true" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/views/DataSearchHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="120" column="0" lean-forward="true" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/views/SlaveTableUpdateHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="28" column="30" lean-forward="false" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/views/ReallocationHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="71">
-          <caret line="37" column="15" lean-forward="true" selection-start-line="37" selection-start-column="15" selection-end-line="37" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/helper/Helper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="925">
-          <caret line="155" column="0" lean-forward="true" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
-          <folding>
-            <element signature="e#601#611#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/logging/Logging.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/queue/SimpleQueue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding>
-            <element signature="e#158#159#0" expanded="true" />
-            <element signature="e#189#190#0" expanded="true" />
-            <element signature="e#347#348#0" expanded="true" />
-            <element signature="e#384#385#0" expanded="true" />
-            <element signature="e#407#408#0" expanded="true" />
-            <element signature="e#441#442#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/WebServer/ServerThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="230" column="0" lean-forward="true" selection-start-line="230" selection-start-column="0" selection-end-line="230" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/WebServer/WebServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/DataInputManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/inputmodule/FileInputModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="81" column="0" lean-forward="true" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/inputmodule/LineListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/inputmodule/TcpInputModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="83" column="0" lean-forward="true" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/inputmodule/UdpInputModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/views/DashBoardRemoveView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="66" column="0" lean-forward="true" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/views/DashBoardUpdateView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="67" column="0" lean-forward="true" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/views/DashBoardView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/views/DataInputHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/master/views/DataNodeListHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="521">
@@ -874,7 +658,7 @@
         <state relative-caret-position="159">
           <caret line="22" column="16" lean-forward="false" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -893,22 +677,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="281">
           <caret line="61" column="53" lean-forward="false" selection-start-line="61" selection-start-column="53" selection-end-line="61" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/DataNodeManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-215">
-          <caret line="43" column="16" lean-forward="false" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/ShardsAllocator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1710">
-          <caret line="120" column="23" lean-forward="true" selection-start-line="120" selection-start-column="23" selection-end-line="120" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -932,26 +700,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/MasterMetaStorage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/MasterManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="49" column="51" lean-forward="false" selection-start-line="49" selection-start-column="51" selection-end-line="49" selection-end-column="51" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/data/views/AllocationReplicaShardFromMasterHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
@@ -966,22 +714,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/views/DataNodeRegisterHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="68" column="15" lean-forward="true" selection-start-line="68" selection-start-column="15" selection-end-line="68" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/DataNodeServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="49" column="39" lean-forward="false" selection-start-line="49" selection-start-column="39" selection-end-line="49" selection-end-column="39" />
           <folding />
         </state>
       </provider>
@@ -1066,20 +798,223 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/heartbeat/HeartBeatManager.java">
+    <entry file="file://$PROJECT_DIR$/src/master/views/HeartBeatHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="44" column="79" lean-forward="false" selection-start-line="44" selection-start-column="79" selection-end-line="44" selection-end-column="79" />
+        <state relative-caret-position="347">
+          <caret line="48" column="59" lean-forward="false" selection-start-line="48" selection-start-column="59" selection-end-line="48" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/inputmodule/LineListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/DataInputManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="16" lean-forward="false" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/views/DataInputHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-214">
+          <caret line="16" column="13" lean-forward="false" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/inputmodule/TcpInputModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="55" column="35" lean-forward="false" selection-start-line="55" selection-start-column="23" selection-end-line="55" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/inputmodule/UdpInputModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="46" column="32" lean-forward="true" selection-start-line="46" selection-start-column="32" selection-end-line="46" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/inputmodule/FileInputModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="76" column="9" lean-forward="false" selection-start-line="76" selection-start-column="9" selection-end-line="76" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/master/views/HeartBeatHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/data/views/DataReplicaInputHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="48" column="59" lean-forward="false" selection-start-line="48" selection-start-column="59" selection-end-line="48" selection-end-column="59" />
+        <state relative-caret-position="-12">
+          <caret line="20" column="43" lean-forward="true" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/MasterMetaStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/views/DashBoardRemoveView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="47" column="54" lean-forward="true" selection-start-line="47" selection-start-column="54" selection-end-line="47" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/views/DashBoardUpdateView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-199">
+          <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/views/DashBoardView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-447">
+          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/logging/Logging.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/helper/Helper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-514">
+          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding>
+            <element signature="e#601#611#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/jre/lib/rt.jar!/javax/activation/MimetypesFileTypeMap.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-188">
+          <caret line="20" column="11" lean-forward="false" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/out/production/JavaWebServer/helper/Helper.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#5756#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/replica/2/data.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-406">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/views/DataInputHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/views/MainView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="56" column="36" lean-forward="false" selection-start-line="56" selection-start-column="36" selection-end-line="56" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/views/MetaView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-99">
+          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/views/SearchView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-63">
+          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/api/views/StaticFilesHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-86">
+          <caret line="27" column="27" lean-forward="true" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/src.zip!/java/util/Properties.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="138" column="11" lean-forward="false" selection-start-line="138" selection-start-column="11" selection-end-line="138" selection-end-column="11" />
+          <folding>
+            <element signature="e#4787#4788#0" expanded="true" />
+            <element signature="e#4813#4814#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/heartbeat/HeartBeatManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-182">
+          <caret line="15" column="11" lean-forward="false" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1088,20 +1023,68 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/master/MasterServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="69" column="37" lean-forward="false" selection-start-line="69" selection-start-column="23" selection-end-line="69" selection-end-column="37" />
-          <folding />
+        <state relative-caret-position="-157">
+          <caret line="28" column="11" lean-forward="false" selection-start-line="28" selection-start-column="11" selection-end-line="28" selection-end-column="11" />
+          <folding>
+            <element signature="e#750#751#0" expanded="true" />
+            <element signature="e#782#783#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/collog/Collog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="95" column="14" lean-forward="true" selection-start-line="95" selection-start-column="14" selection-end-line="95" selection-end-column="14" />
+        <state relative-caret-position="282">
+          <caret line="87" column="55" lean-forward="false" selection-start-line="87" selection-start-column="55" selection-end-line="87" selection-end-column="55" />
           <folding>
             <element signature="e#7513#7514#0" expanded="true" />
             <element signature="e#7547#7548#0" expanded="true" />
+            <element signature="e#10358#10359#0" expanded="true" />
+            <element signature="e#10395#10396#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/DataNodeManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="43" column="16" lean-forward="false" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/DataNodeServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="49" column="50" lean-forward="false" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="50" />
+          <folding>
+            <element signature="e#600#601#0" expanded="true" />
+            <element signature="e#632#633#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/MasterManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/views/DataNodeRegisterHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="68" column="15" lean-forward="true" selection-start-line="68" selection-start-column="15" selection-end-line="68" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/master/ShardsAllocator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="118" column="13" lean-forward="true" selection-start-line="118" selection-start-column="13" selection-end-line="118" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
