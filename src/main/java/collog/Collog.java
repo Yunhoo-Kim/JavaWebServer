@@ -90,7 +90,7 @@ public class Collog {
             }
 
             this.timer = new Timer();
-            long delay = 10000;
+            long delay = 2000;
             long period = 3000;
             this.heartbeat_thread = new HeartBeatManager(this.is_master);
             this.timer.scheduleAtFixedRate(this.heartbeat_thread, delay, period);
@@ -114,7 +114,7 @@ public class Collog {
 
     private void readProperties() throws IOException {
         Properties properties = new Properties();
-        FileInputStream in = new FileInputStream("src/properties/settings.properties");
+        FileInputStream in = new FileInputStream("src/main/java/properties/settings.properties");
         properties.load(new InputStreamReader(in, "UTF-8"));
         in.close();
 

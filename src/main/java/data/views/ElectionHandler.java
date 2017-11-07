@@ -1,38 +1,29 @@
-package master.views;
-
+package data.views;
 import annotations.ContentType;
 import annotations.URLAnnotation;
+import annotations.URLMethod;
 import collog.Collog;
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import helper.Helper;
-
-import master.MasterServer;
-import master.ShardsAllocator;
+import logging.Logging;
 import org.json.simple.JSONObject;
-import java.io.*;
 
-@URLAnnotation("master/node/register/")
-public class DataNodeRegisterHandler implements HttpHandler {
+import java.io.IOException;
 
-    @ContentType("application/json")
-    public byte[] getResponse(){
-        String a = "{'abc':'abc'}";
-        return a.getBytes();
-    }
+@URLAnnotation("data/election/")
+public class ElectionHandler implements HttpHandler {
+
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-//        System.out.println("Post input");
         String method = httpExchange.getRequestMethod();
-//        System.out.println("Method : " + method);
+
         if(method.equalsIgnoreCase("GET")){
-            byte[] response = this.getResponse();
+            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
             Helper.responseToClient(httpExchange, response);
 
         }else if(method.equalsIgnoreCase("POST")){
-//            System.out.println("Post input");
             /**
              * Read request body from client
              */
@@ -51,30 +42,17 @@ public class DataNodeRegisterHandler implements HttpHandler {
              *
              */
 
-            /**
-             * ToDo: Json format check
-             */
 
-            Collog.getInstance().addSlave(json);
 
+//            Collog.getInstance().addSlave(json);
 
             /**
-             * Send response contain slave tables to client.
+             * Send response to client.
              */
-            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
+//            Logging.logger.info("###############receive election message###################");
+            byte[] response = Helper.decodeToStr(json).getBytes();
             Helper.responseToClient(httpExchange, response);
-
-            /**
-             * ToDo: reallocation shards to slave
-             */
-            (new ShardsAllocator()).allocateShards();
-
-
-            if(Collog.getInstance().getSlaveTable().size() == 1) {
-                MasterServer.runInputModule();
-            }
-//            byte[] response = Collog.getInstance().getSlaveTable().toString().getBytes();
-//            Helper.responseToClient(httpExchange, response);
+            Collog.getInstance().startElection();
 
         }else if(method.equalsIgnoreCase("OPTIONS")){
             Helper.optionsResponse(httpExchange);

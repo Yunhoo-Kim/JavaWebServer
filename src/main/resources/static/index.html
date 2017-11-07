@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/static/main.css">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"-->
+    <!--integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"-->
+    <!--crossorigin="anonymous"></script>-->
+    <style>
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">Collog</a>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active collog-nav" view="dashboard-view" href="javascript:void(0);"
+               id="dashboard">DashBoard <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link collog-nav" view="dashboard-add-view" href="javascript:void(0);"
+               id="add_dashboard">Add DashBoard</a>
+            <a class="nav-item nav-link collog-nav" href="javascript:void(0);" view="query-view" id="query">Query</a>
+            <!--<a class="nav-item nav-link disabled" href="javascript:void(0);">Disabled</a>-->
+        </div>
+    </div>
+</nav>
+<div class="col-md-12 collog-view" id="dashboard-view">
+    <div class="col-md-12">
+        <h3>Shards Information</h3>
+    </div>
+    <div id="nodes-view" class="col-md-12">
+
+    </div>
+    <br>
+    <br>
+    <div class="col-md-12">
+    <h3>DashBoards</h3>
+    </div>
+
+    <div class="col-md-12" id="graph-div">
+        <!--<canvas id="myChart" width="400" height="400"></canvas>-->
+        <!--<canvas id="myChart2" width="400" height="400"></canvas>-->
+    </div>
+</div>
+
+<div class="col-md-12 collog-view" id="dashboard-add-view" style="display:none;">
+    <div class="col-md-12">
+        <select id="graph-type">
+            <option value="line">line</option>
+            <option value="doughnut">Doughnut</option>
+            <option value="bar">bar</option>
+            <option value="pie">pie</option>
+        </select>
+        <select id="graph-searchable-field">
+        </select>
+        <select id="duration">
+            <option value="1">1일</option>
+            <option value="2">2일</option>
+            <option value="3">3일</option>
+            <option value="4">4일</option>
+            <option value="5">5일</option>
+            <option value="6">6일</option>
+            <option value="7">7일</option>
+            <option value="8">8일</option>
+            <option value="9">9일</option>
+            <option value="10">10일</option>
+            <option value="20">20일</option>
+            <option value="30">30일</option>
+        </select>
+        <input type="text" id="label-value">
+        <button id="draw-graph-btn">만들기</button>
+        <button id="graph-save">저장</button>
+        <button id="clean-preview-graph">전체 지우기</button>
+
+    </div>
+    <div class="col-md-12" id="graph-preview-div">
+        <!--<canvas id="myChart" width="400" height="400"></canvas>-->
+        <!--<canvas id="myChart2" width="400" height="400"></canvas>-->
+    </div>
+</div>
+
+<div class="col-md-12 collog-view" id="query-view" style="display:none;">
+    <div class="col-md-12">
+        <button id="add-must">add AND query</button>
+        <button id="add-should">add Or query</button>
+    </div>
+    <div class="col-md-12">
+        <select id="searchable-field">
+        </select>
+        <input type="text" id="search-value">
+        <button id="search-btn">검색!</button>
+    </div>
+    <h3>And</h3>
+    <div id="must-query-div">
+    </div>
+
+    <h3>OR</h3>
+    <div id="should-query-div">
+
+    </div>
+    <table class="col-md-12 table" id="personDataTable" style="font-size: 15px;">
+        <tr id="query-table-row" style="font-size: 18px;">
+            <!--<th>Id</th>-->
+            <!--<th>First Name</th>-->
+            <!--<th>Last Name</th>-->
+        </tr>
+
+    </table>
+</div>
+<div class="modal fade" id="update-graph-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">그래프 수정</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="update-text-div">
+                    <p>액션을 선택해주세요</p>
+                </div>
+                <div id="update-div" class="dis-none">
+                    <select id="update-duration">
+                        <option value="1">1일</option>
+                        <option value="2">2일</option>
+                        <option value="3">3일</option>
+                        <option value="4">4일</option>
+                        <option value="5">5일</option>
+                        <option value="6">6일</option>
+                        <option value="7">7일</option>
+                        <option value="8">8일</option>
+                        <option value="9">9일</option>
+                        <option value="10">10일</option>
+                        <option value="20">20일</option>
+                        <option value="30">30일</option>
+                    </select>
+                    <select id="update-graph-type">
+                        <option value="line">line</option>
+                        <option value="doughnut">Doughnut</option>
+                        <option value="bar">bar</option>
+                        <option value="pie">pie</option>
+                    </select>
+                    <input type="text" id="update-label-value">
+                    <button id="update-complete-btn">
+                        수정 완료
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="update-btn">수정</button>
+                <button type="button" class="btn btn-primary" id="remove-btn">삭제</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+</script>
+
+</body>
+<script src="/static/main.js" type="text/javascript"></script>
+</html>

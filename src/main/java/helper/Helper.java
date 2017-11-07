@@ -8,6 +8,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,19 +27,31 @@ public class Helper {
         String relPath = pkgname.replace('.', '/');
 //	    System.out.println("ClassDiscovery: Package: " + pkgname + " becomes Path:" + relPath);
         URL resource = ClassLoader.getSystemClassLoader().getResource(relPath);
+        String url = String.format("src/main/java/%s",relPath);
+//        URL rr = null;
+//        try {
+//            rr = new URL(url);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+        Logging.logger.info("URL : " + url);
 //	    System.out.println("ClassDiscovery: Resource = " + resource);
         if (resource == null) {
             throw new RuntimeException("No resource for " + relPath);
         }
-        fullPath = resource.getFile();
-        System.out.println("ClassDiscovery: FullPath = " + resource);
+//        fullPath = resource.getFile();
+//        System.out.println("ClassDiscovery: FullPath = " + resource);
 
         try {
-            directory = new File(resource.toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(pkgname + " (" + resource + ") does not appear to be a valid URL / URI.  Strange, since we got it from the system...", e);
+//            directory = new File(resource.toURI());
+//            directory = new File(rr.toURI());
+            directory = new File(url);
+//        } catch (URISyntaxException e) {
         } catch (IllegalArgumentException e) {
             directory = null;
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(pkgname + " (" + resource + ") does not appear to be a valid URL / URI.  Strange, since we got it from the system...", e);
         }
 //        System.out.println("ClassDiscovery: Directory = " + directory);
 
@@ -47,9 +60,10 @@ public class Helper {
             String[] files = directory.list();
             for (int i = 0; i < files.length; i++) {
                 // we are only interested in .class files
-                if (files[i].endsWith(".class")) {
+                Logging.logger.info(files[i]);
+                if (files[i].endsWith(".java")) {
                     // removes the .class extension
-                    String className = pkgname + '.' + files[i].substring(0, files[i].length() - 6);
+                    String className = pkgname + '.' + files[i].substring(0, files[i].length() - 5);
                     System.out.println("ClassDiscovery: className = " + className);
                     try {
                         classes.add(Class.forName(className));

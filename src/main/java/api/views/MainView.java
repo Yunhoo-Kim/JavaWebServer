@@ -17,7 +17,7 @@ public class MainView implements HttpHandler {
     //    @URLMethod("GET")
     @ContentType("text/html")
     public byte[] getResponse() {
-        String fileName = "static/index.html";
+        String fileName = "src/main/resources/static/index.html";
         File file = new File(fileName);
         byte[] fileInBytes = null;
 

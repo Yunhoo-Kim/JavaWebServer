@@ -71,7 +71,7 @@ public class MasterMetaStorage {
 
     public void saveMetaInfo() {
         try {
-            FileWriter writer = new FileWriter("src/master/meta.json");
+            FileWriter writer = new FileWriter("src/main/java/master/meta.json");
             writer.write(this.getMetaData().toString());
             writer.close();
         } catch (IOException e) {
@@ -141,7 +141,7 @@ public class MasterMetaStorage {
 
         try {
             JSONParser parser = new JSONParser();
-            FileReader reader = new FileReader("src/master/meta.json");
+            FileReader reader = new FileReader("src/main/java/master/meta.json");
 
             Object obj = parser.parse(reader);
             json = (JSONObject) obj;

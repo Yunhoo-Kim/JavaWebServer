@@ -20,6 +20,7 @@ public class MasterManager {
         try {
             (new WebClient()).sendPostRequestWithJson(url, (new DataNodeMetaStorage()).getMyInfo().toString());
             this.syncShardsInfoWithMaster();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -31,6 +32,7 @@ public class MasterManager {
 
         try {
             (new WebClient()).sendPostRequestWithJson(url, (new DataNodeMetaStorage()).getMyInfo().toString());
+//            this.syncShardsInfoWithMaster();
         } catch (Exception e) {
             e.printStackTrace();
         }
