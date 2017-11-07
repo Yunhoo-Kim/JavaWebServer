@@ -8,9 +8,6 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-//import helper.DebugUtil;
-import master.DataInputManager;
-
 /**
  * Created by semaj on 17. 10. 20.
  */
@@ -19,12 +16,8 @@ public class TcpInputModule implements Runnable{
 
     int port;
 
-    private LineListener<String> listener;
-
-
-    public TcpInputModule(int tcp_port, LineListener<String> listener) {
+    public TcpInputModule(int tcp_port) {
         this.port = tcp_port;
-        this.listener = listener;
     }
 
     @Override
@@ -65,18 +58,12 @@ public class TcpInputModule implements Runnable{
             //연결 끊길때까지 data 받아오기
             try {
                 while ((line = inFromClient.readLine()) != null) {
-                    listener.handle(line);
-                    (new DataInputManager()).inputDataRequestToMaster(line);
-//                    DebugUtil.log.debug(line);
+                    clientString += line;
+                    System.out.println(line);
                 }
-                //TODO 모아진 data 보내기 - onSuccess? synchronize 필요
-//                DebugUtil.log.debug(clientString);
+                //모아진 data 보내기 - onSuccess? synchronize 필요
             } catch (IOException e) {
                 e.printStackTrace();
-                listener.errorHandle(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                listener.errorHandle(e.getMessage());
             }
         }
     }
