@@ -261,7 +261,7 @@ public class Collog {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        return "127.0.0.1";
+        return addr.getHostAddress();
     }
 
     public int getPort() {
