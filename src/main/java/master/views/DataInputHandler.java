@@ -8,6 +8,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import helper.Helper;
 
+import logging.Logging;
 import master.DataNodeManager;
 import master.MasterMetaStorage;
 import org.json.simple.JSONObject;
@@ -49,6 +50,7 @@ public class DataInputHandler implements HttpHandler {
              * ToDo: Json format check
              */
             MasterMetaStorage.getInstance().comparisonKeys((JSONObject)json.clone());
+//            Logging.logger.info(json.toString());
             (new DataNodeManager()).sendDataToDataNodes(json);
 
 

@@ -9,7 +9,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 //import helper.DebugUtil;
+import helper.Helper;
+import logging.Logging;
 import master.DataInputManager;
+import master.DataNodeManager;
 
 /**
  * Created by semaj on 17. 10. 20.
@@ -66,7 +69,10 @@ public class TcpInputModule implements Runnable{
             try {
                 while ((line = inFromClient.readLine()) != null) {
                     listener.handle(line);
-                    (new DataInputManager()).inputDataRequestToMaster(line);
+                    Logging.logger.info(System.currentTimeMillis());
+                    Logging.logger.info(line);
+//                    (new DataNodeManager()).sendDataToDataNodes(Helper.encodeToJson(line));
+//                    (new DataInputManager()).inputDataRequestToMaster(line);
 //                    DebugUtil.log.debug(line);
                 }
                 //TODO 모아진 data 보내기 - onSuccess? synchronize 필요
