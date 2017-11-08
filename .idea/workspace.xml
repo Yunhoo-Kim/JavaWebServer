@@ -6,11 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3453f8f8-6f40-42ee-a34e-8ec21159b425" name="Default" comment="20171108 1904">
+    <list default="true" id="3453f8f8-6f40-42ee-a34e-8ec21159b425" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/data/meta.json" afterPath="$PROJECT_DIR$/src/main/java/data/meta.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/master/ShardsAllocator.java" afterPath="$PROJECT_DIR$/src/main/java/master/ShardsAllocator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/properties/settings.properties" afterPath="$PROJECT_DIR$/src/main/java/properties/settings.properties" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -515,7 +512,14 @@
       <option name="project" value="LOCAL" />
       <updated>1510135490192</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="20171108 2020">
+      <created>1510140049373</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1510140049373</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -623,7 +627,8 @@
     <MESSAGE value="20171106 1349" />
     <MESSAGE value="20171106 1355" />
     <MESSAGE value="20171108 1904" />
-    <option name="LAST_COMMIT_MESSAGE" value="20171108 1904" />
+    <MESSAGE value="20171108 2020" />
+    <option name="LAST_COMMIT_MESSAGE" value="20171108 2020" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
