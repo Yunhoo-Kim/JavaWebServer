@@ -142,17 +142,19 @@ public class ShardsAllocator {
 //        int shards = Collog.getInstance().getShards();
 //        int nodes_num = data_nodes.size();
 //
-//        int mean = (int) (Math.round((double)shards / nodes_num) - 0.3);
+//        int whole_mean = (int) (Math.round((double)shards * 2 / nodes_num));
+//        int shard_mean = (int) (Math.round((double)shards  / nodes_num) - 0.3);
+//        int replica_mean = shard_mean;
 //
-//        while(iter.hasNext()){
-//            JSONObject node = iter.next();
-//            int shard_size_per_node = ((ArrayList<Integer>)node.get("replica_shards")).size();
-//            if(shard_size_per_node < mean){
+//        for(JSONObject node : data_nodes){
+//            int shard_size_per_node = ((ArrayList<Integer>)node.get("replica_shards")).size() + ((ArrayList<Integer>)node.get("shards")).size();
+//            if(shard_size_per_node < whole_mean){
 //                under_mean_nodes.add(node);
-//            }else if(shard_size_per_node > mean){
+//            }else if(shard_size_per_node > whole_mean){
 //                over_mean_nodes.add(node);
 //            }
 //        }
+//
 //        int i=0;
 //        int j=0;
 //        iter = over_mean_nodes.iterator();
@@ -212,7 +214,6 @@ public class ShardsAllocator {
 //                under_mean_nodes.remove(under_node);
 //            }
 //        }
-
 
     }
 
