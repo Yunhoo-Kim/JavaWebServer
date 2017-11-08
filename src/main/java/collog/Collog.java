@@ -124,8 +124,9 @@ public class Collog {
     private void setProperties(Properties properties) {
         this.is_master = Boolean.parseBoolean(properties.getProperty("master", "true"));
         this.port = Integer.parseInt(properties.getProperty("port"));
-
+        this.shards = Integer.parseInt(properties.getProperty("numOfShards"));
         if (this.is_master) {
+
             this.input_module = properties.getProperty("input_module");
             this.webservice = Boolean.parseBoolean(properties.getProperty("webservice", "false"));
 
