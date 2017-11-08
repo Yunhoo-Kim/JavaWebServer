@@ -261,6 +261,7 @@ public class Collog {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
+        Logging.logger.info("my ip is " + addr.getHostAddress());
         return addr.getHostAddress();
     }
 
