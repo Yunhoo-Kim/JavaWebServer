@@ -18,8 +18,7 @@ import queue.HeartBeatQueue;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.*;
 
 public class Collog {
@@ -262,7 +261,21 @@ public class Collog {
             e.printStackTrace();
         }
         Logging.logger.info("my ip is " + addr.getHostAddress());
-        return addr.getHostAddress();
+        return this.getLocalAddress().getHostAddress();
+    }
+
+    private static InetAddress getLocalAddress(){
+        try {
+            Enumeration<NetworkInterface> b = NetworkInterface.getNetworkInterfaces();
+            while( b.hasMoreElements()){
+                for ( InterfaceAddress f : b.nextElement().getInterfaceAddresses())
+                    if ( f.getAddress().isSiteLocalAddress())
+                        return f.getAddress();
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public int getPort() {
