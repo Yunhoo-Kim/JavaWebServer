@@ -30,7 +30,7 @@ public class HeartBeatManager extends TimerTask {
         if (this.is_master) {
             // master
             HashMap<Integer, Long> map = (HashMap<Integer, Long>) ((HashMap<Integer, Long>) Collog.getInstance().heartbeat_map).clone();
-            Long before5min = (System.currentTimeMillis() / 1000) - 10;
+            Long before5min = (System.currentTimeMillis() / 1000) - 7;
             for (Map.Entry<Integer, Long> entry : map.entrySet()) {
                 if (before5min > entry.getValue()) {
                     Logging.logger.info("data node " + entry.getKey() + "have to be deleted");
