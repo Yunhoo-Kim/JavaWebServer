@@ -30,6 +30,7 @@ public class ShardsAllocator {
         /**
          * Method for assign unassigned shards to Data Node
          */
+        //MasterMetaStorage에서 unallocationShard 리스트 복사해옴
         ArrayList<Integer> unassigned_shards = (ArrayList<Integer>) MasterMetaStorage.getInstance().getUnallocationShards().clone();
         ArrayList<JSONObject> data_nodes = Collog.getInstance().getSlaveTable();
 
@@ -43,6 +44,7 @@ public class ShardsAllocator {
             JSONObject temp = new JSONObject();
             temp.put("shard_number", a);
 
+            //data node에 shard 할당
             try {
                 (new DataNodeManager()).sendAllocationRequest(Integer.parseInt(node.get("node_id").toString()),temp);
             } catch (Exception e) {

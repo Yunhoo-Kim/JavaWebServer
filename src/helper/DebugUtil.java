@@ -1,9 +1,9 @@
 package helper;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+import org.apache.logging.log4j.core.BasicConfigurationFactory;
+import org.apache.logging.log4j.simple.SimpleLogger;
 
 /**
  * Created by semaj on 17. 10. 20.
@@ -14,19 +14,8 @@ public class DebugUtil {
 
     static
     {
-        log = Logger.getLogger("");
-        log.setLevel(Level.ALL);
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setFormatter(new SimpleFormatter());
-        handler.setLevel(Level.ALL);
-        log.addHandler(handler);
+        log = Logger.getLogger(SimpleLogger.class);
+        BasicConfigurator.configure();
     }
 
-    public static void info(String text){
-        log.info(text);
-    }
-
-    public static void warn(String text){
-        log.warning(text);
-    }
 }

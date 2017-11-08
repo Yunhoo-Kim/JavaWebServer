@@ -20,6 +20,14 @@ public class DataNodeManager {
      */
 
 
+    /**
+     *  node_id로 Collog Instance에서 slave 노드 불러오고
+     *  slave노드에 ip와 port 넣어서 webclient에게 allocation 명령 보냄
+     *  body에는 shard_number가 들어있다. 즉 shard를 나타냄
+     * @param node_id data node의 id
+     * @param body data node에 보낼 shard body
+     * @throws Exception
+     */
     public void sendAllocationRequest(int node_id, JSONObject body) throws Exception{
         JSONObject json = Collog.getInstance().getSlave(node_id);
         WebClient wcli = new WebClient();

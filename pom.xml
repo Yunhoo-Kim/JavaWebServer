@@ -59,16 +59,10 @@
                     <configuration>
                         <source>1.8</source>
                         <target>1.8</target>
-                        <archive>
-                            <manifest>
-                                <mainclass>collog.Collog</mainclass>
-                            </manifest>
-                        </archive>
                     </configuration>
                 </plugin>
-
             </plugins>
         </pluginManagement>
     </build>
-
+    
 </project>
