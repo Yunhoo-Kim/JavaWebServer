@@ -6,8 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3453f8f8-6f40-42ee-a34e-8ec21159b425" name="Default" comment="">
+    <list default="true" id="3453f8f8-6f40-42ee-a34e-8ec21159b425" name="Default" comment="20171108 1904">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/data/meta.json" afterPath="$PROJECT_DIR$/src/main/java/data/meta.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/master/ShardsAllocator.java" afterPath="$PROJECT_DIR$/src/main/java/master/ShardsAllocator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/properties/settings.properties" afterPath="$PROJECT_DIR$/src/main/java/properties/settings.properties" />
     </list>
@@ -35,8 +36,8 @@
       <file leaf-file-name="Collog.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/collog/Collog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="126" column="71" lean-forward="false" selection-start-line="126" selection-start-column="71" selection-end-line="126" selection-end-column="71" />
+            <state relative-caret-position="77">
+              <caret line="168" column="22" lean-forward="false" selection-start-line="168" selection-start-column="16" selection-end-line="168" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -72,21 +73,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ShardsAllocator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ShardsAllocator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/master/ShardsAllocator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="135" column="43" lean-forward="false" selection-start-line="135" selection-start-column="43" selection-end-line="135" selection-end-column="43" />
+            <state relative-caret-position="1691">
+              <caret line="230" column="84" lean-forward="false" selection-start-line="230" selection-start-column="84" selection-end-line="230" selection-end-column="84" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.properties" pinned="false" current-in-tab="false">
+      <file leaf-file-name="settings.properties" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/properties/settings.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="29" lean-forward="true" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+            <state relative-caret-position="15">
+              <caret line="1" column="9" lean-forward="false" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -136,7 +137,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>FileSearchHandler</find>
       <find>data/search</find>
       <find>response</find>
       <find>master/node</find>
@@ -163,8 +163,10 @@
       <find>clientString</find>
       <find>getFile</find>
       <find>shards</find>
-      <find>balance</find>
       <find>math</find>
+      <find>remove</find>
+      <find>balan</find>
+      <find>balance</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -174,6 +176,9 @@
         <entry key="$PROJECT_DIR$" value="test" />
       </map>
     </option>
+    <push-targets>
+      <push-target-info target-remote="origin" target-branch="master" repo="$PROJECT_DIR$" source="maven" />
+    </push-targets>
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -232,8 +237,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/collog/Collog.java" />
         <option value="$PROJECT_DIR$/logdata/access.log-2017-10-17-1508216401.log" />
-        <option value="$PROJECT_DIR$/src/main/java/properties/settings.properties" />
         <option value="$PROJECT_DIR$/src/main/java/master/ShardsAllocator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/properties/settings.properties" />
       </list>
     </option>
   </component>
@@ -300,6 +305,14 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="collog" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebServerTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaWebServer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WebServerTest" type="b2602c69:ProjectViewProjectNode" />
@@ -495,12 +508,18 @@
       <option name="project" value="LOCAL" />
       <updated>1510131082922</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="20171108 1904">
+      <created>1510135490191</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1510135490192</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="2560" height="1440" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -510,7 +529,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5171131" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5171131" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32886904" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -603,7 +622,8 @@
     <MESSAGE value="20171106 1348" />
     <MESSAGE value="20171106 1349" />
     <MESSAGE value="20171106 1355" />
-    <option name="LAST_COMMIT_MESSAGE" value="20171106 1355" />
+    <MESSAGE value="20171108 1904" />
+    <option name="LAST_COMMIT_MESSAGE" value="20171108 1904" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -799,24 +819,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/collog/Collog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="126" column="71" lean-forward="false" selection-start-line="126" selection-start-column="71" selection-end-line="126" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/properties/settings.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="29" lean-forward="true" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+        <state relative-caret-position="77">
+          <caret line="168" column="22" lean-forward="false" selection-start-line="168" selection-start-column="16" selection-end-line="168" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/master/ShardsAllocator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="135" column="43" lean-forward="false" selection-start-line="135" selection-start-column="43" selection-end-line="135" selection-end-column="43" />
+        <state relative-caret-position="1691">
+          <caret line="230" column="84" lean-forward="false" selection-start-line="230" selection-start-column="84" selection-end-line="230" selection-end-column="84" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/properties/settings.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="9" lean-forward="false" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
           <folding />
         </state>
       </provider>
