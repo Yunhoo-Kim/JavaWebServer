@@ -22,7 +22,7 @@ public class ShardsAllocator {
         this.moveShards();
         this.allocateUnassignedReplicaShards();
         this.moveReplicaShards();
-//        this.balance();
+        this.balance();
 
     }
 
@@ -69,7 +69,7 @@ public class ShardsAllocator {
         int nodes_num = data_nodes.size();
 
 //        int mean = shards/nodes_num;
-        int mean = (int) Math.round((double)shards / nodes_num);
+        int mean = (int) Math.round(((double)shards / nodes_num) - 0.3);
         while(iter.hasNext()){
             JSONObject node = iter.next();
             int shard_size_per_node = ((ArrayList<Integer>)node.get("shards")).size();
@@ -135,6 +135,85 @@ public class ShardsAllocator {
         /**
          * Method for balancing among shards
          */
+//        ArrayList<JSONObject> data_nodes = Collog.getInstance().getSlaveTable();
+//        Iterator<JSONObject> iter = data_nodes.iterator();
+//        ArrayList<JSONObject> over_mean_nodes = new ArrayList<>();
+//        ArrayList<JSONObject> under_mean_nodes = new ArrayList<>();
+//        int shards = Collog.getInstance().getShards();
+//        int nodes_num = data_nodes.size();
+//
+//        int mean = (int) (Math.round((double)shards / nodes_num) - 0.3);
+//
+//        while(iter.hasNext()){
+//            JSONObject node = iter.next();
+//            int shard_size_per_node = ((ArrayList<Integer>)node.get("replica_shards")).size();
+//            if(shard_size_per_node < mean){
+//                under_mean_nodes.add(node);
+//            }else if(shard_size_per_node > mean){
+//                over_mean_nodes.add(node);
+//            }
+//        }
+//        int i=0;
+//        int j=0;
+//        iter = over_mean_nodes.iterator();
+//
+//        while(true){
+//            int over_size = over_mean_nodes.size();
+//            int under_size = under_mean_nodes.size();
+//
+//            if(under_size == 0 || over_size == 0){
+//                break;
+//            }
+//
+//            JSONObject over_node = over_mean_nodes.get(j % over_size);
+//            JSONObject under_node = under_mean_nodes.get(i % under_size);
+//            j++;
+//            i++;
+//
+//            ArrayList<Integer> over_node_shards = (ArrayList<Integer>)over_node.get("replica_shards");
+//            ArrayList<Integer> under_node_shards = (ArrayList<Integer>)under_node.get("replica_shards");
+//
+//            if(over_node_shards.size() == mean){
+//                over_mean_nodes.remove(over_node);
+//                over_node = over_mean_nodes.get(j % (over_size - 1));
+//                over_node_shards = (ArrayList<Integer>)over_node.get("replica_shards");
+//                j++;
+//            }
+//            JSONObject data = new JSONObject();
+//
+//            int shard_number = 0;
+//            int index = 0;
+//            boolean is_founded = false;
+//            int over_node_shards_size = over_node_shards.size();
+//            for(int k=1;k<over_node_shards_size;k++){
+//                index = over_node_shards_size - k;
+//                shard_number = over_node_shards.get(index);
+////                Logging.logger.info(shard_number);
+//                if(!Collog.getInstance().hasShard(Integer.parseInt(under_node.get("node_id").toString()), shard_number)){
+////                    Logging.logger.info("node doesn't have " + shard_number);
+//                    is_founded = true;
+//                    break;
+//                }
+//            }
+//            data.put("shard_number", shard_number);
+//            data.put("node_id",Collog.getInstance().getSlaveHasShard(shard_number).get("node_id").toString());
+//
+//            try {
+//
+//                (new DataNodeManager()).sendReplicaAllocationRequest(Integer.parseInt(under_node.get("node_id").toString()), data);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            under_node_shards.add(shard_number);
+////            over_node_shards.remove(over_size-1);
+//            over_node_shards.remove(index);
+//            if(under_node_shards.size() >= mean){
+//                under_mean_nodes.remove(under_node);
+//            }
+//        }
+
+
     }
 
     private void allocateUnassignedReplicaShards(){
@@ -142,11 +221,6 @@ public class ShardsAllocator {
          * Method for assign unassigned shards to Data Node
          */
         ArrayList<Integer> unassigned_shards = (ArrayList<Integer>) MasterMetaStorage.getInstance().getUnallocationReplicaShards().clone();
-//        ArrayList<Long> unassigned_shards = new ArrayList<>();
-//        for(Integer i : unassigned_shards_int){
-//            unassigned_shards.add(i.longValue());
-//        }
-//        ArrayList<Integer>
         ArrayList<JSONObject> data_nodes = Collog.getInstance().getSlaveTable();
 
         int i = 0;
@@ -190,7 +264,7 @@ public class ShardsAllocator {
         int nodes_num = data_nodes.size();
 
 //        int mean = shards/nodes_num;
-        int mean = (int) Math.round((double)shards / nodes_num);
+        int mean = (int) Math.round(((double)shards / nodes_num)- 0.3);
 //
         while(iter.hasNext()){
             JSONObject node = iter.next();

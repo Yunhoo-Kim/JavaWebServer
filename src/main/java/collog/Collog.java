@@ -176,17 +176,21 @@ public class Collog {
                 this.slave_table.remove(temp);
                 try {
                     for (Integer i : (ArrayList<Integer>) temp.get("shards")) {
-//                Iterator<Long> iter_2 = ((ArrayList<Long>)temp.get("shards")).iterator();
-//                while(iter_2.hasNext()){
                         MasterMetaStorage.getInstance().unallocation_shards.add(i);
+
+                    }
+                    for (Integer i : (ArrayList<Integer>) temp.get("replica_shards")) {
+                        MasterMetaStorage.getInstance().unallocation_replica_shards.add(i);
 
                     }
                 } catch (ClassCastException e) {
 //                    e.printStackTrace();
                     for (Long l : (ArrayList<Long>) temp.get("shards")) {
-//                Iterator<Long> iter_2 = ((ArrayList<Long>)temp.get("shards")).iterator();
-//                while(iter_2.hasNext()){
                         MasterMetaStorage.getInstance().unallocation_shards.add(Integer.valueOf(l.intValue()));
+
+                    }
+                    for (Long l : (ArrayList<Long>) temp.get("replica_shards")) {
+                        MasterMetaStorage.getInstance().unallocation_replica_shards.add(Integer.valueOf(l.intValue()));
 
                     }
 
